@@ -785,6 +785,9 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
 
+<!-- Cashfree Payments JS SDK v3 -->
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+
 <script>
   // ------------------------------------------------------------------
   // LIVE FIREBASE SETUP
@@ -939,6 +942,7 @@
   let selection = null;   // { cat, qty, price }
   let pendingTarget = ""; // username or link entered
   let pendingEmail = "";  // email entered in checkout
+  let pendingPhone = "";  // phone number for Cashfree UPI / SMS updates
 
   // UI Elements
   const segEl = document.getElementById("segmented");
@@ -1662,6 +1666,12 @@
         <p class="field-error" id="emailError"></p>
       `}
 
+      <!-- Optional Phone / WhatsApp -->
+      <label class="field-label">WhatsApp / Phone Number</label>
+      <input class="field-input" id="phoneInput" type="tel" placeholder="10-digit mobile number" value="${escapeHtml(pendingPhone)}" autocomplete="tel" maxlength="10">
+      <p class="field-hint">Used for payment routing (UPI / GPay / PhonePe) & updates.</p>
+      <p class="field-error" id="phoneError"></p>
+
       <!-- Terms & Conditions Checkbox (Clean & Reassuring) -->
       <div class="terms-group">
         <label class="terms-label">
@@ -1689,6 +1699,8 @@
       termsError.textContent = "";
       const emailError = document.getElementById("emailError");
       if (emailError) emailError.textContent = "";
+      const phoneError = document.getElementById("phoneError");
+      if (phoneError) phoneError.textContent = "";
 
       const targetVal = targetInput.value.trim();
       let ok = true;
@@ -1711,7 +1723,15 @@
         }
       }
 
-      // 3. Validate Terms Checkbox
+      // 3. Validate Phone (optional, but if provided must be 10 digits)
+      const phoneInput = document.getElementById("phoneInput");
+      const phoneVal = phoneInput ? phoneInput.value.trim() : "";
+      if(phoneVal && !/^[6-9]\d{9}$/.test(phoneVal)){
+        if(phoneError) phoneError.textContent = "Please enter a valid 10-digit mobile number.";
+        ok = false;
+      }
+
+      // 4. Validate Terms Checkbox
       if(!termsCheckbox.checked){
         termsError.textContent = "Please agree to the Terms & Conditions before continuing.";
         ok = false;
@@ -1720,6 +1740,7 @@
       if(!ok) return;
       pendingTarget = targetVal;
       pendingEmail = emailVal;
+      pendingPhone = phoneVal;
       openSummaryStep(parsed);
     });
 
@@ -1744,6 +1765,7 @@
       ${parsed && parsed.targetUsername ? `<div class="modal-row"><span class="label">Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(parsed.targetUsername)}</span></div>` : ''}
       <div class="modal-row"><span class="label">Delivery URL</span><span class="value" style="font-size:12px; color:var(--info);">${escapeHtml(parsed ? parsed.targetUrl : pendingTarget)}</span></div>
       <div class="modal-row"><span class="label">Email</span><span class="value">${escapeHtml(pendingEmail)}</span></div>
+      ${pendingPhone ? `<div class="modal-row"><span class="label">Phone</span><span class="value">${escapeHtml(pendingPhone)}</span></div>` : ''}
       <div class="modal-total"><span>Total</span><span>${formatRupees(selection.price)}</span></div>
       
       <button class="primary-btn glass-btn" id="payBtn">Pay with Cashfree</button>
@@ -1759,65 +1781,130 @@
     modalBackdrop.classList.add("open");
   }
 
-  function startPayment(parsed){
+  // ------------------------------------------------------------------
+  // LIVE CASHFREE PAYMENT GATEWAY INTEGRATION
+  // ------------------------------------------------------------------
+  async function startPayment(parsed){
     const payBtn = document.getElementById("payBtn");
     const payError = document.getElementById("payError");
     payBtn.disabled = true;
     payError.textContent = "";
     payBtn.innerHTML = `<span class="spinner"></span> Connecting to Cashfree…`;
 
-    // ------------------------------------------------------------------
-    // CASHFREE PAYMENT STEP (Mock placeholder — real webhook integration ready)
-    // ------------------------------------------------------------------
-    setTimeout(async () => {
-      const orderId = generateOrderId();
-      const isUser = !!currentUser;
-      const targetData = parsed || parseTarget(selection.cat, pendingTarget);
+    const orderId = generateOrderId();
+    const isUser = !!currentUser;
+    const targetData = parsed || parseTarget(selection.cat, pendingTarget);
 
-      const orderData = {
-        orderId: orderId,
-        customerType: isUser ? "user" : "guest",
-        userId: isUser ? currentUser.uid : null,
-        customerDetails: {
-          email: pendingEmail.toLowerCase(),
-          name: currentUser ? (currentUser.displayName || "") : ""
-        },
+    const orderData = {
+      orderId: orderId,
+      customerType: isUser ? "user" : "guest",
+      userId: isUser ? currentUser.uid : null,
+      customerDetails: {
         email: pendingEmail.toLowerCase(),
-        service: `Instagram ${DATA[selection.cat].label}`,
-        platform: "Instagram",
-        quantity: selection.qty,
-        price: selection.price,
-        targetUsername: targetData.targetUsername || "",
-        targetUrl: targetData.targetUrl || pendingTarget,
-        paymentStatus: "Paid",       // Pending, Paid, Failed, Refunded
-        orderStatus: "Processing",   // Pending, Processing, Completed, Cancelled
-        estDelivery: DATA[selection.cat].estTime,
-        date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
-        createdAtIso: new Date().toISOString()
-      };
+        phone: pendingPhone || "",
+        name: currentUser ? (currentUser.displayName || "") : ""
+      },
+      email: pendingEmail.toLowerCase(),
+      phone: pendingPhone || "",
+      service: `Instagram ${DATA[selection.cat].label}`,
+      platform: "Instagram",
+      quantity: selection.qty,
+      price: selection.price,
+      targetUsername: targetData.targetUsername || "",
+      targetUrl: targetData.targetUrl || pendingTarget,
+      paymentStatus: "Pending",     // Initially Pending until verified
+      orderStatus: "Processing",   // Pending, Processing, Completed, Cancelled
+      estDelivery: DATA[selection.cat].estTime,
+      date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
+      createdAtIso: new Date().toISOString()
+    };
 
-      // 1. Play harmonic success chime (Paytm / GPay style)
-      playSuccessChime();
+    try {
+      // 1. Create order on Cashfree server
+      const res = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: orderId,
+          orderAmount: selection.price,
+          customerEmail: pendingEmail.toLowerCase(),
+          customerPhone: pendingPhone || "9999999999",
+          customerName: (currentUser && currentUser.displayName) || "Customer"
+        })
+      });
 
-      // 2. Save locally to browser localStorage for guest retrieval
-      saveLocalOrder(orderData);
-
-      // 3. Store in Cloud Firestore orders collection for Admin Panel view
-      if (db) {
-        try {
-          await db.collection("orders").doc(orderId).set({
-            ...orderData,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-          updateLocalOrder(orderId, { synced: true });
-        } catch (err) {
-          console.error("Firestore order creation:", err);
-        }
+      const sessionData = await res.json();
+      if (!res.ok || !sessionData.payment_session_id) {
+        throw new Error(sessionData.error || "Unable to initiate payment session with Cashfree.");
       }
 
-      showSuccess(orderData);
-    }, 1100);
+      payBtn.innerHTML = `<span class="spinner"></span> Opening Checkout…`;
+
+      if (typeof Cashfree === "undefined") {
+        throw new Error("Cashfree SDK failed to load. Please check your internet connection.");
+      }
+
+      // 2. Open Cashfree Hosted / Modal Checkout
+      const cashfree = Cashfree({ mode: "production" });
+
+      cashfree.checkout({
+        paymentSessionId: sessionData.payment_session_id,
+        redirectTarget: "_modal"
+      }).then(async (result) => {
+        if (result.error) {
+          console.error("Cashfree checkout error:", result.error);
+          payError.textContent = result.error.message || "Payment cancelled or closed.";
+          payBtn.disabled = false;
+          payBtn.innerHTML = "Pay with Cashfree";
+          return;
+        }
+
+        // On modal close or redirect details, verify payment
+        payBtn.innerHTML = `<span class="spinner"></span> Verifying payment…`;
+
+        let isPaid = false;
+        try {
+          const verifyRes = await fetch(`/api/verify-order?orderId=${encodeURIComponent(orderId)}`).then(r => r.json());
+          if (verifyRes.isPaid || verifyRes.order_status === "PAID") {
+            isPaid = true;
+          }
+        } catch (vErr) {
+          console.warn("Verify endpoint note:", vErr);
+        }
+
+        if (isPaid || result.paymentDetails) {
+          orderData.paymentStatus = "Paid";
+        }
+
+        // 3. Play harmonic success chime (Paytm / GPay style)
+        playSuccessChime();
+
+        // 4. Save locally to browser localStorage for guest retrieval
+        saveLocalOrder(orderData);
+
+        // 5. Store in Cloud Firestore orders collection for Admin Panel view
+        if (db) {
+          try {
+            await db.collection("orders").doc(orderId).set({
+              ...orderData,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            updateLocalOrder(orderId, { synced: true });
+          } catch (err) {
+            console.error("Firestore order creation:", err);
+          }
+        }
+
+        showSuccess(orderData);
+      });
+
+    } catch (err) {
+      console.error("Payment initiation error:", err);
+      payError.textContent = err.message || "Failed to connect to Cashfree payment gateway.";
+      payBtn.disabled = false;
+      payBtn.innerHTML = "Pay with Cashfree";
+    }
   }
 
   function showSuccess(order){
