@@ -41,6 +41,10 @@ export default async function handler(req, res) {
       ? customerEmail.trim().toLowerCase()
       : 'customer@tamilmarketing.in';
 
+    const host = req.headers['x-forwarded-host'] || req.headers.host || 'tamilmarketing.in';
+    const proto = req.headers['x-forwarded-proto'] || (host.includes('localhost') ? 'http' : 'https');
+    const returnUrl = `${proto}://${host}/?order_id={order_id}`;
+
     const payload = {
       order_id: String(orderId),
       order_amount: parseFloat(Number(orderAmount).toFixed(2)),
@@ -52,6 +56,7 @@ export default async function handler(req, res) {
         customer_phone: safePhone
       },
       order_meta: {
+        return_url: returnUrl,
         payment_methods: 'upi,cc,dc,nb,app'
       }
     };
