@@ -32,6 +32,7 @@
     --danger:#e0755e;
     --danger-soft:#301b17;
     --info:#5aa9e6;
+    --tab-height:56px;
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
@@ -67,34 +68,83 @@
 
   /* Mobile Fullscreen Optimization */
   @media (max-width: 640px) {
+    :root {
+      --tab-height:56px;
+      --checkout-height:64px;
+      --checkout-gap:10px;
+    }
     body {
       padding: 0;
       align-items: stretch;
       justify-content: stretch;
       background: var(--bg);
+      height: 100vh;
       height: 100dvh;
       overflow: hidden;
     }
     .phone {
       max-width: 100%;
       width: 100%;
+      height: 100vh;
       height: 100dvh;
+      min-height: 100vh;
       min-height: 100dvh;
       border-radius: 0;
       border: none;
       box-shadow: none;
     }
     .app-header {
-      padding-top: calc(14px + env(safe-area-inset-top, 0px)) !important;
+      padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 6px !important;
+    }
+    .hero {
+      padding: 10px 16px 14px !important;
+    }
+    .hero h1 {
+      font-size: 24px !important;
+    }
+    .segmented {
+      margin: 0 16px !important;
+    }
+    .list-wrap {
+      padding: 14px 16px 4px !important;
+    }
+    .orders-header {
+      padding: 14px 16px 8px !important;
+    }
+    .orders-lookup {
+      padding: 4px 16px 14px !important;
+    }
+    .order-list {
+      padding: 0 16px 24px !important;
     }
     .page {
-      padding-bottom: calc(170px + env(safe-area-inset-bottom, 0px)) !important;
+      padding-bottom: calc(var(--tab-height) + var(--checkout-height) + var(--checkout-gap) + 24px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    #pageShop {
+      padding-bottom: calc(var(--tab-height) + var(--checkout-height) + var(--checkout-gap) + 24px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    #pageOrders {
+      padding-bottom: calc(var(--tab-height) + 24px + env(safe-area-inset-bottom, 0px)) !important;
     }
     .tab-bar {
-      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+      height: calc(var(--tab-height) + env(safe-area-inset-bottom, 0px)) !important;
+      padding: 0 4px env(safe-area-inset-bottom, 0px) !important;
+      z-index: 11 !important;
+      flex-shrink: 0;
     }
     .checkout-bar {
-      bottom: calc(49px + env(safe-area-inset-bottom, 0px)) !important;
+      bottom: calc(var(--tab-height) + env(safe-area-inset-bottom, 0px) + var(--checkout-gap)) !important;
+      left: 12px !important;
+      right: 12px !important;
+      height: var(--checkout-height) !important;
+      padding: 0 16px !important;
+      border-radius: 16px !important;
+      border: 1px solid rgba(255, 255, 255, 0.16) !important;
+      background: rgba(18, 35, 53, 0.96) !important;
+      backdrop-filter: blur(24px) !important;
+      -webkit-backdrop-filter: blur(24px) !important;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(30, 169, 130, 0.15) !important;
+      z-index: 10 !important;
     }
     .modal {
       padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)) !important;
@@ -135,36 +185,53 @@
   .header-actions{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:6px;
+    flex-shrink:0;
+  }
+  .auth-btn, .trust-pill{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    height:30px;
+    padding:0 10px;
+    border-radius:100px;
+    font-size:11px;
+    font-weight:600;
+    font-family:'Sora',sans-serif;
+    border:1px solid var(--border);
+    box-sizing:border-box;
+    white-space:nowrap;
+    line-height:1;
   }
   .auth-btn{
-    display:flex;
-    align-items:center;
-    gap:5px;
-    font-size:11.5px;
-    font-weight:600;
     color:var(--text);
     background:var(--surface);
-    border:1px solid var(--border);
-    padding:5px 10px;
-    border-radius:100px;
     cursor:pointer;
-    font-family:'Sora',sans-serif;
-    transition:border-color 160ms, color 160ms;
+    transition:border-color 160ms, color 160ms, background 160ms;
+    max-width:115px;
   }
-  .auth-btn:hover{ border-color:var(--accent); }
-  .auth-btn svg{ width:12px;height:12px; }
+  .auth-btn:hover{ border-color:var(--accent); color:var(--accent); }
+  .auth-btn svg{ width:12px; height:12px; flex-shrink:0; }
+  .auth-btn span{
+    max-width:65px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    display:inline-block;
+  }
   .trust-pill{
-    display:flex;
-    align-items:center;
-    gap:5px;
-    font-size:11px;
     color:var(--text-muted);
-    border:1px solid var(--border);
-    padding:5px 9px;
-    border-radius:100px;
+    background:rgba(18, 35, 53, 0.6);
+    pointer-events:none;
   }
-  .trust-pill svg{ width:11px;height:11px; flex-shrink:0; }
+  .trust-pill svg{ width:12px; height:12px; flex-shrink:0; color:var(--accent); }
+  .trust-pill .trust-short{ display:none; }
+  @media (max-width: 380px) {
+    .trust-pill .trust-full{ display:none; }
+    .trust-pill .trust-short{ display:inline; }
+    .brand-name{ font-size:16px; }
+  }
 
   /* ---------- pages ---------- */
   .pages{ flex:1; min-height:0; position:relative; overflow:hidden; }
@@ -501,33 +568,35 @@
   /* ---------- checkout bar with glassmorphism ---------- */
   .checkout-bar{
     position:absolute;
-    bottom:49px;
+    bottom:var(--tab-height);
     left:0; right:0;
+    height:64px;
     display:flex; align-items:center; justify-content:space-between; gap:14px;
-    padding:14px 22px;
-    background:rgba(24, 47, 69, 0.88);
-    backdrop-filter:blur(16px);
-    -webkit-backdrop-filter:blur(16px);
-    border-top:1px solid rgba(255,255,255,0.1);
-    transform:translateY(100%);
+    padding:0 20px;
+    background:rgba(18, 35, 53, 0.98);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+    border-top:1px solid rgba(255,255,255,0.14);
+    transform:translateY(120%);
     opacity:0;
     pointer-events:none;
-    transition:transform 300ms cubic-bezier(.32,.72,0,1), opacity 200ms ease;
-    z-index:6;
-    box-shadow:0 -8px 24px rgba(0,0,0,0.3);
+    transition:transform 260ms cubic-bezier(.32,.72,0,1), opacity 200ms ease;
+    z-index:10;
+    box-shadow:0 -8px 28px rgba(0,0,0,0.5);
+    box-sizing:border-box;
   }
   .checkout-bar.visible{
     transform:translateY(0);
     opacity:1;
     pointer-events:auto;
   }
-  .checkout-info{ display:flex; flex-direction:column; min-width:0; }
-  .checkout-label{ font-size:11.5px; color:var(--text-muted); }
-  .checkout-price{ font-family:'Fraunces',serif; font-weight:600; font-size:18px; }
+  .checkout-info{ display:flex; flex-direction:column; min-width:0; gap:2px; }
+  .checkout-label{ font-size:11px; color:var(--text-muted); font-weight:500; }
+  .checkout-price{ font-family:'Fraunces',serif; font-weight:700; font-size:18px; line-height:1.1; color:var(--text); }
   .checkout-btn{
     background:var(--accent); color:#06140f; border:none;
-    font-family:'Sora',sans-serif; font-weight:700; font-size:14px;
-    padding:12px 20px; border-radius:12px; cursor:pointer; flex-shrink:0;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:13.5px;
+    padding:11px 22px; border-radius:12px; cursor:pointer; flex-shrink:0;
     transition:transform 120ms ease, box-shadow 120ms ease;
     box-shadow:0 4px 14px rgba(30,169,130,0.35);
   }
@@ -535,20 +604,24 @@
 
   /* ---------- bottom tab bar ---------- */
   .tab-bar{
+    height:var(--tab-height);
     display:flex;
+    align-items:center;
     border-top:1px solid var(--border);
     background:var(--bg);
     flex-shrink:0;
-    z-index:7;
+    z-index:11;
+    box-sizing:border-box;
   }
   .tab-btn{
-    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
-    padding:11px 4px 13px;
+    flex:1; height:100%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+    padding:0 4px; margin:0;
     background:none; border:none; cursor:pointer;
     color:var(--text-muted);
     font-family:'Sora',sans-serif; font-size:11px; font-weight:600;
   }
-  .tab-btn svg{ width:20px; height:20px; }
+  .tab-btn svg{ width:19px; height:19px; flex-shrink:0; }
   .tab-btn.active{ color:var(--accent); }
 
   /* ---------- modals & glass styling ---------- */
@@ -778,7 +851,8 @@
       </button>
       <div class="trust-pill">
         <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v5c0 5-3.5 8.5-8 9.5C7.5 19.5 4 16 4 11V6l8-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-        Secure
+        <span class="trust-full">Safe & Encrypted</span>
+        <span class="trust-short">Safe</span>
       </div>
     </div>
   </header>
@@ -1150,9 +1224,25 @@
     });
   }
 
+  function formatHeaderUserName(user){
+    if (!user) return "Sign in";
+    let name = "";
+    if (user.displayName) {
+      name = user.displayName.trim().split(/\s+/)[0];
+    } else if (user.email) {
+      name = user.email.split("@")[0].split(/[._-]/)[0];
+    } else {
+      name = "Account";
+    }
+    if (name.length > 7) {
+      name = name.slice(0, 6) + "…";
+    }
+    return name;
+  }
+
   function updateAuthUI(){
     if (currentUser) {
-      const name = currentUser.displayName || currentUser.email.split("@")[0];
+      const name = formatHeaderUserName(currentUser);
       headerAuthLabel.textContent = name;
       statusBarTitle.textContent = currentUser.email;
       statusBarSub.textContent = "Synced across all your devices";
