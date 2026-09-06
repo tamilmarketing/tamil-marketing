@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Admin check: checks users/{request.auth.uid} for role == 'admin' or direct admin email
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'gamingomkarbhai@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+        request.auth.token.admin == true
+      );
+    }
+
+    // ---------------------------------------------------------------
+    // USERS COLLECTION
+    // ---------------------------------------------------------------
+    match /users/{uid} {
+      // User can read their own profile; Admin can read all profiles
+      allow read: if isAuthenticated() && (request.auth.uid == uid || isAdmin());
+      
+      // Allow user or admin to create / update their profile
+      allow create, update: if isAuthenticated() && (
+        request.auth.uid == uid || 
+        isAdmin()
+      );
+      
+      allow delete: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------
+    // ORDERS COLLECTION
+    // ---------------------------------------------------------------
+    match /orders/{orderId} {
+      // 1. CREATE ORDERS
+      // - Guest orders: customerType == 'guest' and userId == null
+      // - Logged-in user orders: customerType == 'user' and userId == request.auth.uid
+      allow create: if (
+        (request.resource.data.customerType == 'guest' && 
+         request.resource.data.userId == null &&
+         request.resource.data.orderId is string)
+        ||
+        (isAuthenticated() && 
+         request.resource.data.customerType == 'user' && 
+         request.resource.data.userId == request.auth.uid &&
+         request.resource.data.orderId is string)
+      );
+
+      // 2. READ ORDERS
+      // - Logged-in users can ONLY read their own orders (where userId == request.auth.uid)
+      // - Admin (users/{uid}.role == 'admin') can read ALL orders across the database
+      // - Guests cannot query other customers' orders
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid || 
+        isAdmin()
+      );
+
+      // 3. UPDATE & DELETE ORDERS
+      // - Only Admin can update status (processing/completed, paid/failed) or delete orders
+      allow update, delete: if isAdmin();
+    }
+
+    // Backward compatibility for admin records if queried
+    match /admins/{uid} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

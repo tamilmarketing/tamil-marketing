@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b1520">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Tamil Marketing — Grow Your Visibility</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1520;
+    --page-bg-1:#0f2233;
+    --page-bg-2:#060d13;
+    --surface:#122335;
+    --surface-2:#182f45;
+    --surface-3:#1f3b56;
+    --accent:#1ea982;
+    --accent-strong:#178c6c;
+    --accent-soft:#122e29;
+    --warn:#d99a3d;
+    --warn-soft:#2e2517;
+    --text:#eef4f6;
+    --text-muted:#8ea3b3;
+    --border:#213b52;
+    --border-light:rgba(255,255,255,0.08);
+    --radius-lg:28px;
+    --radius-md:16px;
+    --danger:#e0755e;
+    --danger-soft:#301b17;
+    --info:#5aa9e6;
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0;padding:0;height:100%;}
+
+  body{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+    background:
+      radial-gradient(circle at 20% 0%, var(--page-bg-1), transparent 60%),
+      var(--page-bg-2);
+    font-family:'Sora',sans-serif;
+    color:var(--text);
+  }
+
+  .phone{
+    width:100%;
+    max-width:420px;
+    background:var(--bg);
+    border-radius:var(--radius-lg);
+    border:1px solid var(--border);
+    box-shadow:0 40px 80px -30px rgba(0,0,0,0.75);
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    height:min(760px, 94vh);
+  }
+
+  /* Mobile Fullscreen Optimization */
+  @media (max-width: 640px) {
+    body {
+      padding: 0;
+      align-items: stretch;
+      justify-content: stretch;
+      background: var(--bg);
+      height: 100dvh;
+      overflow: hidden;
+    }
+    .phone {
+      max-width: 100%;
+      width: 100%;
+      height: 100dvh;
+      min-height: 100dvh;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+    }
+    .app-header {
+      padding-top: calc(14px + env(safe-area-inset-top, 0px)) !important;
+    }
+    .tab-bar {
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    .checkout-bar {
+      bottom: calc(49px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    .modal {
+      padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+  }
+
+  /* ---------- header ---------- */
+  .app-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:20px 22px 8px;
+    flex-shrink:0;
+  }
+  .brand-group{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand-mark{
+    width:34px;height:34px;
+    border-radius:10px;
+    background:var(--accent);
+    color:#06140f;
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    box-shadow:0 2px 10px rgba(30,169,130,0.3);
+  }
+  .brand-name{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:19px;
+  }
+  .header-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .auth-btn{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--text);
+    background:var(--surface);
+    border:1px solid var(--border);
+    padding:5px 10px;
+    border-radius:100px;
+    cursor:pointer;
+    font-family:'Sora',sans-serif;
+    transition:border-color 160ms, color 160ms;
+  }
+  .auth-btn:hover{ border-color:var(--accent); }
+  .auth-btn svg{ width:12px;height:12px; }
+  .trust-pill{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:11px;
+    color:var(--text-muted);
+    border:1px solid var(--border);
+    padding:5px 9px;
+    border-radius:100px;
+  }
+  .trust-pill svg{ width:11px;height:11px; flex-shrink:0; }
+
+  /* ---------- pages ---------- */
+  .pages{ flex:1; min-height:0; position:relative; overflow:hidden; }
+  .page{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    padding:0 0 80px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    background:var(--bg);
+    opacity:0;
+    transform:translateY(6px);
+    pointer-events:none;
+    transition:opacity 200ms ease, transform 200ms ease;
+  }
+  .page.active{ opacity:1; transform:translateY(0); pointer-events:auto; }
+
+  .hero{ padding:14px 22px 18px; flex-shrink:0; }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:27px;
+    margin:0 0 4px;
+    letter-spacing:-0.4px;
+  }
+  .hero p{
+    font-size:13px;
+    color:var(--text-muted);
+    margin:0;
+    line-height:1.45;
+  }
+
+  /* ---------- segmented control ---------- */
+  .segmented{
+    position:relative;
+    display:flex;
+    margin:0 22px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:4px;
+    flex-shrink:0;
+  }
+  .seg-highlight{
+    position:absolute;
+    top:4px; left:4px;
+    width:calc(33.333% - 2.66px);
+    height:calc(100% - 8px);
+    background:var(--accent);
+    border-radius:10px;
+    transition:transform 320ms cubic-bezier(.32,.72,0,1);
+    z-index:0;
+    box-shadow:0 2px 8px rgba(30,169,130,0.35);
+  }
+  .seg-btn{
+    position:relative; z-index:1; flex:1;
+    border:none; background:transparent;
+    color:var(--text-muted);
+    font-family:'Sora',sans-serif;
+    font-weight:600; font-size:13.5px;
+    padding:10px 4px; border-radius:10px; cursor:pointer;
+    transition:color 200ms ease;
+    display:flex; align-items:center; justify-content:center; gap:5px;
+  }
+  .seg-btn svg{ width:14px; height:14px; flex-shrink:0; }
+  .seg-btn.active{ color:#06140f; }
+
+  /* ---------- Tier List & Inline Expansion ---------- */
+  .list-wrap{ padding:18px 22px 4px; }
+  .list-caption{ font-size:12.5px; color:var(--text-muted); margin:0 2px 10px; }
+  .tier-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
+  
+  .tier-item{
+    list-style:none;
+    border-bottom:1px solid var(--border);
+    transition:all 220ms ease;
+  }
+  .tier-item:last-child{ border-bottom:none; }
+
+  .tier-row{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:16px 4px;
+    cursor:pointer; background:transparent;
+    width:100%; text-align:left; color:var(--text);
+    font-family:'Sora',sans-serif;
+    transition:background 160ms ease;
+  }
+  .tier-row:active{ background:rgba(255,255,255,0.02); }
+  
+  .tier-left{ display:flex; align-items:center; gap:12px; }
+  .tier-icon{
+    width:36px; height:36px; border-radius:11px;
+    background:var(--surface); border:1px solid var(--border);
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--text-muted);
+    transition:background 180ms ease, color 180ms ease, border-color 180ms ease;
+  }
+  .tier-icon svg{ width:17px; height:17px; }
+  
+  .tier-item.selected .tier-icon{
+    background:var(--accent); border-color:var(--accent); color:#06140f;
+  }
+  .tier-item.selected .tier-row{
+    padding-bottom:10px;
+  }
+  .tier-item.selected .tier-qty{
+    color:var(--text); font-weight:700;
+  }
+
+  .tier-qty{ font-weight:600; font-size:15px; }
+  .tier-price{ font-weight:700; font-size:15px; white-space:nowrap; }
+
+  /* Accordion Inline Expansion Box */
+  .tier-expand-box{
+    animation:expandDown 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    background:rgba(18, 35, 53, 0.82);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(30, 169, 130, 0.35);
+    border-radius:14px;
+    padding:14px 15px 15px;
+    margin:0 0 14px;
+    box-shadow:0 8px 24px -6px rgba(0,0,0,0.45);
+  }
+  @keyframes expandDown{
+    from{ opacity:0; transform:translateY(-6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .tier-est-pill{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:600; color:var(--accent);
+    background:var(--accent-soft); border:1px solid rgba(30,169,130,0.25);
+    padding:4px 10px; border-radius:100px;
+  }
+  .tier-perks-row{
+    display:flex; gap:14px; font-size:11.5px; color:var(--text-muted);
+    margin:10px 0 12px; flex-wrap:wrap;
+  }
+  .tier-continue-btn{
+    width:100%;
+    background:var(--accent);
+    color:#06140f;
+    border:none;
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    padding:12px 14px;
+    border-radius:11px;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(30, 169, 130, 0.35);
+    transition:transform 120ms ease;
+  }
+  .tier-continue-btn:active{ transform:scale(0.98); }
+
+  .list-anim-enter{ animation:listIn 240ms ease both; }
+  @keyframes listIn{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:translateY(0);} }
+
+  .custom-panel{
+    padding:14px 4px 18px;
+    border-bottom:1px solid var(--border);
+    animation:listIn 220ms ease both;
+  }
+  .custom-price-preview{
+    font-size:13px; color:var(--text-muted);
+    margin:2px 0 4px;
+  }
+  .custom-price-preview.valid{ color:var(--text); }
+  .custom-price-preview strong{ color:var(--accent); font-family:'Fraunces',serif; }
+  .custom-panel .primary-btn{ margin-top:8px; }
+
+  /* ---------- orders page ---------- */
+  .orders-header{ padding:20px 22px 10px; flex-shrink:0; }
+  .orders-header h1{ font-family:'Fraunces',serif; font-weight:600; font-size:22px; margin:0; }
+  
+  .user-status-card{
+    margin-top:10px; padding:10px 14px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; font-size:12px; color:var(--text-muted);
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .user-status-left{ display:flex; align-items:center; gap:8px; min-width:0; }
+  .user-status-icon{ width:16px; height:16px; color:var(--accent); flex-shrink:0; }
+  .user-status-text{ font-size:12px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .user-status-text small{ display:block; color:var(--text-muted); font-size:10.5px; }
+  .user-status-btn{
+    background:none; border:none; color:var(--accent);
+    font-family:'Sora',sans-serif; font-size:11.5px; font-weight:600;
+    cursor:pointer; flex-shrink:0; padding:4px 0;
+  }
+
+  .orders-lookup{ padding:4px 22px 14px; flex-shrink:0; }
+  .orders-lookup .field-label{ margin-bottom:5px; font-size:12px; }
+  .lookup-row{ display:flex; gap:8px; }
+  .lookup-row .field-input{ margin-bottom:0; flex:1; }
+  .lookup-row .primary-btn{ margin-top:0; width:auto; padding:12px 16px; white-space:nowrap; font-size:13.5px; }
+  
+  .order-list{ list-style:none; margin:0; padding:0 22px 18px; display:flex; flex-direction:column; gap:12px; }
+  .order-card{
+    border:1px solid var(--border);
+    background:var(--surface);
+    border-radius:16px;
+    padding:14px 16px;
+    position:relative;
+  }
+  .order-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .order-id-bar{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--border);
+  }
+  .order-id-display{
+    font-family:'Fraunces',serif; font-size:13.5px; font-weight:700;
+    color:var(--accent); letter-spacing:0.5px; display:flex; align-items:center; gap:6px;
+  }
+  .copy-btn{
+    display:inline-flex; align-items:center; gap:4px;
+    background:var(--surface-2); border:1px solid var(--border);
+    color:var(--text-muted); font-size:11px; font-weight:600;
+    padding:3px 8px; border-radius:6px; cursor:pointer;
+    font-family:'Sora',sans-serif;
+    transition:all 140ms ease;
+  }
+  .copy-btn:hover{ border-color:var(--accent); color:var(--text); }
+  .copy-btn.copied{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
+  .copy-btn svg{ width:11px; height:11px; }
+
+  .order-qty{ font-weight:600; font-size:14.5px; }
+  .order-price{ font-family:'Fraunces',serif; font-weight:600; font-size:15px; }
+  .order-meta{ margin-top:3px; font-size:12px; color:var(--text-muted); }
+  .order-target{ margin-top:8px; font-size:12.5px; color:var(--text-muted); word-break:break-all; }
+  .order-bottom{ display:flex; justify-content:space-between; align-items:center; margin-top:10px; }
+  .order-date{ font-size:11.5px; color:var(--text-muted); }
+  .status-badge{
+    font-size:11px; font-weight:600;
+    padding:4px 9px; border-radius:100px;
+  }
+  .status-processing{ color:var(--warn); background:var(--warn-soft); }
+  .status-completed{ color:var(--accent); background:var(--accent-soft); }
+
+  .empty-state{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:40px 30px; text-align:center; color:var(--text-muted);
+  }
+  .empty-state .empty-icon{ margin-bottom:12px; opacity:0.7; }
+  .empty-state p{ margin:0; font-size:13.5px; line-height:1.5; }
+
+  /* ---------- checkout bar with glassmorphism ---------- */
+  .checkout-bar{
+    position:absolute;
+    bottom:49px;
+    left:0; right:0;
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:14px 22px;
+    background:rgba(24, 47, 69, 0.88);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-top:1px solid rgba(255,255,255,0.1);
+    transform:translateY(100%);
+    opacity:0;
+    pointer-events:none;
+    transition:transform 300ms cubic-bezier(.32,.72,0,1), opacity 200ms ease;
+    z-index:6;
+    box-shadow:0 -8px 24px rgba(0,0,0,0.3);
+  }
+  .checkout-bar.visible{
+    transform:translateY(0);
+    opacity:1;
+    pointer-events:auto;
+  }
+  .checkout-info{ display:flex; flex-direction:column; min-width:0; }
+  .checkout-label{ font-size:11.5px; color:var(--text-muted); }
+  .checkout-price{ font-family:'Fraunces',serif; font-weight:600; font-size:18px; }
+  .checkout-btn{
+    background:var(--accent); color:#06140f; border:none;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:14px;
+    padding:12px 20px; border-radius:12px; cursor:pointer; flex-shrink:0;
+    transition:transform 120ms ease, box-shadow 120ms ease;
+    box-shadow:0 4px 14px rgba(30,169,130,0.35);
+  }
+  .checkout-btn:active{ transform:scale(0.96); }
+
+  /* ---------- bottom tab bar ---------- */
+  .tab-bar{
+    display:flex;
+    border-top:1px solid var(--border);
+    background:var(--bg);
+    flex-shrink:0;
+    z-index:7;
+  }
+  .tab-btn{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:11px 4px 13px;
+    background:none; border:none; cursor:pointer;
+    color:var(--text-muted);
+    font-family:'Sora',sans-serif; font-size:11px; font-weight:600;
+  }
+  .tab-btn svg{ width:20px; height:20px; }
+  .tab-btn.active{ color:var(--accent); }
+
+  /* ---------- modals & glass styling ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(4,8,12,0.76);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition:opacity 220ms ease;
+    z-index:20;
+  }
+  .modal-backdrop.open{ opacity:1; pointer-events:auto; }
+  .modal{
+    width:100%; max-width:420px;
+    background:rgba(11, 21, 32, 0.96);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:24px 24px 0 0;
+    padding:24px 24px 28px;
+    transform:translateY(30px);
+    transition:transform 260ms cubic-bezier(.32,.72,0,1);
+    max-height:88vh;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    box-shadow:0 -12px 40px rgba(0,0,0,0.6);
+  }
+  .modal-backdrop.open .modal{ transform:translateY(0); }
+
+  .modal-back{
+    display:flex; align-items:center; gap:6px;
+    background:none; border:none; color:var(--text-muted);
+    font-family:'Sora',sans-serif; font-size:13px; font-weight:600;
+    padding:0 0 14px; cursor:pointer;
+  }
+  .modal-back svg{ width:15px; height:15px; }
+
+  .modal h2{ font-family:'Fraunces',serif; font-weight:600; font-size:20px; margin:0 0 4px; }
+  .modal p.modal-sub{ color:var(--text-muted); font-size:13px; margin:0 0 16px; line-height:1.5; }
+
+  .field-label{ font-size:12.5px; font-weight:600; color:var(--text-muted); margin:0 0 7px; display:block; }
+  .field-input{
+    width:100%;
+    background:var(--surface);
+    border:1.5px solid var(--border);
+    border-radius:12px;
+    padding:13px 14px;
+    color:var(--text);
+    font-family:'Sora',sans-serif;
+    font-size:14px;
+    margin-bottom:6px;
+    transition:border-color 160ms ease;
+  }
+  .field-input:focus{ outline:none; border-color:var(--accent); }
+  .field-hint{ font-size:11.5px; color:var(--text-muted); margin:0 0 16px; }
+  .field-error{ font-size:11.5px; color:#e0755e; margin:-2px 0 14px; min-height:14px; }
+
+  .modal-row{ display:flex; justify-content:space-between; font-size:13.5px; padding:9px 0; border-bottom:1px solid var(--border); }
+  .modal-row .label{ color:var(--text-muted); }
+  .modal-row .value{ text-align:right; max-width:65%; word-break:break-all; font-weight:500; }
+  .modal-total{ display:flex; justify-content:space-between; padding:14px 0 4px; font-family:'Fraunces',serif; font-weight:600; font-size:18px; }
+
+  .primary-btn{
+    width:100%; margin-top:16px;
+    background:var(--accent); color:#06140f; border:none;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px;
+    padding:15px; border-radius:12px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    box-shadow:0 4px 16px rgba(30,169,130,0.3);
+    transition:transform 120ms ease, opacity 120ms ease;
+  }
+  .primary-btn:active{ transform:scale(0.98); }
+  .primary-btn:disabled{ opacity:0.7; cursor:default; }
+  
+  .glass-btn{
+    background:linear-gradient(135deg, rgba(30,169,130,0.95), rgba(23,140,108,0.95)) !important;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,0.12) !important;
+  }
+
+  .secondary-btn{
+    display:block; width:100%; text-align:center; margin-top:10px;
+    background:none; border:none; color:var(--text-muted);
+    font-family:'Sora',sans-serif; font-size:13px; padding:8px; cursor:pointer;
+  }
+  .secure-note{
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    margin-top:14px; font-size:11.5px; color:var(--text-muted);
+  }
+  .secure-note svg{ width:12px;height:12px; }
+
+  .spinner{
+    width:16px;height:16px; border-radius:50%;
+    border:2px solid rgba(6,20,15,0.35); border-top-color:#06140f;
+    animation:spin 700ms linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  /* Logged in badge */
+  .user-badge-banner{
+    display:flex; align-items:center; gap:10px;
+    background:var(--accent-soft); border:1px solid rgba(30,169,130,0.3);
+    border-radius:12px; padding:10px 14px; margin-bottom:16px;
+  }
+  .user-badge-banner svg{ color:var(--accent); width:18px; height:18px; flex-shrink:0; }
+  .user-badge-title{ font-size:11.5px; color:var(--accent); font-weight:600; }
+  .user-badge-email{ font-size:13px; font-weight:600; color:var(--text); }
+
+  /* Terms & Conditions */
+  .terms-group{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    margin:14px 0 16px;
+  }
+  .terms-label{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:12.5px;
+    color:var(--text);
+    cursor:pointer;
+    line-height:1.4;
+  }
+  .terms-label input[type="checkbox"]{
+    margin-top:2px;
+    accent-color:var(--accent);
+    width:16px;
+    height:16px;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .terms-link{
+    color:var(--accent);
+    text-decoration:underline;
+    font-weight:600;
+  }
+  .terms-hint{
+    font-size:11px;
+    color:var(--text-muted);
+    margin:6px 0 0 26px;
+  }
+
+  /* Google & Auth styles */
+  .google-btn{
+    width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+    background:#ffffff; color:#1f1f1f; border:none;
+    font-family:'Sora',sans-serif; font-size:14px; font-weight:600;
+    padding:13px; border-radius:12px; cursor:pointer; margin-bottom:12px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+    transition:transform 120ms ease;
+  }
+  .google-btn:active{ transform:scale(0.98); }
+  .google-btn svg{ width:18px; height:18px; flex-shrink:0; }
+  .auth-divider{
+    display:flex; align-items:center; text-align:center;
+    margin:14px 0 16px; color:var(--text-muted); font-size:12px;
+  }
+  .auth-divider::before, .auth-divider::after{
+    content:''; flex:1; border-bottom:1px solid var(--border);
+  }
+  .auth-divider::before{ margin-right:10px; }
+  .auth-divider::after{ margin-left:10px; }
+  .auth-toggle-link{
+    color:var(--accent); cursor:pointer; font-weight:600; text-decoration:underline;
+  }
+
+  /* Success animation */
+  .success-wrap{ display:flex; flex-direction:column; align-items:center; text-align:center; padding:8px 4px 4px; }
+  .success-ring-wrap{ width:84px; height:84px; margin-bottom:16px; }
+  .success-ring-wrap circle{
+    fill:none; stroke:var(--accent); stroke-width:5; stroke-linecap:round;
+    stroke-dasharray:220; stroke-dashoffset:220;
+    transform:rotate(-90deg); transform-origin:50% 50%;
+    animation:ringDraw 520ms cubic-bezier(.5,0,.3,1) forwards;
+  }
+  .success-ring-wrap path{
+    fill:none; stroke:var(--accent); stroke-width:5; stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:40; stroke-dashoffset:40;
+    animation:checkDraw 320ms ease forwards 520ms;
+  }
+  @keyframes ringDraw{ to{ stroke-dashoffset:0; } }
+  @keyframes checkDraw{ to{ stroke-dashoffset:0; } }
+
+  .success-title{
+    font-family:'Fraunces',serif; font-weight:600; font-size:20px; margin:0 0 4px;
+    opacity:0; animation:fadeUp 380ms ease forwards 780ms;
+  }
+  .success-amount{
+    font-family:'Fraunces',serif; font-weight:700; font-size:30px; margin:2px 0 4px;
+    opacity:0; animation:fadeUp 380ms ease forwards 860ms;
+  }
+  .success-sub{
+    font-size:13px; color:var(--text-muted); margin:0 0 16px;
+    opacity:0; animation:fadeUp 380ms ease forwards 940ms;
+  }
+  .success-card{
+    width:100%; background:var(--surface); border:1px solid var(--border);
+    border-radius:14px; padding:14px 16px; text-align:left;
+    opacity:0; animation:fadeUp 380ms ease forwards 1040ms;
+  }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+    .success-ring-wrap circle, .success-ring-wrap path{ stroke-dashoffset:0; }
+    .success-title, .success-amount, .success-sub, .success-card{ opacity:1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <header class="app-header">
+    <div class="brand-group">
+      <div class="brand-mark">TM</div>
+      <div class="brand-name">Tamil Marketing</div>
+    </div>
+    <div class="header-actions">
+      <button class="auth-btn" id="headerAuthBtn" title="Account / Sign in">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span id="headerAuthLabel">Sign in</span>
+      </button>
+      <div class="trust-pill">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v5c0 5-3.5 8.5-8 9.5C7.5 19.5 4 16 4 11V6l8-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        Secure
+      </div>
+    </div>
+  </header>
+
+  <div class="pages">
+    <!-- SHOP PAGE -->
+    <section class="page active" id="pageShop">
+      <div class="hero">
+        <h1>Grow your visibility</h1>
+        <p>Likes, views and followers delivered to your posts and reels. Pick a package to get started.</p>
+      </div>
+
+      <!-- Segmented: Likes -> Views -> Followers -->
+      <nav class="segmented" id="segmented">
+        <button class="seg-btn active" data-cat="likes">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-9.5-9C1 7.5 3 4 6.5 4 9 4 11 5.5 12 7c1-1.5 3-3 5.5-3C21 4 23 7.5 21.5 11 19 15.5 12 20 12 20z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          Likes
+        </button>
+        <button class="seg-btn" data-cat="views">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/></svg>
+          Views
+        </button>
+        <button class="seg-btn" data-cat="followers">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          Followers
+        </button>
+        <div class="seg-highlight" id="segHighlight"></div>
+      </nav>
+
+      <div class="list-wrap">
+        <p class="list-caption" id="listCaption">Tap a size to view delivery details</p>
+        <ul class="tier-list" id="tierList"></ul>
+      </div>
+    </section>
+
+    <!-- ORDERS PAGE -->
+    <section class="page" id="pageOrders">
+      <div class="orders-header">
+        <h1>Your orders</h1>
+        <div class="user-status-card" id="userStatusBar">
+          <div class="user-status-left">
+            <svg class="user-status-icon" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <div class="user-status-text">
+              <span id="statusBarTitle">Guest Mode</span>
+              <small id="statusBarSub">Orders saved locally on this phone</small>
+            </div>
+          </div>
+          <button class="user-status-btn" id="statusBarActionBtn">Sign in</button>
+        </div>
+      </div>
+
+      <div class="orders-lookup" id="ordersLookupBox">
+        <label class="field-label">Look up orders by email or Order ID</label>
+        <div class="lookup-row">
+          <input class="field-input" id="ordersEmailInput" type="text" placeholder="TM-XXXXXXXX or email…" autocomplete="off">
+          <button class="primary-btn" id="ordersFindBtn">Search</button>
+        </div>
+      </div>
+
+      <div id="ordersContent"></div>
+    </section>
+  </div>
+
+  <!-- Bottom Checkout Bar (Glassmorphic) -->
+  <div class="checkout-bar" id="checkoutBar">
+    <div class="checkout-info">
+      <span class="checkout-label" id="checkoutLabel">Selected</span>
+      <span class="checkout-price" id="checkoutPrice">₹0</span>
+    </div>
+    <button class="checkout-btn glass-btn" id="checkoutBtn">Continue</button>
+  </div>
+
+  <!-- Tab Bar -->
+  <nav class="tab-bar">
+    <button class="tab-btn active" data-page="pageShop">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 9l8-5 8 5v9a2 2 0 01-2 2H6a2 2 0 01-2-2V9z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+      Shop
+    </button>
+    <button class="tab-btn" data-page="pageOrders">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2V4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 13h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      Orders
+    </button>
+  </nav>
+</div>
+
+<!-- Modal Container -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modal"></div>
+</div>
+
+<!-- Firebase Compat v10.13.2 -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+
+<script>
+  // ------------------------------------------------------------------
+  // LIVE FIREBASE SETUP
+  // ------------------------------------------------------------------
+  const firebaseConfig = {
+    apiKey: "AIzaSyAEbIDQZwsr7ZiP87OCbrvsBWUd6f3v0rs",
+    authDomain: "tamil-marketing.firebaseapp.com",
+    projectId: "tamil-marketing",
+    storageBucket: "tamil-marketing.firebasestorage.app",
+    messagingSenderId: "126328286351",
+    appId: "1:126328286351:web:39908a28ebef75cc6ad4fa",
+    measurementId: "G-H93VVYW4HH"
+  };
+
+  let auth = null, db = null, currentUser = null;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db = firebase.firestore();
+  } catch (err) {
+    console.error("Firebase init error:", err);
+  }
+
+  // ---- Audio Synthesizer: Paytm / GPay-style Success Chime ----
+  function playSuccessChime() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      if (ctx.state === 'suspended') ctx.resume();
+
+      const playTone = (freq, start, dur, vol) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(vol, start + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + dur);
+      };
+
+      const now = ctx.currentTime;
+      // Melodic, rich harmonic chime (D5 -> F#5 -> A5 -> D6)
+      playTone(587.33, now + 0.00, 0.28, 0.22);
+      playTone(739.99, now + 0.09, 0.32, 0.24);
+      playTone(880.00, now + 0.18, 0.42, 0.28);
+      playTone(1174.66, now + 0.30, 0.65, 0.32);
+    } catch(e) {
+      console.warn("Audio chime note:", e);
+    }
+  }
+
+  // ---- Icons ---------------------------------------------------
+  const ICONS = {
+    likes: `<svg viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-9.5-9C1 7.5 3 4 6.5 4 9 4 11 5.5 12 7c1-1.5 3-3 5.5-3C21 4 23 7.5 21.5 11 19 15.5 12 20 12 20z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>`,
+    views: `<svg viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/></svg>`,
+    followers: `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`
+  };
+
+  // ---- Categories & Packages (Likes -> Views -> Followers) ----
+  const DATA = {
+    likes: {
+      label: "Likes",
+      noun: "likes",
+      fieldLabel: "Instagram Post or Reel URL",
+      placeholder: "https://www.instagram.com/p/... or /reel/...",
+      hint: "Paste the direct link to your public post or reel.",
+      estTime: "10 – 20 mins",
+      desc: "High quality Instagram likes delivered organically to boost engagement.",
+      hasCustom: true,
+      customMin: 1000,
+      customMax: 10000,
+      tiers: [
+        { qtyNum: 1000, qty: "1K likes", price: 100 },
+        { qtyNum: 2000, qty: "2K likes", price: 150 },
+        { qtyNum: 5000, qty: "5K likes", price: 350 },
+        { qtyNum: 10000, qty: "10K likes", price: 580 },
+      ]
+    },
+    views: {
+      label: "Reel Views",
+      noun: "views",
+      fieldLabel: "Instagram Reel URL",
+      placeholder: "https://www.instagram.com/reel/...",
+      hint: "Paste the exact link to your public Instagram reel.",
+      estTime: "10 – 20 mins",
+      desc: "High retention Instagram reel views to trigger algorithmic discovery and reach.",
+      hasCustom: true,
+      customMin: 10000,
+      customMax: 2000000,
+      tiers: [
+        { qtyNum: 10000, qty: "10K views", price: 250 },
+        { qtyNum: 20000, qty: "20K views", price: 330 },
+        { qtyNum: 50000, qty: "50K views", price: 450 },
+        { qtyNum: 100000, qty: "100K views", price: 550 },
+        { qtyNum: 200000, qty: "200K views", price: 650 },
+        { qtyNum: 500000, qty: "500K views", price: 800 },
+        { qtyNum: 1000000, qty: "1M views", price: 1200 },
+        { qtyNum: 2000000, qty: "2M views", price: 1850 },
+      ]
+    },
+    followers: {
+      label: "Followers",
+      noun: "followers",
+      fieldLabel: "Instagram Username or Profile URL",
+      placeholder: "@yourusername or instagram.com/username",
+      hint: "Enter your Instagram handle or full profile link. We will deliver followers here.",
+      estTime: "Starts in ~1 hour",
+      desc: "Premium profile followers to build social proof and authority.",
+      hasCustom: false,
+      tiers: [
+        { qtyNum: 1000, qty: "1K followers", price: 880 },
+        { qtyNum: 1000, qty: "1K Indian followers", price: 1250 },
+        { qtyNum: 5000, qty: "5K followers", price: 3000 },
+        { qtyNum: 10000, qty: "10K followers", price: 5600 },
+      ]
+    }
+  };
+
+  function fmtQty(n){
+    if(n >= 1000000){ const v = n/1000000; return (Number.isInteger(v) ? v : v.toFixed(1)) + "M"; }
+    if(n >= 1000){ const v = n/1000; return (Number.isInteger(v) ? v : v.toFixed(1)) + "K"; }
+    return String(n);
+  }
+
+  function calcCustomPrice(cat, qtyNum){
+    const tiers = DATA[cat].tiers.slice().sort((a,b) => a.qtyNum - b.qtyNum);
+    if(qtyNum <= tiers[0].qtyNum) return tiers[0].price;
+    if(qtyNum >= tiers[tiers.length-1].qtyNum) return tiers[tiers.length-1].price;
+    for(let i=0; i<tiers.length-1; i++){
+      const a = tiers[i], b = tiers[i+1];
+      if(qtyNum >= a.qtyNum && qtyNum <= b.qtyNum){
+        const ratio = (qtyNum - a.qtyNum) / (b.qtyNum - a.qtyNum);
+        return Math.round(a.price + ratio * (b.price - a.price));
+      }
+    }
+    return tiers[tiers.length-1].price;
+  }
+
+  const customState = {
+    views: { open: false, draft: "" },
+    likes: { open: false, draft: "" }
+  };
+
+  // Default active category is Likes
+  const CATS = ["likes", "views", "followers"];
+  let activeCat = "likes";
+  let selection = null;   // { cat, qty, price }
+  let pendingTarget = ""; // username or link entered
+  let pendingEmail = "";  // email entered in checkout
+
+  // UI Elements
+  const segEl = document.getElementById("segmented");
+  const segHighlight = document.getElementById("segHighlight");
+  const tierListEl = document.getElementById("tierList");
+  const checkoutBar = document.getElementById("checkoutBar");
+  const checkoutLabel = document.getElementById("checkoutLabel");
+  const checkoutPrice = document.getElementById("checkoutPrice");
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  const modalBackdrop = document.getElementById("modalBackdrop");
+  const modal = document.getElementById("modal");
+  const ordersContent = document.getElementById("ordersContent");
+
+  const headerAuthBtn = document.getElementById("headerAuthBtn");
+  const headerAuthLabel = document.getElementById("headerAuthLabel");
+  const userStatusBar = document.getElementById("userStatusBar");
+  const statusBarTitle = document.getElementById("statusBarTitle");
+  const statusBarSub = document.getElementById("statusBarSub");
+  const statusBarActionBtn = document.getElementById("statusBarActionBtn");
+
+  function formatRupees(n){ return "₹" + n.toLocaleString("en-IN"); }
+
+  // ------------------------------------------------------------------
+  // UNIQUE ORDER ID & COPY HELPERS
+  // ------------------------------------------------------------------
+  function generateOrderId(){
+    const rand = Math.floor(10000000 + Math.random() * 90000000);
+    return `TM-${rand}`;
+  }
+
+  window.copyOrderId = function(id, btn){
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(id).then(() => {
+      btn.classList.add("copied");
+      const orig = btn.innerHTML;
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Copied!`;
+      setTimeout(() => {
+        btn.classList.remove("copied");
+        btn.innerHTML = orig;
+      }, 1600);
+    });
+  };
+
+  // ------------------------------------------------------------------
+  // LOCALSTORAGE ORDER STORE (For Guest Users)
+  // ------------------------------------------------------------------
+  const STORAGE_KEY = "tm_guest_orders";
+
+  function getLocalOrders(){
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    } catch(e) {
+      return [];
+    }
+  }
+
+  function saveLocalOrder(order){
+    const orders = getLocalOrders();
+    orders.unshift(order);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+  }
+
+  function updateLocalOrder(orderId, updates){
+    const orders = getLocalOrders();
+    const idx = orders.findIndex(o => o.orderId === orderId);
+    if(idx !== -1){
+      orders[idx] = { ...orders[idx], ...updates };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // AUTHENTICATION & MULTI-DEVICE SYNC
+  // ------------------------------------------------------------------
+  if (auth) {
+    auth.onAuthStateChanged(user => {
+      currentUser = user;
+      updateAuthUI();
+      if (user) {
+        syncGuestOrdersToAccount(user);
+      }
+      if (getActivePage() === "pageOrders") {
+        renderOrdersTab();
+      }
+    });
+  }
+
+  function updateAuthUI(){
+    if (currentUser) {
+      const name = currentUser.displayName || currentUser.email.split("@")[0];
+      headerAuthLabel.textContent = name;
+      statusBarTitle.textContent = currentUser.email;
+      statusBarSub.textContent = "Synced across all your devices";
+      statusBarActionBtn.textContent = "Sign out";
+    } else {
+      headerAuthLabel.textContent = "Sign in";
+      statusBarTitle.textContent = "Guest Mode";
+      statusBarSub.textContent = "Orders saved locally on this phone";
+      statusBarActionBtn.textContent = "Sign in to sync";
+    }
+  }
+
+  headerAuthBtn.addEventListener("click", () => {
+    if (currentUser) openAccountModal();
+    else openAuthModal();
+  });
+
+  statusBarActionBtn.addEventListener("click", () => {
+    if (currentUser) {
+      auth.signOut().then(() => updateAuthUI());
+    } else {
+      openAuthModal();
+    }
+  });
+
+  // Sync any orders placed locally before login into Firestore account
+  async function syncGuestOrdersToAccount(user){
+    if (!db || !user) return;
+    const localOrders = getLocalOrders();
+    const unsynced = localOrders.filter(o => !o.userId || o.customerType === "guest");
+    for (const ord of unsynced) {
+      try {
+        await db.collection("orders").doc(ord.orderId).set({
+          ...ord,
+          userId: user.uid,
+          customerType: "user",
+          email: ord.email || user.email,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        updateLocalOrder(ord.orderId, { userId: user.uid, customerType: "user" });
+      } catch (err) {
+        console.warn("Could not sync order to account:", err);
+      }
+    }
+  }
+
+  function openAuthModal(){
+    modal.innerHTML = `
+      <h2>Account</h2>
+      <p class="modal-sub">Sign in to track orders across any device, or continue as a guest.</p>
+      
+      <button class="google-btn" id="googleBtn">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.29 21.36 7.37 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27a7.22 7.22 0 010-4.54V6.58H1.26a11.96 11.96 0 000 10.84l4.02-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.37 0 3.29 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+        Continue with Google
+      </button>
+
+      <div class="auth-divider">or with email</div>
+
+      <form id="emailAuthForm">
+        <label class="field-label">Email</label>
+        <input class="field-input" id="authEmail" type="email" placeholder="you@gmail.com" required autocomplete="email">
+        
+        <label class="field-label">Password</label>
+        <input class="field-input" id="authPassword" type="password" placeholder="At least 6 characters" required autocomplete="current-password">
+        
+        <p class="field-error" id="authError"></p>
+        
+        <button class="primary-btn glass-btn" type="submit" id="authSubmitBtn">Sign in</button>
+      </form>
+
+      <p class="field-hint" style="text-align:center; margin-top:14px;">
+        <span id="authTogglePrompt">New customer?</span> 
+        <span class="auth-toggle-link" id="authToggleLink">Create an account</span>
+      </p>
+
+      <button class="secondary-btn" id="guestDismissBtn">Continue as guest</button>
+    `;
+
+    let isSignUp = false;
+    const emailAuthForm = document.getElementById("emailAuthForm");
+    const authSubmitBtn = document.getElementById("authSubmitBtn");
+    const authToggleLink = document.getElementById("authToggleLink");
+    const authTogglePrompt = document.getElementById("authTogglePrompt");
+    const authError = document.getElementById("authError");
+
+    authToggleLink.addEventListener("click", () => {
+      isSignUp = !isSignUp;
+      authSubmitBtn.textContent = isSignUp ? "Create account" : "Sign in";
+      authTogglePrompt.textContent = isSignUp ? "Already have an account?" : "New customer?";
+      authToggleLink.textContent = isSignUp ? "Sign in" : "Create an account";
+      authError.textContent = "";
+    });
+
+    document.getElementById("googleBtn").addEventListener("click", () => {
+      if (!auth) return;
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(async res => {
+          if (db && res.user) {
+            try {
+              const uDoc = await db.collection("users").doc(res.user.uid).get();
+              if (!uDoc.exists) {
+                await db.collection("users").doc(res.user.uid).set({
+                  email: res.user.email,
+                  name: res.user.displayName || "",
+                  role: "customer",
+                  createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+              }
+            } catch(e) { console.warn("User record init note:", e); }
+          }
+          closeModal();
+        })
+        .catch(err => { authError.textContent = err.message || "Google sign-in failed."; });
+    });
+
+    emailAuthForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      authError.textContent = "";
+      const email = document.getElementById("authEmail").value.trim();
+      const pass = document.getElementById("authPassword").value;
+      if (pass.length < 6) {
+        authError.textContent = "Password must be at least 6 characters.";
+        return;
+      }
+      if (isSignUp) {
+        auth.createUserWithEmailAndPassword(email, pass)
+          .then(async cred => {
+            if (db && cred.user) {
+              try {
+                await db.collection("users").doc(cred.user.uid).set({
+                  email: cred.user.email,
+                  role: "customer",
+                  createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+              } catch(e) { console.warn("User record init note:", e); }
+            }
+            closeModal();
+          })
+          .catch(err => { authError.textContent = err.message; });
+      } else {
+        auth.signInWithEmailAndPassword(email, pass)
+          .then(() => closeModal())
+          .catch(err => { authError.textContent = "Incorrect email or password."; });
+      }
+    });
+
+    document.getElementById("guestDismissBtn").addEventListener("click", closeModal);
+    modalBackdrop.classList.add("open");
+  }
+
+  function openAccountModal(){
+    modal.innerHTML = `
+      <h2>Account</h2>
+      <p class="modal-sub">Signed in as</p>
+      <div class="modal-row"><span class="label">Email</span><span class="value">${escapeHtml(currentUser.email)}</span></div>
+      <div class="modal-row"><span class="label">User ID</span><span class="value" style="font-size:11px;">${currentUser.uid}</span></div>
+      <button class="primary-btn" id="modalSignOutBtn" style="margin-top:20px;">Sign out</button>
+      <button class="secondary-btn" id="modalAccountClose">Close</button>
+    `;
+    document.getElementById("modalSignOutBtn").addEventListener("click", () => {
+      auth.signOut().then(() => closeModal());
+    });
+    document.getElementById("modalAccountClose").addEventListener("click", closeModal);
+    modalBackdrop.classList.add("open");
+  }
+
+  // ------------------------------------------------------------------
+  // TERMS & CONDITIONS MODAL (Calm & Professional)
+  // ------------------------------------------------------------------
+  window.openTermsModal = function(){
+    modal.innerHTML = `
+      <h2>Terms & Conditions</h2>
+      <p class="modal-sub">Service agreement for Tamil Marketing orders.</p>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px; font-size:13px; line-height:1.55; display:flex; flex-direction:column; gap:12px;">
+        <div>
+          <strong style="color:var(--accent);">1. Quality Delivery</strong>
+          <p style="margin:4px 0 0; color:var(--text-muted); font-size:12.5px;">We provide high-retention marketing packages to elevate your Instagram presence. Natural metric fluctuations may occur as platform algorithms update.</p>
+        </div>
+
+        <div>
+          <strong style="color:var(--accent);">2. Fulfillment Guarantee</strong>
+          <p style="margin:4px 0 0; color:var(--text-muted); font-size:12.5px;">All orders are processed automatically. If an order cannot be started within 24 to 48 hours, a refund will be processed upon review.</p>
+        </div>
+
+        <div>
+          <strong style="color:var(--accent);">3. Safe & Password-Free</strong>
+          <p style="margin:4px 0 0; color:var(--text-muted); font-size:12.5px;">We will never ask for your password or private account credentials. Ensure your profile or reel is set to public during delivery.</p>
+        </div>
+      </div>
+
+      <button class="primary-btn glass-btn" onclick="closeTermsModal()" style="margin-top:18px;">I Agree</button>
+    `;
+    modalBackdrop.classList.add("open");
+  };
+
+  function closeTermsModal(){
+    if(selection){
+      openDetailsStep();
+    } else {
+      closeModal();
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // SHOP LIST & ACCORDION INLINE EXPANSION
+  // (No pop-up modal when selecting a package; smooth inline expansion)
+  // ------------------------------------------------------------------
+  function renderList(){
+    const cat = DATA[activeCat];
+    tierListEl.innerHTML = "";
+
+    cat.tiers.forEach((tier, index) => {
+      const isSelected = selection && selection.cat === activeCat && selection.qty === tier.qty && !selection.isCustom;
+      const li = document.createElement("li");
+      li.className = "tier-item" + (isSelected ? " selected" : "");
+
+      li.innerHTML = `
+        <div class="tier-row" data-idx="${index}">
+          <div class="tier-left">
+            <div class="tier-icon">${ICONS[activeCat]}</div>
+            <div>
+              <div class="tier-qty">${tier.qty}</div>
+            </div>
+          </div>
+          <div class="tier-price">${formatRupees(tier.price)}</div>
+        </div>
+
+        ${isSelected ? `
+        <div class="tier-expand-box">
+          <div class="tier-est-pill">
+            <svg viewBox="0 0 24 24" fill="none" width="13" height="13" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Estimated delivery: <strong>${cat.estTime}</strong>
+          </div>
+          <div class="tier-perks-row">
+            <span>⚡ High quality reach</span>
+            <span>🔒 100% safe & private</span>
+          </div>
+          <button class="tier-continue-btn glass-btn" id="inlineContinueBtn">
+            Continue with ${tier.qty} (${formatRupees(tier.price)}) →
+          </button>
+        </div>
+        ` : ''}
+      `;
+
+      const row = li.querySelector(".tier-row");
+      row.addEventListener("click", () => {
+        selection = { cat: activeCat, qty: tier.qty, price: tier.price, isCustom: false };
+        renderList();
+        updateCheckoutBar();
+      });
+
+      if(isSelected){
+        const btn = li.querySelector("#inlineContinueBtn");
+        if(btn){
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openDetailsStep();
+          });
+        }
+      }
+
+      tierListEl.appendChild(li);
+    });
+
+    if(cat.hasCustom) renderCustomRow();
+
+    tierListEl.classList.remove("list-anim-enter");
+    void tierListEl.offsetWidth;
+    tierListEl.classList.add("list-anim-enter");
+  }
+
+  function renderCustomRow(){
+    const cat = DATA[activeCat];
+    const state = customState[activeCat];
+    const isSelected = selection && selection.cat === activeCat && selection.isCustom;
+
+    const trigger = document.createElement("li");
+    trigger.className = "tier-item" + (isSelected ? " selected" : "");
+    trigger.innerHTML = `
+      <div class="tier-row">
+        <div class="tier-left">
+          <div class="tier-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+          <div class="tier-qty">${isSelected ? "Custom · " + selection.qty : "Custom quantity"}</div>
+        </div>
+        <div class="tier-price">${isSelected ? formatRupees(selection.price) : "Enter amount"}</div>
+      </div>
+    `;
+    trigger.querySelector(".tier-row").addEventListener("click", () => {
+      state.open = !state.open;
+      renderList();
+    });
+    tierListEl.appendChild(trigger);
+
+    if(!state.open) return;
+
+    const panel = document.createElement("li");
+    panel.className = "custom-panel";
+    panel.innerHTML = `
+      <label class="field-label">Enter quantity</label>
+      <input type="number" inputmode="numeric" class="field-input" id="customQtyInput"
+             placeholder="e.g. ${cat.customMin * 2}" value="${state.draft}"
+             min="${cat.customMin}" max="${cat.customMax}">
+      <p class="field-hint">Between ${fmtQty(cat.customMin)} and ${fmtQty(cat.customMax)} ${cat.noun}</p>
+      <div class="custom-price-preview" id="customPricePreview">Enter a quantity to see the price</div>
+      <div class="tier-est-pill" style="margin:6px 0 10px;">
+        <svg viewBox="0 0 24 24" fill="none" width="13" height="13" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Estimated delivery: <strong>${cat.estTime}</strong>
+      </div>
+      <button class="primary-btn glass-btn" id="customSelectBtn" disabled>Continue with Custom Quantity →</button>
+    `;
+    tierListEl.appendChild(panel);
+
+    const input = panel.querySelector("#customQtyInput");
+    const preview = panel.querySelector("#customPricePreview");
+    const selectBtn = panel.querySelector("#customSelectBtn");
+    input.focus();
+
+    function evaluate(){
+      const raw = input.value.trim();
+      state.draft = raw;
+      const n = parseInt(raw, 10);
+      if(!raw || isNaN(n) || n < cat.customMin || n > cat.customMax){
+        preview.textContent = `Enter a quantity between ${fmtQty(cat.customMin)} and ${fmtQty(cat.customMax)}`;
+        preview.classList.remove("valid");
+        selectBtn.disabled = true;
+        return null;
+      }
+      const price = calcCustomPrice(activeCat, n);
+      preview.innerHTML = `${fmtQty(n)} ${cat.noun} · <strong>${formatRupees(price)}</strong>`;
+      preview.classList.add("valid");
+      selectBtn.disabled = false;
+      return { n, price };
+    }
+
+    input.addEventListener("input", evaluate);
+    evaluate();
+
+    selectBtn.addEventListener("click", () => {
+      const result = evaluate();
+      if(!result) return;
+      selection = {
+        cat: activeCat,
+        qty: `${fmtQty(result.n)} ${cat.noun}`,
+        price: result.price,
+        isCustom: true
+      };
+      state.open = false;
+      renderList();
+      updateCheckoutBar();
+      openDetailsStep();
+    });
+  }
+
+  function updateCheckoutBar(){
+    if(!selection || getActivePage() !== "pageShop"){
+      checkoutBar.classList.remove("visible");
+      return;
+    }
+    checkoutLabel.textContent = `${DATA[selection.cat].label} · ${selection.qty}`;
+    checkoutPrice.textContent = formatRupees(selection.price);
+    checkoutBar.classList.add("visible");
+  }
+
+  function setActiveCat(cat){
+    activeCat = cat;
+    const idx = CATS.indexOf(cat);
+    segHighlight.style.transform = `translateX(${idx * 100}%)`;
+    document.querySelectorAll(".seg-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.cat === cat));
+    renderList();
+  }
+
+  segEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".seg-btn");
+    if(!btn) return;
+    setActiveCat(btn.dataset.cat);
+  });
+
+  // ---- Page Navigation ----------------------------------------------------
+  function getActivePage(){
+    return document.querySelector(".page.active")?.id;
+  }
+
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+      document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === btn.dataset.page));
+      if(btn.dataset.page === "pageOrders"){
+        renderOrdersTab();
+      }
+      updateCheckoutBar();
+    });
+  });
+
+  // ------------------------------------------------------------------
+  // ORDERS TAB: GUEST (localStorage) + CLOUD FIRESTORE
+  // ------------------------------------------------------------------
+  document.getElementById("ordersFindBtn").addEventListener("click", () => {
+    const q = document.getElementById("ordersEmailInput").value.trim();
+    if(!q){
+      renderOrdersTab();
+      return;
+    }
+    searchOrders(q);
+  });
+
+  async function renderOrdersTab(){
+    const local = getLocalOrders();
+    if(currentUser && db){
+      ordersContent.innerHTML = `<div class="empty-state"><p>Loading your orders from cloud…</p></div>`;
+      try {
+        const snap = await db.collection("orders")
+          .where("userId", "==", currentUser.uid)
+          .get();
+        const cloudOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const combined = [...cloudOrders];
+        local.forEach(lo => {
+          if (!combined.some(co => co.orderId === lo.orderId)) {
+            combined.push(lo);
+          }
+        });
+        combined.sort((a,b) => (b.createdAtIso || "").localeCompare(a.createdAtIso || ""));
+        renderOrderResults(combined);
+        return;
+      } catch(err) {
+        console.warn("Could not load cloud orders:", err);
+      }
+    }
+    renderOrderResults(local);
+  }
+
+  async function searchOrders(query){
+    const q = query.toLowerCase();
+    const localMatches = getLocalOrders().filter(o =>
+      (o.orderId || "").toLowerCase().includes(q) ||
+      (o.email || "").toLowerCase().includes(q)
+    );
+
+    if (currentUser && db) {
+      ordersContent.innerHTML = `<div class="empty-state"><p>Searching your orders…</p></div>`;
+      try {
+        const snap = await db.collection("orders")
+          .where("userId", "==", currentUser.uid)
+          .get();
+        const cloudMatches = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+          .filter(o => (o.orderId || "").toLowerCase().includes(q) || (o.email || "").toLowerCase().includes(q));
+        const combined = [...cloudMatches];
+        localMatches.forEach(lo => {
+          if (!combined.some(co => co.orderId === lo.orderId)) {
+            combined.push(lo);
+          }
+        });
+        renderOrderResults(combined);
+        return;
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    renderOrderResults(localMatches);
+  }
+
+  // ---- Target validation and normalization helper ----
+  function parseTarget(cat, rawInput){
+    const input = (rawInput || "").trim();
+    if(cat === "followers"){
+      let username = input;
+      let url = input;
+      if(input.includes("instagram.com/")){
+        const match = input.match(/instagram\.com\/([a-zA-Z0-9._]+)/i);
+        if(match && match[1]){
+          username = match[1];
+        } else {
+          username = input.split("instagram.com/")[1].split("/")[0].split("?")[0];
+        }
+      }
+      username = username.replace(/^@/, "").replace(/\/+$/, "");
+      url = `https://www.instagram.com/${username}/`;
+      const isValid = /^[a-zA-Z0-9._]{1,30}$/.test(username);
+      return {
+        targetUsername: `@${username}`,
+        targetUrl: url,
+        isValid: isValid,
+        error: isValid ? "" : "Please enter a valid Instagram username or profile link (e.g. @yourusername or instagram.com/username)."
+      };
+    } else if(cat === "views"){
+      let url = input;
+      if(!url.startsWith("http://") && !url.startsWith("https://")){
+        url = "https://" + url;
+      }
+      // Reel-specific link validation
+      const isReel = /instagram\.com\/(reel|reels)\/[a-zA-Z0-9_-]+/i.test(url) || /instagram\.com\/[^\s/]+\/(reel|reels)\/[a-zA-Z0-9_-]+/i.test(url);
+      const isValid = isReel && url.length > 18;
+      return {
+        targetUsername: "",
+        targetUrl: url,
+        isValid: isValid,
+        error: isValid ? "" : "Please enter a valid Instagram Reel URL (e.g. https://www.instagram.com/reel/...)."
+      };
+    } else { // likes
+      let url = input;
+      if(!url.startsWith("http://") && !url.startsWith("https://")){
+        url = "https://" + url;
+      }
+      // Post or reel link validation
+      const isPostOrReel = /instagram\.com\/(p|reel|reels|tv)\/[a-zA-Z0-9_-]+/i.test(url) || /instagram\.com\/[^\s/]+\/(p|reel|reels)\/[a-zA-Z0-9_-]+/i.test(url);
+      const isValid = isPostOrReel && url.length > 18;
+      return {
+        targetUsername: "",
+        targetUrl: url,
+        isValid: isValid,
+        error: isValid ? "" : "Please enter a valid Instagram Post or Reel URL (e.g. https://www.instagram.com/p/... or /reel/...)."
+      };
+    }
+  }
+
+  function renderOrderResults(orders){
+    if(!orders || orders.length === 0){
+      ordersContent.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 9h8M8 13h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <p>No orders found yet.<br>Choose a package on the <strong>Shop</strong> tab to place your first order!</p>
+        </div>`;
+      return;
+    }
+    ordersContent.innerHTML = `<ul class="order-list">` + orders.map(o => {
+      const displayId = o.orderId || o.id || "TM-ORD";
+      const payStatus = o.paymentStatus || "Paid";
+      const ordStatus = o.orderStatus || o.status || "Processing";
+      const estTime = o.estDelivery || (DATA[o.cat] ? DATA[o.cat].estTime : "");
+
+      return `
+        <li class="order-card">
+          <div class="order-id-bar">
+            <span class="order-id-display">
+              ${displayId}
+            </span>
+            <button class="copy-btn" onclick="copyOrderId('${displayId}', this)">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.8"/></svg>
+              Copy ID
+            </button>
+          </div>
+          <div class="order-top">
+            <span class="order-qty">${escapeHtml(o.quantity || o.qty || "")}</span>
+            <span class="order-price">${formatRupees(o.price || 0)}</span>
+          </div>
+          <div class="order-meta">${escapeHtml(o.service || (DATA[o.cat] ? DATA[o.cat].label : o.cat) || "")} · ${o.date || ""}</div>
+          
+          ${estTime ? `<div style="margin-top:4px;"><span class="tier-est-pill">⏱️ ${escapeHtml(estTime)}</span></div>` : ''}
+
+          ${o.targetUsername ? `<div style="font-size:13px; font-weight:600; color:var(--accent); margin-top:8px;">Target: ${escapeHtml(o.targetUsername)}</div>` : ''}
+          <div class="order-target" style="font-size:12px; margin-top:3px; word-break:break-all;">
+            <a href="${escapeHtml(o.targetUrl || o.target || '#')}" target="_blank" rel="noopener noreferrer" style="color:var(--info); text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+              ${escapeHtml(o.targetUrl || o.target || '—')} ↗
+            </a>
+          </div>
+
+          <div class="order-bottom" style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="status-badge ${payStatus === 'Paid' ? 'status-completed' : 'status-processing'}" style="font-size:10.5px;">
+              ${payStatus === 'Paid' ? '🟢' : '🟡'} Payment: ${payStatus}
+            </span>
+            <span class="status-badge ${ordStatus === 'Completed' ? 'status-completed' : 'status-processing'}" style="font-size:10.5px;">
+              ${ordStatus === 'Completed' ? '🟢' : '🟡'} Order: ${ordStatus}
+            </span>
+          </div>
+        </li>
+      `;
+    }).join("") + `</ul>`;
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+  }
+
+  // ------------------------------------------------------------------
+  // CHECKOUT FLOW
+  // User clicks "Continue" -> Directly opens Delivery Details Modal
+  // ------------------------------------------------------------------
+  checkoutBtn.addEventListener("click", () => {
+    if(!selection) return;
+    openDetailsStep();
+  });
+
+  // Delivery Target & Customer Details Modal
+  function openDetailsStep(){
+    const cat = DATA[selection.cat];
+    const isFollowers = selection.cat === "followers";
+    const isViews = selection.cat === "views";
+
+    let fieldTitle = cat.fieldLabel;
+    let fieldPlaceholder = cat.placeholder;
+    let fieldHint = cat.hint;
+
+    const isUserSignedIn = !!currentUser;
+    if (isUserSignedIn && currentUser.email) {
+      pendingEmail = currentUser.email;
+    }
+
+    modal.innerHTML = `
+      <button class="modal-back" id="detailsBackBtn">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to packages
+      </button>
+
+      <h2>Delivery Details</h2>
+      <p class="modal-sub">${cat.label} · ${selection.qty} · ${formatRupees(selection.price)}</p>
+      
+      <!-- Target Input (Followers / Views / Likes) -->
+      <label class="field-label">${fieldTitle}</label>
+      <input class="field-input" id="targetInput" type="text" placeholder="${fieldPlaceholder}" value="${escapeHtml(pendingTarget)}" autocomplete="off">
+      <p class="field-error" id="targetError"></p>
+
+      <!-- If signed in: show verified badge. If guest: ask for email -->
+      ${isUserSignedIn ? `
+        <div class="user-badge-banner">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <div class="user-badge-title">Ordering as verified account</div>
+            <div class="user-badge-email">${escapeHtml(currentUser.email)}</div>
+          </div>
+        </div>
+      ` : `
+        <label class="field-label">Your Email (Required for Guest Orders)</label>
+        <input class="field-input" id="emailInput" type="email" placeholder="you@gmail.com" value="${escapeHtml(pendingEmail)}" autocomplete="email" required>
+        <p class="field-hint">We use this to save your order so you can look it up anytime.</p>
+        <p class="field-error" id="emailError"></p>
+      `}
+
+      <!-- Terms & Conditions Checkbox (Clean & Reassuring) -->
+      <div class="terms-group">
+        <label class="terms-label">
+          <input type="checkbox" id="termsCheckbox" checked>
+          <span>I agree to the <a href="javascript:void(0)" onclick="openTermsModal()" class="terms-link">Terms & Conditions</a></span>
+        </label>
+        <p class="terms-hint">Safe delivery guaranteed. <a href="javascript:void(0)" onclick="openTermsModal()" class="terms-link">Terms & Conditions</a></p>
+        <p class="field-error" id="termsError"></p>
+      </div>
+
+      <button class="primary-btn glass-btn" id="nextBtn">Continue to Payment</button>
+      <button class="secondary-btn" id="cancelBtn">Cancel</button>
+    `;
+
+    const targetInput = document.getElementById("targetInput");
+    const targetError = document.getElementById("targetError");
+    const termsCheckbox = document.getElementById("termsCheckbox");
+    const termsError = document.getElementById("termsError");
+    targetInput.focus();
+
+    document.getElementById("detailsBackBtn").addEventListener("click", closeModal);
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      targetError.textContent = "";
+      termsError.textContent = "";
+      const emailError = document.getElementById("emailError");
+      if (emailError) emailError.textContent = "";
+
+      const targetVal = targetInput.value.trim();
+      let ok = true;
+
+      // 1. Validate Target link
+      const parsed = parseTarget(selection.cat, targetVal);
+      if(!parsed.isValid){
+        targetError.textContent = parsed.error;
+        ok = false;
+      }
+
+      // 2. Validate Email (if guest)
+      let emailVal = pendingEmail;
+      if(!isUserSignedIn){
+        const emailInput = document.getElementById("emailInput");
+        emailVal = emailInput ? emailInput.value.trim() : "";
+        if(!/^\S+@\S+\.\S+$/.test(emailVal)){
+          if (emailError) emailError.textContent = "Please enter a valid email address.";
+          ok = false;
+        }
+      }
+
+      // 3. Validate Terms Checkbox
+      if(!termsCheckbox.checked){
+        termsError.textContent = "Please agree to the Terms & Conditions before continuing.";
+        ok = false;
+      }
+
+      if(!ok) return;
+      pendingTarget = targetVal;
+      pendingEmail = emailVal;
+      openSummaryStep(parsed);
+    });
+
+    document.getElementById("cancelBtn").addEventListener("click", closeModal);
+    modalBackdrop.classList.add("open");
+  }
+
+  // Step 2: Order Summary & Pay
+  function openSummaryStep(parsed){
+    const cat = DATA[selection.cat];
+    modal.innerHTML = `
+      <button class="modal-back" id="backBtn">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <h2>Confirm your order</h2>
+      <p class="modal-sub">Review delivery target and payment details.</p>
+      
+      <div class="modal-row"><span class="label">Service</span><span class="value">Instagram ${cat.label}</span></div>
+      <div class="modal-row"><span class="label">Quantity</span><span class="value">${selection.qty}</span></div>
+      <div class="modal-row"><span class="label">Est. Delivery</span><span class="value tier-est-pill" style="display:inline-block; font-size:11px;">⏱️ ${cat.estTime}</span></div>
+      ${parsed && parsed.targetUsername ? `<div class="modal-row"><span class="label">Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(parsed.targetUsername)}</span></div>` : ''}
+      <div class="modal-row"><span class="label">Delivery URL</span><span class="value" style="font-size:12px; color:var(--info);">${escapeHtml(parsed ? parsed.targetUrl : pendingTarget)}</span></div>
+      <div class="modal-row"><span class="label">Email</span><span class="value">${escapeHtml(pendingEmail)}</span></div>
+      <div class="modal-total"><span>Total</span><span>${formatRupees(selection.price)}</span></div>
+      
+      <button class="primary-btn glass-btn" id="payBtn">Pay with Cashfree</button>
+      <p class="field-error" id="payError"></p>
+      <div class="secure-note">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v5c0 5-3.5 8.5-8 9.5C7.5 19.5 4 16 4 11V6l8-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        100% Encrypted & processed by Cashfree Payments
+      </div>
+    `;
+
+    document.getElementById("backBtn").addEventListener("click", openDetailsStep);
+    document.getElementById("payBtn").addEventListener("click", () => startPayment(parsed));
+    modalBackdrop.classList.add("open");
+  }
+
+  function startPayment(parsed){
+    const payBtn = document.getElementById("payBtn");
+    const payError = document.getElementById("payError");
+    payBtn.disabled = true;
+    payError.textContent = "";
+    payBtn.innerHTML = `<span class="spinner"></span> Connecting to Cashfree…`;
+
+    // ------------------------------------------------------------------
+    // CASHFREE PAYMENT STEP (Mock placeholder — real webhook integration ready)
+    // ------------------------------------------------------------------
+    setTimeout(async () => {
+      const orderId = generateOrderId();
+      const isUser = !!currentUser;
+      const targetData = parsed || parseTarget(selection.cat, pendingTarget);
+
+      const orderData = {
+        orderId: orderId,
+        customerType: isUser ? "user" : "guest",
+        userId: isUser ? currentUser.uid : null,
+        customerDetails: {
+          email: pendingEmail.toLowerCase(),
+          name: currentUser ? (currentUser.displayName || "") : ""
+        },
+        email: pendingEmail.toLowerCase(),
+        service: `Instagram ${DATA[selection.cat].label}`,
+        platform: "Instagram",
+        quantity: selection.qty,
+        price: selection.price,
+        targetUsername: targetData.targetUsername || "",
+        targetUrl: targetData.targetUrl || pendingTarget,
+        paymentStatus: "Paid",       // Pending, Paid, Failed, Refunded
+        orderStatus: "Processing",   // Pending, Processing, Completed, Cancelled
+        estDelivery: DATA[selection.cat].estTime,
+        date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
+        createdAtIso: new Date().toISOString()
+      };
+
+      // 1. Play harmonic success chime (Paytm / GPay style)
+      playSuccessChime();
+
+      // 2. Save locally to browser localStorage for guest retrieval
+      saveLocalOrder(orderData);
+
+      // 3. Store in Cloud Firestore orders collection for Admin Panel view
+      if (db) {
+        try {
+          await db.collection("orders").doc(orderId).set({
+            ...orderData,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          updateLocalOrder(orderId, { synced: true });
+        } catch (err) {
+          console.error("Firestore order creation:", err);
+        }
+      }
+
+      showSuccess(orderData);
+    }, 1100);
+  }
+
+  function showSuccess(order){
+    modal.innerHTML = `
+      <div class="success-wrap">
+        <svg class="success-ring-wrap" viewBox="0 0 84 84">
+          <circle cx="42" cy="42" r="35"/>
+          <path d="M27 43l10 10 20-22"/>
+        </svg>
+        <p class="success-title">Payment successful</p>
+        <p class="success-amount">${formatRupees(order.price)}</p>
+        <p class="success-sub">${order.service} · ${order.quantity}</p>
+        
+        <div class="success-card">
+          <div class="order-id-bar">
+            <span class="order-id-display">${order.orderId}</span>
+            <button class="copy-btn" onclick="copyOrderId('${order.orderId}', this)">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.8"/></svg>
+              Copy ID
+            </button>
+          </div>
+          ${order.targetUsername ? `<div class="modal-row"><span class="label">Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(order.targetUsername)}</span></div>` : ''}
+          <div class="modal-row"><span class="label">Delivery URL</span><span class="value" style="font-size:12px; color:var(--info);">${escapeHtml(order.targetUrl)}</span></div>
+          <div class="modal-row"><span class="label">Payment</span><span class="value status-badge status-completed">🟢 Paid</span></div>
+          <div class="modal-row" style="border-bottom:none;"><span class="label">Order Status</span><span class="value status-badge status-processing">🟡 Processing</span></div>
+        </div>
+
+        <button class="primary-btn glass-btn" id="doneBtn" style="margin-top:18px;">View my orders</button>
+        <button class="secondary-btn" id="doneBtn2">Done</button>
+      </div>
+    `;
+
+    const finish = () => {
+      closeModal();
+      selection = null;
+      renderList();
+      updateCheckoutBar();
+    };
+
+    document.getElementById("doneBtn").addEventListener("click", () => {
+      finish();
+      document.querySelector('.tab-btn[data-page="pageOrders"]').click();
+    });
+    document.getElementById("doneBtn2").addEventListener("click", finish);
+  }
+
+  function closeModal(){ modalBackdrop.classList.remove("open"); }
+  modalBackdrop.addEventListener("click", (e) => { if(e.target === modalBackdrop) closeModal(); });
+
+  // Init default category: Likes
+  setActiveCat("likes");
+</script>
+
+</body>
+</html>

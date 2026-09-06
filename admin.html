@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b1520">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Tamil Marketing — Admin Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1520;
+    --page-bg-1:#0f2233;
+    --page-bg-2:#060d13;
+    --surface:#122335;
+    --surface-2:#182f45;
+    --surface-3:#1f3b56;
+    --accent:#1ea982;
+    --accent-soft:#122e29;
+    --warn:#d99a3d;
+    --warn-soft:#2e2517;
+    --danger:#e0755e;
+    --danger-soft:#301b17;
+    --info:#5aa9e6;
+    --info-soft:#162a3a;
+    --text:#eef4f6;
+    --text-muted:#8ea3b3;
+    --border:#213b52;
+    --border-light:#2c4b68;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0;padding:0;min-height:100vh;}
+  body{
+    min-height:100vh;
+    min-height:100dvh;
+    background:
+      radial-gradient(circle at 20% 0%, var(--page-bg-1), transparent 60%),
+      var(--page-bg-2);
+    font-family:'Sora',sans-serif;
+    color:var(--text);
+  }
+
+  /* ---------- Brand & Common ---------- */
+  .brand-row{ display:flex; align-items:center; gap:10px; }
+  .brand-mark{
+    width:36px;height:36px; border-radius:10px; background:var(--accent);
+    color:#06140f; font-family:'Fraunces',serif; font-weight:700; font-size:16px;
+    display:flex;align-items:center;justify-content:center; flex-shrink:0;
+    box-shadow:0 2px 10px rgba(30,169,130,0.3);
+  }
+  .brand-name{ font-family:'Fraunces',serif; font-weight:600; font-size:19px; }
+  .field-label{ font-size:12.5px; font-weight:600; color:var(--text-muted); margin:0 0 7px; display:block; }
+  .field-input{
+    width:100%; background:var(--surface); border:1.5px solid var(--border);
+    border-radius:12px; padding:13px 14px; color:var(--text);
+    font-family:'Sora',sans-serif; font-size:14px; margin-bottom:14px;
+    transition:border-color 160ms ease;
+  }
+  .field-input:focus{ outline:none; border-color:var(--accent); }
+  .primary-btn{
+    width:100%; background:var(--accent); color:#06140f; border:none;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px;
+    padding:14px; border-radius:12px; cursor:pointer;
+    transition:transform 120ms ease, opacity 120ms ease;
+  }
+  .primary-btn:active{ transform:scale(0.98); }
+  .field-error{ font-size:12.5px; color:var(--danger); margin:-6px 0 14px; min-height:14px; }
+
+  /* ---------- Login Screen ---------- */
+  #loginScreen[hidden], #dashboard[hidden], [hidden]{
+    display: none !important;
+  }
+  #loginScreen{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex; align-items:center; justify-content:center; padding:24px;
+    padding-top:calc(24px + env(safe-area-inset-top, 0px));
+    padding-bottom:calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+  .login-card{
+    width:100%; max-width:370px; background:var(--bg); border:1px solid var(--border);
+    border-radius:24px; padding:30px 26px; box-shadow:0 40px 80px -30px rgba(0,0,0,0.75);
+  }
+  .login-card .brand-row{ margin-bottom:22px; }
+  .login-card h1{ font-family:'Fraunces',serif; font-weight:600; font-size:20px; margin:0 0 18px; }
+
+  /* ---------- Dashboard Container ---------- */
+  #dashboard{
+    max-width:980px; margin:0 auto; padding:24px 18px 60px;
+    padding-top:calc(20px + env(safe-area-inset-top, 0px));
+    padding-bottom:calc(40px + env(safe-area-inset-bottom, 0px));
+  }
+  .dash-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+  .signout-btn{
+    background:none; border:1px solid var(--border); color:var(--text-muted);
+    font-family:'Sora',sans-serif; font-size:12.5px; font-weight:600;
+    padding:8px 15px; border-radius:10px; cursor:pointer;
+    transition:all 150ms ease;
+  }
+  .signout-btn:hover{ color:var(--text); border-color:var(--border-light); }
+
+  /* ---------- Stats Grid ---------- */
+  .stats-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+  .stat-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:14px 16px;
+  }
+  .stat-label{ font-size:11.5px; color:var(--text-muted); margin-bottom:5px; }
+  .stat-value{ font-family:'Fraunces',serif; font-weight:700; font-size:22px; }
+
+  /* ---------- Filter & Search Bar ---------- */
+  .filter-controls{ display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
+  .search-row .field-input{ margin-bottom:0; background:var(--surface); }
+  .chips-row{ display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
+  .chips-row::-webkit-scrollbar{ display:none; }
+  .chip-btn{
+    background:var(--surface); border:1px solid var(--border); color:var(--text-muted);
+    font-family:'Sora',sans-serif; font-size:12px; font-weight:600;
+    padding:7px 14px; border-radius:100px; white-space:nowrap; cursor:pointer;
+    transition:all 140ms ease;
+  }
+  .chip-btn.active{
+    background:var(--accent); color:#06140f; border-color:var(--accent); font-weight:700;
+  }
+
+  /* ---------- Order Cards ---------- */
+  #orderList{ display:flex; flex-direction:column; gap:14px; }
+  
+  .admin-card{
+    border:1px solid var(--border); background:var(--surface); border-radius:18px;
+    padding:18px 20px; box-shadow:0 6px 20px -8px rgba(0,0,0,0.4);
+    display:flex; flex-direction:column; gap:12px;
+  }
+  
+  /* Top header inside card */
+  .card-top{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+    padding-bottom:10px; border-bottom:1px solid var(--border);
+  }
+  .order-id-group{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .order-id-text{
+    font-family:'Fraunces',serif; font-weight:700; font-size:16px; color:var(--accent);
+    letter-spacing:0.3px;
+  }
+  .copy-btn-mini{
+    background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted);
+    font-family:'Sora',sans-serif; font-size:11px; font-weight:600;
+    padding:3px 8px; border-radius:6px; cursor:pointer; transition:all 120ms ease;
+  }
+  .copy-btn-mini:hover{ border-color:var(--accent); color:var(--text); }
+  .customer-tag{
+    font-size:10.5px; font-weight:600; padding:2px 7px; border-radius:5px;
+    border:1px solid transparent;
+  }
+  .tag-guest{ background:var(--surface-2); color:var(--text-muted); border-color:var(--border); }
+  .tag-user{ background:var(--accent-soft); color:var(--accent); border-color:rgba(30,169,130,0.3); }
+  .order-date-text{ font-size:12px; color:var(--text-muted); }
+
+  /* Info rows grid */
+  .details-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:10px;
+    padding:4px 0;
+  }
+  .detail-cell{ display:flex; flex-direction:column; gap:3px; }
+  .detail-cell .label{ font-size:11.5px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; }
+  .detail-cell .val{ font-size:13.5px; font-weight:600; word-break:break-all; }
+  .detail-cell .val.price{ font-family:'Fraunces',serif; font-size:16px; color:var(--text); }
+
+  /* Target Box */
+  .target-panel{
+    background:rgba(6, 13, 19, 0.55); border:1px solid var(--border);
+    border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:7px;
+  }
+  .target-entry{ display:flex; align-items:baseline; gap:8px; font-size:13px; flex-wrap:wrap; }
+  .target-entry .entry-title{ color:var(--text-muted); font-size:12px; font-weight:600; min-width:70px; flex-shrink:0; }
+  .target-entry .username-val{ font-weight:700; color:var(--accent); font-size:14px; }
+  .target-entry a.url-val{
+    color:var(--info); text-decoration:none; word-break:break-all;
+    display:inline-flex; align-items:center; gap:4px; font-weight:500;
+  }
+  .target-entry a.url-val:hover{ text-decoration:underline; }
+
+  /* Status Controls Bar */
+  .status-row{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    padding-top:10px; border-top:1px solid var(--border);
+  }
+  .status-group{ display:flex; align-items:center; gap:8px; }
+  .status-group .group-label{ font-size:12px; font-weight:600; color:var(--text-muted); }
+  
+  .status-dropdown{
+    background:var(--surface-2); border:1.5px solid var(--border); color:var(--text);
+    font-family:'Sora',sans-serif; font-size:12.5px; font-weight:600;
+    padding:7px 10px; border-radius:10px; cursor:pointer; outline:none;
+    transition:border-color 150ms ease;
+  }
+  .status-dropdown:focus{ border-color:var(--accent); }
+  
+  /* Status color badges for visual scan */
+  .badge-paid{ color:var(--accent); }
+  .badge-pending{ color:var(--warn); }
+  .badge-failed{ color:var(--danger); }
+  .badge-processing{ color:var(--warn); }
+  .badge-completed{ color:var(--accent); }
+  .badge-cancelled{ color:var(--danger); }
+
+  /* Empty and toast */
+  .empty-note{ color:var(--text-muted); font-size:14px; padding:30px 10px; text-align:center; }
+  
+  #toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(50px);
+    background:#122e29; border:1px solid var(--accent); color:#eef4f6;
+    font-size:13px; font-weight:600; padding:10px 20px; border-radius:100px;
+    opacity:0; pointer-events:none; transition:all 220ms ease; z-index:99;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  @media (max-width:768px){
+    .stats-row{ grid-template-columns:repeat(2,1fr); }
+    .details-grid{ grid-template-columns:repeat(2,1fr); row-gap:12px; }
+    .status-row{ flex-direction:column; align-items:stretch; }
+    .status-group{ justify-content:space-between; }
+    .status-dropdown{ width:55%; text-align:right; }
+  }
+</style>
+</head>
+<body>
+
+<div id="toast">Order updated</div>
+
+<!-- 1. LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="brand-row">
+      <div class="brand-mark">TM</div>
+      <div class="brand-name">Tamil Marketing</div>
+    </div>
+
+    <!-- Live Firebase Connectivity Badge -->
+    <div id="firebaseBadge" style="display:flex; align-items:center; gap:8px; background:rgba(30,169,130,0.12); border:1px solid rgba(30,169,130,0.35); border-radius:10px; padding:7px 12px; margin:16px 0 8px; font-size:12px; color:var(--accent);">
+      <span style="width:8px; height:8px; border-radius:50%; background:var(--accent); display:inline-block; box-shadow:0 0 8px var(--accent); flex-shrink:0;"></span>
+      <span><strong>Firebase Connected:</strong> <code>tamil-marketing</code> (Live)</span>
+    </div>
+
+    <h1 style="margin-top:12px;">Admin Portal</h1>
+    <form id="loginForm">
+      <label class="field-label">Admin Email</label>
+      <input class="field-input" id="loginEmail" type="email" autocomplete="username" placeholder="admin@example.com" required>
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <label class="field-label" style="margin-bottom:0;">Password</label>
+        <button type="button" id="forgotPassBtn" style="background:none; border:none; color:var(--accent); font-size:11.5px; cursor:pointer; padding:0; text-decoration:underline;">Forgot password?</button>
+      </div>
+      <input class="field-input" id="loginPassword" type="password" autocomplete="current-password" placeholder="••••••••" required style="margin-top:7px;">
+      <p class="field-error" id="loginError" style="line-height:1.45;"></p>
+      <button class="primary-btn" type="submit" id="loginSubmitBtn">Sign in to Dashboard</button>
+    </form>
+
+    <div style="display:flex; align-items:center; text-align:center; margin:16px 0 14px; color:var(--text-muted); font-size:12px;">
+      <span style="flex:1; border-bottom:1px solid var(--border); margin-right:10px;"></span>
+      or
+      <span style="flex:1; border-bottom:1px solid var(--border); margin-left:10px;"></span>
+    </div>
+
+    <button type="button" id="adminGoogleBtn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:10px; background:#ffffff; color:#1f1f1f; border:none; font-family:'Sora',sans-serif; font-size:13.5px; font-weight:600; padding:12px; border-radius:12px; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.29 21.36 7.37 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27a7.22 7.22 0 010-4.54V6.58H1.26a11.96 11.96 0 000 10.84l4.02-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.37 0 3.29 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+      Sign in with Google
+    </button>
+  </div>
+</div>
+
+<!-- 2. DASHBOARD -->
+<div id="dashboard" hidden>
+  <div class="dash-header">
+    <div class="brand-row">
+      <div class="brand-mark">TM</div>
+      <div>
+        <div class="brand-name">Admin Orders</div>
+        <div style="font-size:11.5px; color:var(--text-muted);" id="adminEmailBadge">Signed in</div>
+      </div>
+    </div>
+    <button class="signout-btn" id="signOutBtn">Sign out</button>
+  </div>
+
+  <!-- Key business stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value" id="statTotal">0</div></div>
+    <div class="stat-card"><div class="stat-label">Processing</div><div class="stat-value" id="statProcessing">0</div></div>
+    <div class="stat-card"><div class="stat-label">Completed</div><div class="stat-value" id="statCompleted">0</div></div>
+    <div class="stat-card"><div class="stat-label">Paid Revenue</div><div class="stat-value" id="statRevenue">₹0</div></div>
+  </div>
+
+  <!-- Search & Category Filters -->
+  <div class="filter-controls">
+    <div class="search-row">
+      <input class="field-input" id="searchInput" type="text" placeholder="Search by Order ID (TM-…), email, username, or target URL…">
+    </div>
+    <div class="chips-row" id="chipsRow">
+      <button class="chip-btn active" data-filter="all">All Orders</button>
+      <button class="chip-btn" data-filter="processing">🟡 Processing</button>
+      <button class="chip-btn" data-filter="completed">🟢 Completed</button>
+      <button class="chip-btn" data-filter="paid">🟢 Paid Only</button>
+      <button class="chip-btn" data-filter="pending_pay">🟡 Pending Payment</button>
+    </div>
+  </div>
+
+  <!-- Realtime Order Cards List -->
+  <div id="orderList"></div>
+</div>
+
+<!-- Firebase Compat v10.13.2 -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script>
+  // ------------------------------------------------------------------
+  // LIVE FIREBASE CONFIG
+  // ------------------------------------------------------------------
+  const firebaseConfig = {
+    apiKey: "AIzaSyAEbIDQZwsr7ZiP87OCbrvsBWUd6f3v0rs",
+    authDomain: "tamil-marketing.firebaseapp.com",
+    projectId: "tamil-marketing",
+    storageBucket: "tamil-marketing.firebasestorage.app",
+    messagingSenderId: "126328286351",
+    appId: "1:126328286351:web:39908a28ebef75cc6ad4fa",
+    measurementId: "G-H93VVYW4HH"
+  };
+
+  let auth = null, db = null;
+  const firebaseBadge = document.getElementById("firebaseBadge");
+
+  try {
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db = firebase.firestore();
+    if (firebaseBadge) {
+      firebaseBadge.innerHTML = `
+        <span style="width:8px; height:8px; border-radius:50%; background:#1ea982; display:inline-block; box-shadow:0 0 8px #1ea982; flex-shrink:0;"></span>
+        <span>🟢 <strong>Firebase Connected:</strong> <code>tamil-marketing</code> (Auth & Database Active)</span>
+      `;
+    }
+  } catch (err) {
+    console.error("Firebase init:", err);
+    if (firebaseBadge) {
+      firebaseBadge.innerHTML = `
+        <span style="width:8px; height:8px; border-radius:50%; background:#e0755e; display:inline-block; box-shadow:0 0 8px #e0755e; flex-shrink:0;"></span>
+        <span>🔴 <strong>Firebase Error:</strong> ${escapeHtml(err.message)}</span>
+      `;
+      firebaseBadge.style.borderColor = "rgba(224,117,94,0.4)";
+      firebaseBadge.style.background = "rgba(224,117,94,0.12)";
+      firebaseBadge.style.color = "#e0755e";
+    }
+  }
+
+  const loginScreen = document.getElementById("loginScreen");
+  const dashboard = document.getElementById("dashboard");
+  const adminEmailBadge = document.getElementById("adminEmailBadge");
+  let allOrders = [];
+  let currentFilter = "all";
+  let unsubscribeOrders = null;
+
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2200);
+  }
+
+  // Recognized admin emails that always have full authority
+  const PRIMARY_ADMIN_EMAILS = ["gamingomkarbhai@gmail.com", "support@tm.com"];
+
+  function showDashboard(user) {
+    loginScreen.style.display = "none";
+    loginScreen.hidden = true;
+    dashboard.style.display = "block";
+    dashboard.hidden = false;
+    adminEmailBadge.textContent = (user.displayName ? user.displayName + " · " : "") + user.email;
+    subscribeOrders();
+  }
+
+  function showLoginScreen() {
+    loginScreen.style.display = "flex";
+    loginScreen.hidden = false;
+    dashboard.style.display = "none";
+    dashboard.hidden = true;
+    if (unsubscribeOrders) {
+      unsubscribeOrders();
+      unsubscribeOrders = null;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // AUTH STATE & ADMIN ROLE VERIFICATION
+  // ------------------------------------------------------------------
+  if (auth) {
+    auth.onAuthStateChanged(async user => {
+      const errorEl = document.getElementById("loginError");
+      if (user) {
+        console.log("Firebase Auth User:", user.email, "UID:", user.uid);
+        const emailLower = (user.email || "").toLowerCase().trim();
+        const isRecognizedEmail = PRIMARY_ADMIN_EMAILS.includes(emailLower);
+
+        try {
+          let userDoc = null;
+          if (db) {
+            try {
+              userDoc = await db.collection("users").doc(user.uid).get();
+            } catch (docErr) {
+              console.warn("User doc read note:", docErr);
+            }
+          }
+
+          const hasAdminRole = userDoc && userDoc.exists && userDoc.data().role === "admin";
+
+          if (isRecognizedEmail || hasAdminRole) {
+            // Authorized Admin!
+            // Ensure users/{uid} document has role === 'admin'
+            if (db && (!userDoc || !userDoc.exists || userDoc.data().role !== "admin")) {
+              try {
+                await db.collection("users").doc(user.uid).set({
+                  email: user.email,
+                  role: "admin",
+                  updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+              } catch (setErr) {
+                console.warn("Auto-sync admin role note:", setErr);
+              }
+            }
+
+            errorEl.textContent = "";
+            showDashboard(user);
+            return;
+          }
+
+          // Unauthorized / Normal user trying to access admin
+          console.warn("Unauthorized admin panel access attempt:", user.email);
+          await auth.signOut();
+          showLoginScreen();
+          errorEl.textContent = "Access denied: Account (" + user.email + ") is not registered as an administrator.";
+        } catch(err) {
+          console.error("Admin role check error:", err);
+          await auth.signOut();
+          showLoginScreen();
+          errorEl.textContent = "Verification failed: " + (err.message || "Unable to check admin permissions.");
+        }
+      } else {
+        showLoginScreen();
+      }
+    });
+  }
+
+  // Forgot password button
+  const forgotPassBtn = document.getElementById("forgotPassBtn");
+  if (forgotPassBtn) {
+    forgotPassBtn.addEventListener("click", () => {
+      const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+      const errorEl = document.getElementById("loginError");
+      if (!email) {
+        errorEl.textContent = "Please enter your admin email above first.";
+        return;
+      }
+      errorEl.textContent = "Sending password reset email…";
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          errorEl.innerHTML = `<span style="color:var(--accent);">Password reset email sent to <strong>${escapeHtml(email)}</strong>. Check your inbox (or spam) to set a new password.</span>`;
+        })
+        .catch(err => {
+          console.error("Password reset error:", err);
+          errorEl.textContent = err.message || "Failed to send reset email.";
+        });
+    });
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const errorEl = document.getElementById("loginError");
+    const submitBtn = e.target.querySelector("button[type='submit']");
+    if (!auth) {
+      errorEl.textContent = "Firebase Authentication is not ready yet.";
+      return;
+    }
+    const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) return;
+
+    errorEl.textContent = "";
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Signing in…";
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        // onAuthStateChanged will handle showDashboard()
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign in to Dashboard";
+      })
+      .catch(err => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign in to Dashboard";
+        console.error("Firebase signInWithEmailAndPassword error:", err.code, err.message);
+
+        // If recognized admin email and account is not found or invalid credentials:
+        if ((err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password") && PRIMARY_ADMIN_EMAILS.includes(email)) {
+          errorEl.innerHTML = `
+            <div style="background:rgba(224,117,94,0.12); border:1px solid rgba(224,117,94,0.3); border-radius:10px; padding:10px 12px; margin-top:8px;">
+              <div style="color:var(--text); font-weight:600; margin-bottom:4px;">Incorrect Password</div>
+              <div style="color:var(--text-muted); font-size:11.5px; margin-bottom:10px;">The password entered for <strong>${escapeHtml(email)}</strong> does not match Firebase.</div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button type="button" id="triggerForgotBtn" style="background:var(--accent); color:#06140f; border:none; padding:7px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+                  🔑 Send Password Reset Email
+                </button>
+                <button type="button" id="quickGoogleBtn" style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid var(--border); padding:7px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer;">
+                  Sign in with Google
+                </button>
+              </div>
+            </div>
+          `;
+          document.getElementById("triggerForgotBtn").addEventListener("click", () => {
+            forgotPassBtn.click();
+          });
+          document.getElementById("quickGoogleBtn").addEventListener("click", () => {
+            document.getElementById("adminGoogleBtn").click();
+          });
+        } else if (err.code === "auth/operation-not-allowed") {
+          errorEl.textContent = "Email/Password sign-in is disabled. Please enable it in Firebase Console → Authentication → Sign-in method.";
+        } else if (err.code === "auth/too-many-requests") {
+          errorEl.textContent = "Too many failed attempts. Please wait a moment and try again.";
+        } else {
+          errorEl.textContent = err.message || "Sign in failed.";
+        }
+      });
+  });
+
+  document.getElementById("adminGoogleBtn").addEventListener("click", () => {
+    const errorEl = document.getElementById("loginError");
+    if (!auth) return;
+    errorEl.textContent = "Opening Google Sign-In…";
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    auth.signInWithPopup(provider)
+      .then(() => {
+        errorEl.textContent = "Verifying admin access…";
+      })
+      .catch(err => {
+        console.error("Google sign in error:", err);
+        if (err.code === "auth/account-exists-with-different-credential") {
+          errorEl.innerHTML = `<strong>Account registered with password:</strong><br><span style="font-size:12px; color:var(--text-muted);">gamingomkarbhai@gmail.com was created with Email/Password. Please enter your password above, or click <strong>Forgot password?</strong> above to reset it.</span>`;
+        } else if (err.code === "auth/popup-closed-by-user") {
+          errorEl.textContent = "Sign-in popup closed before completion. Please try again.";
+        } else if (err.code === "auth/cancelled-popup-request") {
+          errorEl.textContent = "";
+        } else {
+          errorEl.textContent = err.message || "Google sign-in failed.";
+        }
+      });
+  });
+
+  document.getElementById("signOutBtn").addEventListener("click", () => auth.signOut());
+
+  // ------------------------------------------------------------------
+  // REAL-TIME FIRESTORE LISTENER
+  // ------------------------------------------------------------------
+  function subscribeOrders() {
+    if (!db) return;
+    unsubscribeOrders = db.collection("orders").orderBy("createdAt", "desc")
+      .onSnapshot(snap => {
+        allOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderDashboard();
+      }, err => {
+        console.warn("Fallback to client sort:", err);
+        db.collection("orders").onSnapshot(snap => {
+          allOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          allOrders.sort((a, b) => {
+            const tA = a.createdAt ? (a.createdAt.toMillis ? a.createdAt.toMillis() : new Date(a.createdAtIso || 0).getTime()) : 0;
+            const tB = b.createdAt ? (b.createdAt.toMillis ? b.createdAt.toMillis() : new Date(b.createdAtIso || 0).getTime()) : 0;
+            return tB - tA;
+          });
+          renderDashboard();
+        });
+      });
+  }
+
+  // ------------------------------------------------------------------
+  // SEARCH & FILTER LOGIC
+  // ------------------------------------------------------------------
+  document.getElementById("searchInput").addEventListener("input", renderDashboard);
+
+  document.getElementById("chipsRow").addEventListener("click", (e) => {
+    const btn = e.target.closest(".chip-btn");
+    if (!btn) return;
+    document.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
+    renderDashboard();
+  });
+
+  function renderDashboard() {
+    updateStats(allOrders);
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+
+    let filtered = allOrders;
+
+    // Apply filter chip
+    if (currentFilter === "processing") {
+      filtered = filtered.filter(o => (o.orderStatus || o.status || "").toLowerCase() === "processing");
+    } else if (currentFilter === "completed") {
+      filtered = filtered.filter(o => (o.orderStatus || o.status || "").toLowerCase() === "completed");
+    } else if (currentFilter === "paid") {
+      filtered = filtered.filter(o => (o.paymentStatus || "").toLowerCase() === "paid");
+    } else if (currentFilter === "pending_pay") {
+      filtered = filtered.filter(o => (o.paymentStatus || "pending").toLowerCase() === "pending");
+    }
+
+    // Apply search query
+    if (q) {
+      filtered = filtered.filter(o => {
+        const orderId = (o.orderId || o.id || "").toLowerCase();
+        const email = (o.email || (o.customerDetails && o.customerDetails.email) || "").toLowerCase();
+        const username = (o.targetUsername || "").toLowerCase();
+        const targetUrl = (o.targetUrl || o.target || "").toLowerCase();
+        const service = (o.service || "").toLowerCase();
+        const qty = (o.quantity || o.qty || "").toString().toLowerCase();
+        return orderId.includes(q) || email.includes(q) || username.includes(q) || targetUrl.includes(q) || service.includes(q) || qty.includes(q);
+      });
+    }
+
+    renderOrderList(filtered);
+  }
+
+  function updateStats(orders) {
+    const total = orders.length;
+    const processing = orders.filter(o => (o.orderStatus || o.status || "").toLowerCase() === "processing").length;
+    const completed = orders.filter(o => (o.orderStatus || o.status || "").toLowerCase() === "completed").length;
+    const revenue = orders.reduce((sum, o) => {
+      const isPaid = (o.paymentStatus || "").toLowerCase() === "paid" || o.status === "completed" || o.status === "processing";
+      return isPaid ? sum + (o.price || 0) : sum;
+    }, 0);
+
+    document.getElementById("statTotal").textContent = total;
+    document.getElementById("statProcessing").textContent = processing;
+    document.getElementById("statCompleted").textContent = completed;
+    document.getElementById("statRevenue").textContent = "₹" + revenue.toLocaleString("en-IN");
+  }
+
+  function copyText(txt, btn) {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(txt).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = orig; }, 1400);
+    });
+  }
+
+  // ------------------------------------------------------------------
+  // STATUS UPDATES
+  // ------------------------------------------------------------------
+  window.updatePaymentStatus = function(docId, newStatus) {
+    if (!db || !docId) return;
+    db.collection("orders").doc(docId).update({
+      paymentStatus: newStatus,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      showToast(`Payment status updated to ${newStatus}`);
+    }).catch(err => {
+      console.error(err);
+      alert("Failed to update payment status: " + err.message);
+    });
+  };
+
+  window.updateOrderStatus = function(docId, newStatus) {
+    if (!db || !docId) return;
+    db.collection("orders").doc(docId).update({
+      orderStatus: newStatus,
+      // Keep legacy status field synced for any older consumers
+      status: newStatus.toLowerCase(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      showToast(`Order status updated to ${newStatus}`);
+    }).catch(err => {
+      console.error(err);
+      alert("Failed to update order status: " + err.message);
+    });
+  };
+
+  // ------------------------------------------------------------------
+  // RENDER ORDER LIST (Matching exact requested view structure)
+  // ------------------------------------------------------------------
+  function renderOrderList(orders) {
+    const listEl = document.getElementById("orderList");
+    if (orders.length === 0) {
+      listEl.innerHTML = `<p class="empty-note">No orders found matching this filter or search query.</p>`;
+      return;
+    }
+
+    listEl.innerHTML = orders.map(o => {
+      const docId = o.id || o.orderId;
+      const displayId = o.orderId || o.id || "TM-ORD";
+      const isUser = o.customerType === "user" || !!o.userId;
+      const customerDisplay = isUser ? "Member" : "Guest";
+      const email = o.email || (o.customerDetails && o.customerDetails.email) || "—";
+      const serviceDisplay = o.service || (o.cat ? `Instagram ${o.cat}` : "Instagram Service");
+      const quantityDisplay = o.quantity || o.qty || "—";
+      const priceDisplay = (o.price || 0).toLocaleString("en-IN");
+      const targetUsername = o.targetUsername || "";
+      const targetUrl = o.targetUrl || o.target || "";
+      const dateDisplay = o.date || (o.createdAtIso ? new Date(o.createdAtIso).toLocaleDateString("en-IN") : "—");
+
+      // Normalize statuses
+      const payStatus = o.paymentStatus || "Paid";
+      const ordStatus = o.orderStatus || (o.status ? (o.status.charAt(0).toUpperCase() + o.status.slice(1)) : "Processing");
+
+      return `
+      <div class="admin-card">
+        <!-- Top row: ID, Badges, Date -->
+        <div class="card-top">
+          <div class="order-id-group">
+            <span class="order-id-text">${escapeHtml(displayId)}</span>
+            <button class="copy-btn-mini" onclick="copyText('${escapeHtml(displayId)}', this)">Copy</button>
+            <span class="customer-tag ${isUser ? 'tag-user' : 'tag-guest'}">${customerDisplay}</span>
+          </div>
+          <span class="order-date-text">${escapeHtml(dateDisplay)}</span>
+        </div>
+
+        <!-- 4-column structured specs -->
+        <div class="details-grid">
+          <div class="detail-cell">
+            <span class="label">Customer</span>
+            <span class="val" title="${escapeHtml(email)}">${customerDisplay}${email !== '—' ? `<br><small style="color:var(--text-muted); font-size:11px;">${escapeHtml(email)}</small>` : ''}</span>
+          </div>
+          <div class="detail-cell">
+            <span class="label">Service</span>
+            <span class="val">${escapeHtml(serviceDisplay)}</span>
+          </div>
+          <div class="detail-cell">
+            <span class="label">Quantity</span>
+            <span class="val">${escapeHtml(quantityDisplay)}</span>
+          </div>
+          <div class="detail-cell">
+            <span class="label">Price</span>
+            <span class="val price">₹${priceDisplay}</span>
+          </div>
+        </div>
+
+        <!-- Target & Delivery URLs -->
+        <div class="target-panel">
+          ${targetUsername ? `
+          <div class="target-entry">
+            <span class="entry-title">Target:</span>
+            <span class="username-val">${escapeHtml(targetUsername)}</span>
+          </div>` : ''}
+          <div class="target-entry">
+            <span class="entry-title">${targetUsername ? 'Profile:' : 'Delivery URL:'}</span>
+            <a class="url-val" href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener noreferrer" title="Open link in new tab">
+              ${escapeHtml(targetUrl || '—')}
+              ${targetUrl ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>` : ''}
+            </a>
+          </div>
+        </div>
+
+        <!-- Status & Management Controls -->
+        <div class="status-row">
+          <div class="status-group">
+            <span class="group-label">Payment:</span>
+            <select class="status-dropdown select-payment" onchange="updatePaymentStatus('${docId}', this.value)">
+              <option value="Paid" ${payStatus === 'Paid' ? 'selected' : ''}>🟢 PAID</option>
+              <option value="Pending" ${payStatus === 'Pending' ? 'selected' : ''}>🟡 PENDING</option>
+              <option value="Failed" ${payStatus === 'Failed' ? 'selected' : ''}>🔴 FAILED</option>
+              <option value="Refunded" ${payStatus === 'Refunded' ? 'selected' : ''}>⚪ REFUNDED</option>
+            </select>
+          </div>
+
+          <div class="status-group">
+            <span class="group-label">Order:</span>
+            <select class="status-dropdown select-order" onchange="updateOrderStatus('${docId}', this.value)">
+              <option value="Processing" ${ordStatus === 'Processing' ? 'selected' : ''}>🟡 PROCESSING</option>
+              <option value="Completed" ${ordStatus === 'Completed' ? 'selected' : ''}>🟢 COMPLETED</option>
+              <option value="Pending" ${ordStatus === 'Pending' ? 'selected' : ''}>⚪ PENDING</option>
+              <option value="Cancelled" ${ordStatus === 'Cancelled' ? 'selected' : ''}>🔴 CANCELLED</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      `;
+    }).join("");
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+</html>
