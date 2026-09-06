@@ -87,6 +87,9 @@
     .app-header {
       padding-top: calc(14px + env(safe-area-inset-top, 0px)) !important;
     }
+    .page {
+      padding-bottom: calc(170px + env(safe-area-inset-bottom, 0px)) !important;
+    }
     .tab-bar {
       padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
     }
@@ -168,7 +171,7 @@
   .page{
     position:absolute; inset:0;
     display:flex; flex-direction:column;
-    padding:0 0 80px;
+    padding:0 0 160px;
     overflow-y:auto;
     -webkit-overflow-scrolling:touch;
     background:var(--bg);
@@ -335,17 +338,23 @@
   .custom-panel .primary-btn{ margin-top:8px; }
 
   /* ---------- orders page ---------- */
-  .orders-header{ padding:20px 22px 10px; flex-shrink:0; }
+  .orders-header{ padding:18px 22px 8px; flex-shrink:0; }
   .orders-header h1{ font-family:'Fraunces',serif; font-weight:600; font-size:22px; margin:0; }
   
   .user-status-card{
-    margin-top:10px; padding:10px 14px;
+    margin-top:10px; padding:9px 14px;
     background:var(--surface); border:1px solid var(--border);
     border-radius:12px; font-size:12px; color:var(--text-muted);
     display:flex; align-items:center; justify-content:space-between; gap:10px;
   }
   .user-status-left{ display:flex; align-items:center; gap:8px; min-width:0; }
-  .user-status-icon{ width:16px; height:16px; color:var(--accent); flex-shrink:0; }
+  .user-status-icon-wrap{
+    width:24px; height:24px; border-radius:6px;
+    background:var(--surface-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--accent); flex-shrink:0;
+  }
+  .user-status-icon-wrap svg{ width:13px; height:13px; }
   .user-status-text{ font-size:12px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .user-status-text small{ display:block; color:var(--text-muted); font-size:10.5px; }
   .user-status-btn{
@@ -355,52 +364,102 @@
   }
 
   .orders-lookup{ padding:4px 22px 14px; flex-shrink:0; }
-  .orders-lookup .field-label{ margin-bottom:5px; font-size:12px; }
-  .lookup-row{ display:flex; gap:8px; }
-  .lookup-row .field-input{ margin-bottom:0; flex:1; }
-  .lookup-row .primary-btn{ margin-top:0; width:auto; padding:12px 16px; white-space:nowrap; font-size:13.5px; }
+  .lookup-row{ display:flex; gap:8px; align-items:center; }
+  .search-input-wrapper{
+    position:relative; flex:1; display:flex; align-items:center;
+  }
+  .search-input-icon{
+    position:absolute; left:12px; width:15px; height:15px; color:var(--text-muted); pointer-events:none;
+  }
+  .search-field-input{
+    margin-bottom:0 !important;
+    padding-left:36px !important;
+    font-size:13px !important;
+  }
+  .search-submit-btn{
+    margin-top:0 !important; width:auto !important;
+    padding:12px 16px !important; white-space:nowrap; font-size:13px !important;
+  }
   
-  .order-list{ list-style:none; margin:0; padding:0 22px 18px; display:flex; flex-direction:column; gap:12px; }
+  .order-list{ list-style:none; margin:0; padding:0 22px 24px; display:flex; flex-direction:column; gap:12px; }
   .order-card{
     border:1px solid var(--border);
-    background:var(--surface);
+    background:linear-gradient(180deg, var(--surface), rgba(18, 35, 53, 0.7));
     border-radius:16px;
     padding:14px 16px;
-    position:relative;
+    box-shadow:0 4px 16px rgba(0,0,0,0.25);
+    display:flex; flex-direction:column; gap:10px;
+    transition:border-color 160ms ease;
   }
-  .order-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
-  .order-id-bar{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--border);
-  }
-  .order-id-display{
-    font-family:'Fraunces',serif; font-size:13.5px; font-weight:700;
-    color:var(--accent); letter-spacing:0.5px; display:flex; align-items:center; gap:6px;
-  }
-  .copy-btn{
-    display:inline-flex; align-items:center; gap:4px;
-    background:var(--surface-2); border:1px solid var(--border);
-    color:var(--text-muted); font-size:11px; font-weight:600;
-    padding:3px 8px; border-radius:6px; cursor:pointer;
-    font-family:'Sora',sans-serif;
-    transition:all 140ms ease;
-  }
-  .copy-btn:hover{ border-color:var(--accent); color:var(--text); }
-  .copy-btn.copied{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
-  .copy-btn svg{ width:11px; height:11px; }
+  .order-card:hover{ border-color:rgba(30, 169, 130, 0.4); }
 
-  .order-qty{ font-weight:600; font-size:14.5px; }
-  .order-price{ font-family:'Fraunces',serif; font-weight:600; font-size:15px; }
-  .order-meta{ margin-top:3px; font-size:12px; color:var(--text-muted); }
-  .order-target{ margin-top:8px; font-size:12.5px; color:var(--text-muted); word-break:break-all; }
-  .order-bottom{ display:flex; justify-content:space-between; align-items:center; margin-top:10px; }
-  .order-date{ font-size:11.5px; color:var(--text-muted); }
-  .status-badge{
-    font-size:11px; font-weight:600;
-    padding:4px 9px; border-radius:100px;
+  .order-card-header{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
+    padding-bottom:10px; border-bottom:1px solid var(--border);
   }
-  .status-processing{ color:var(--warn); background:var(--warn-soft); }
-  .status-completed{ color:var(--accent); background:var(--accent-soft); }
+  .order-card-title-group{ display:flex; flex-direction:column; gap:2px; }
+  .order-card-service{ font-size:14.5px; font-weight:700; color:var(--text); }
+  .order-card-qty{ font-size:12.5px; font-weight:600; color:var(--accent); }
+  .order-card-price{
+    font-family:'Fraunces',serif; font-weight:700; font-size:17px;
+    color:var(--text); white-space:nowrap;
+  }
+
+  .order-card-target{
+    background:var(--surface-2);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:10px;
+    padding:9px 12px;
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .target-head{
+    display:flex; align-items:center; gap:6px;
+    font-size:11px; font-weight:600; color:var(--text-muted);
+  }
+  .target-user-badge{
+    background:var(--accent-soft); color:var(--accent);
+    padding:2px 7px; border-radius:100px; font-size:11px; font-weight:700;
+  }
+  .target-url-link{
+    color:var(--info); font-size:12px; text-decoration:none;
+    word-break:break-all; line-height:1.35; display:inline-block;
+  }
+  .target-url-link:hover{ text-decoration:underline; }
+
+  .order-card-footer{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+  }
+  .order-id-pill{
+    display:flex; align-items:center; gap:6px;
+    font-size:12px; color:var(--text-muted); font-family:'Sora',sans-serif;
+  }
+  .order-id-code{
+    font-family:'Fraunces',serif; font-weight:700; font-size:13px; color:var(--text);
+    letter-spacing:0.4px;
+  }
+  .order-copy-btn{
+    background:var(--surface-2); border:1px solid var(--border);
+    color:var(--text-muted); font-size:10.5px; font-weight:600;
+    padding:2px 8px; border-radius:6px; cursor:pointer;
+    font-family:'Sora',sans-serif; transition:all 140ms ease;
+  }
+  .order-copy-btn:hover{ border-color:var(--accent); color:var(--text); }
+  .order-copy-btn.copied{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
+
+  .order-status-tag{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11px; font-weight:700; padding:4px 10px; border-radius:100px;
+  }
+  .status-tag-active{ color:var(--warn); background:var(--warn-soft); border:1px solid rgba(217,154,61,0.25); }
+  .status-tag-completed{ color:var(--accent); background:var(--accent-soft); border:1px solid rgba(30,169,130,0.25); }
+  .status-pulse-dot{
+    width:6px; height:6px; border-radius:50%; background:currentColor;
+  }
+
+  .order-card-subfoot{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11px; color:var(--text-muted); padding-top:2px;
+  }
 
   .empty-state{
     flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -408,6 +467,36 @@
   }
   .empty-state .empty-icon{ margin-bottom:12px; opacity:0.7; }
   .empty-state p{ margin:0; font-size:13.5px; line-height:1.5; }
+
+  /* Policy Modals (Terms & Conditions & Refund Policy) */
+  .policy-modal-wrap{ display:flex; flex-direction:column; gap:14px; }
+  .policy-modal-head{ display:flex; align-items:center; gap:12px; }
+  .policy-icon-badge{
+    width:40px; height:40px; border-radius:12px;
+    background:var(--accent-soft); color:var(--accent); border:1px solid rgba(30,169,130,0.3);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .policy-content-card{
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:14px; padding:16px; font-size:12.5px; line-height:1.55;
+    display:flex; flex-direction:column; gap:14px; max-height:58vh; overflow-y:auto;
+  }
+  .policy-section strong{ display:block; color:var(--text); font-size:13px; margin-bottom:3px; }
+  .policy-section p{ margin:0; color:var(--text-muted); }
+  
+  .policy-quick-row{
+    display:flex; align-items:center; gap:8px;
+    margin:6px 0 0 26px; font-size:11px; color:var(--text-muted);
+  }
+  .policy-quick-row a{ color:var(--accent); text-decoration:none; font-weight:600; }
+  .policy-quick-row a:hover{ text-decoration:underline; }
+
+  .sound-test-btn{
+    margin-top:10px; background:none; border:1px dashed var(--border);
+    color:var(--text-muted); font-size:11.5px; padding:6px 12px; border-radius:100px;
+    cursor:pointer; font-family:'Sora',sans-serif; display:inline-flex; align-items:center; gap:5px;
+  }
+  .sound-test-btn:hover{ border-color:var(--accent); color:var(--accent); }
 
   /* ---------- checkout bar with glassmorphism ---------- */
   .checkout-bar{
@@ -731,7 +820,9 @@
         <h1>Your orders</h1>
         <div class="user-status-card" id="userStatusBar">
           <div class="user-status-left">
-            <svg class="user-status-icon" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <div class="user-status-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
             <div class="user-status-text">
               <span id="statusBarTitle">Guest Mode</span>
               <small id="statusBarSub">Orders saved locally on this phone</small>
@@ -742,10 +833,12 @@
       </div>
 
       <div class="orders-lookup" id="ordersLookupBox">
-        <label class="field-label">Look up orders by email or Order ID</label>
         <div class="lookup-row">
-          <input class="field-input" id="ordersEmailInput" type="text" placeholder="TM-XXXXXXXX or email…" autocomplete="off">
-          <button class="primary-btn" id="ordersFindBtn">Search</button>
+          <div class="search-input-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" class="search-input-icon"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input class="field-input search-field-input" id="ordersEmailInput" type="text" placeholder="Search by Order ID or email…" autocomplete="off">
+          </div>
+          <button class="primary-btn search-submit-btn" id="ordersFindBtn">Search</button>
         </div>
       </div>
 
@@ -812,37 +905,64 @@
   }
 
   // ---- Audio Synthesizer: Paytm / GPay-style Success Chime ----
-  function playSuccessChime() {
+  let audioCtx = null;
+  function initAudio() {
     try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      if (ctx.state === 'suspended') ctx.resume();
+      if (!audioCtx) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) audioCtx = new AudioCtx();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    } catch(e) {
+      console.warn("Audio context init note:", e);
+    }
+  }
 
-      const playTone = (freq, start, dur, vol) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, start);
-        gain.gain.setValueAtTime(0, start);
-        gain.gain.linearRampToValueAtTime(vol, start + 0.03);
-        gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(start);
-        osc.stop(start + dur);
+  // Pre-unlock AudioContext on first user interaction so it's always ready
+  window.addEventListener('click', initAudio, { once: true });
+  window.addEventListener('touchstart', initAudio, { once: true });
+
+  window.playSuccessChime = function() {
+    try {
+      initAudio();
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      const ctx = audioCtx || (AudioCtx ? new AudioCtx() : null);
+      if (!ctx) return;
+
+      const runMelody = () => {
+        const now = ctx.currentTime;
+        const playTone = (freq, startOffset, dur, vol) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, now + startOffset);
+          gain.gain.setValueAtTime(0, now + startOffset);
+          gain.gain.linearRampToValueAtTime(vol, now + startOffset + 0.025);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + startOffset + dur);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + startOffset);
+          osc.stop(now + startOffset + dur + 0.05);
+        };
+
+        // Melodic, rich harmonic chime (D5 -> F#5 -> A5 -> D6)
+        playTone(587.33, 0.00, 0.25, 0.35);
+        playTone(739.99, 0.10, 0.28, 0.38);
+        playTone(880.00, 0.20, 0.38, 0.42);
+        playTone(1174.66, 0.32, 0.65, 0.48);
       };
 
-      const now = ctx.currentTime;
-      // Melodic, rich harmonic chime (D5 -> F#5 -> A5 -> D6)
-      playTone(587.33, now + 0.00, 0.28, 0.22);
-      playTone(739.99, now + 0.09, 0.32, 0.24);
-      playTone(880.00, now + 0.18, 0.42, 0.28);
-      playTone(1174.66, now + 0.30, 0.65, 0.32);
+      if (ctx.state === 'suspended') {
+        ctx.resume().then(runMelody).catch(runMelody);
+      } else {
+        runMelody();
+      }
     } catch(e) {
       console.warn("Audio chime note:", e);
     }
-  }
+  };
 
   // ---- Icons ---------------------------------------------------
   const ICONS = {
@@ -1201,37 +1321,95 @@
   }
 
   // ------------------------------------------------------------------
-  // TERMS & CONDITIONS MODAL (Calm & Professional)
+  // 1. TERMS & CONDITIONS MODAL
   // ------------------------------------------------------------------
   window.openTermsModal = function(){
     modal.innerHTML = `
-      <h2>Terms & Conditions</h2>
-      <p class="modal-sub">Service agreement for Tamil Marketing orders.</p>
-
-      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px; font-size:13px; line-height:1.55; display:flex; flex-direction:column; gap:12px;">
-        <div>
-          <strong style="color:var(--accent);">1. Quality Delivery</strong>
-          <p style="margin:4px 0 0; color:var(--text-muted); font-size:12.5px;">We provide high-retention marketing packages to elevate your Instagram presence. Natural metric fluctuations may occur as platform algorithms update.</p>
+      <div class="policy-modal-wrap">
+        <div class="policy-modal-head">
+          <div class="policy-icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h2>Terms & Conditions</h2>
+            <p class="modal-sub" style="margin:0;">Service Agreement & User Guidelines</p>
+          </div>
         </div>
 
-        <div>
-          <strong style="color:var(--accent);">2. Fulfillment Guarantee</strong>
-          <p style="margin:4px 0 0; color:var(--text-muted); font-size:12.5px;">All orders are processed automatically. If an order cannot be started within 24 to 48 hours, a refund will be processed upon review.</p>
+        <div class="policy-content-card">
+          <div class="policy-section">
+            <strong>1. Service Fulfillment</strong>
+            <p>Tamil Marketing provides authentic social engagement (likes, views, and followers) to elevate reach and visibility on Instagram. Delivery begins automatically after checkout.</p>
+          </div>
+
+          <div class="policy-section">
+            <strong>2. 100% Safe & Password-Free Guarantee</strong>
+            <p>We will <strong>NEVER</strong> ask for your Instagram password, private account credentials, or 2FA codes. All services only require your public post URL or profile username.</p>
+          </div>
+
+          <div class="policy-section">
+            <strong>3. Public Profile Requirement</strong>
+            <p>Your target profile or post/reel must remain set to <strong>Public</strong> throughout the delivery process. Private profiles cannot receive metrics and will pause delivery.</p>
+          </div>
+
+          <div class="policy-section">
+            <strong>4. Quality Retention & Delivery Speed</strong>
+            <p>We deliver high-retention metrics using natural dispatch rhythms to comply with Instagram safety thresholds.</p>
+          </div>
         </div>
 
-        <div>
-          <strong style="color:var(--accent);">3. Safe & Password-Free</strong>
-          <p style="margin:4px 0 0; color:var(--text-muted); font-size:12.5px;">We will never ask for your password or private account credentials. Ensure your profile or reel is set to public during delivery.</p>
-        </div>
+        <button class="primary-btn glass-btn" onclick="closePolicyModal()" style="margin-top:16px;">I Agree & Understand</button>
       </div>
-
-      <button class="primary-btn glass-btn" onclick="closeTermsModal()" style="margin-top:18px;">I Agree</button>
     `;
     modalBackdrop.classList.add("open");
   };
 
-  function closeTermsModal(){
-    if(selection){
+  // ------------------------------------------------------------------
+  // 2. REFUND & CANCELLATION POLICY MODAL
+  // ------------------------------------------------------------------
+  window.openRefundPolicyModal = function(){
+    modal.innerHTML = `
+      <div class="policy-modal-wrap">
+        <div class="policy-modal-head">
+          <div class="policy-icon-badge" style="background:rgba(90, 169, 230, 0.15); color:var(--info); border-color:rgba(90, 169, 230, 0.3);">
+            <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M3 10h10a5 5 0 015 5v2M3 10l6 6M3 10l6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h2>Refund Policy</h2>
+            <p class="modal-sub" style="margin:0;">Clear & Fair Buyer Protection Policy</p>
+          </div>
+        </div>
+
+        <div class="policy-content-card">
+          <div class="policy-section">
+            <strong style="color:var(--accent);">1. 100% Full Refund Guarantee</strong>
+            <p>If an order fails to begin or cannot be delivered within <strong>24 to 48 hours</strong> of purchase, you are eligible for an immediate 100% full refund.</p>
+          </div>
+
+          <div class="policy-section">
+            <strong>2. Invalid Link / Target Correction</strong>
+            <p>If an incorrect or broken link is submitted, delivery will be held. You may contact support with your Order ID to correct the link or request an immediate refund.</p>
+          </div>
+
+          <div class="policy-section">
+            <strong>3. Processing Time & Payout</strong>
+            <p>Approved refunds are processed back directly to the original payment source (UPI / Bank Account) within <strong>3 to 5 business days</strong>.</p>
+          </div>
+
+          <div class="policy-section">
+            <strong>4. Completed Orders</strong>
+            <p>Once services are successfully delivered to the designated public post or profile, the digital fulfillment is complete and non-refundable.</p>
+          </div>
+        </div>
+
+        <button class="primary-btn glass-btn" onclick="closePolicyModal()" style="margin-top:16px;">Understood</button>
+      </div>
+    `;
+    modalBackdrop.classList.add("open");
+  };
+
+  function closePolicyModal(){
+    if(selection && pendingTarget !== undefined){
       openDetailsStep();
     } else {
       closeModal();
@@ -1284,6 +1462,10 @@
         selection = { cat: activeCat, qty: tier.qty, price: tier.price, isCustom: false };
         renderList();
         updateCheckoutBar();
+        setTimeout(() => {
+          const sel = tierListEl.querySelector(".tier-item.selected");
+          if(sel) sel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 60);
       });
 
       if(isSelected){
@@ -1555,7 +1737,7 @@
       ordersContent.innerHTML = `
         <div class="empty-state">
           <div class="empty-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 9h8M8 13h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <p>No orders found yet.<br>Choose a package on the <strong>Shop</strong> tab to place your first order!</p>
         </div>`;
@@ -1563,43 +1745,45 @@
     }
     ordersContent.innerHTML = `<ul class="order-list">` + orders.map(o => {
       const displayId = o.orderId || o.id || "TM-ORD";
-      const payStatus = o.paymentStatus || "Paid";
       const ordStatus = o.orderStatus || o.status || "Processing";
       const estTime = o.estDelivery || (DATA[o.cat] ? DATA[o.cat].estTime : "");
+      const isCompleted = ordStatus === "Completed";
 
       return `
         <li class="order-card">
-          <div class="order-id-bar">
-            <span class="order-id-display">
-              ${displayId}
-            </span>
-            <button class="copy-btn" onclick="copyOrderId('${displayId}', this)">
-              <svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.8"/></svg>
-              Copy ID
-            </button>
+          <div class="order-card-header">
+            <div class="order-card-title-group">
+              <span class="order-card-service">${escapeHtml(o.service || "Instagram Package")}</span>
+              <span class="order-card-qty">${escapeHtml(o.quantity || o.qty || "")}</span>
+            </div>
+            <div class="order-card-price">${formatRupees(o.price || 0)}</div>
           </div>
-          <div class="order-top">
-            <span class="order-qty">${escapeHtml(o.quantity || o.qty || "")}</span>
-            <span class="order-price">${formatRupees(o.price || 0)}</span>
-          </div>
-          <div class="order-meta">${escapeHtml(o.service || (DATA[o.cat] ? DATA[o.cat].label : o.cat) || "")} · ${o.date || ""}</div>
-          
-          ${estTime ? `<div style="margin-top:4px;"><span class="tier-est-pill">⏱️ ${escapeHtml(estTime)}</span></div>` : ''}
 
-          ${o.targetUsername ? `<div style="font-size:13px; font-weight:600; color:var(--accent); margin-top:8px;">Target: ${escapeHtml(o.targetUsername)}</div>` : ''}
-          <div class="order-target" style="font-size:12px; margin-top:3px; word-break:break-all;">
-            <a href="${escapeHtml(o.targetUrl || o.target || '#')}" target="_blank" rel="noopener noreferrer" style="color:var(--info); text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+          <div class="order-card-target">
+            <div class="target-head">
+              <svg viewBox="0 0 24 24" fill="none" width="13" height="13"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/></svg>
+              <span>Target:</span>
+              ${o.targetUsername ? `<span class="target-user-badge">${escapeHtml(o.targetUsername)}</span>` : ''}
+            </div>
+            <a href="${escapeHtml(o.targetUrl || o.target || '#')}" target="_blank" rel="noopener noreferrer" class="target-url-link">
               ${escapeHtml(o.targetUrl || o.target || '—')} ↗
             </a>
           </div>
 
-          <div class="order-bottom" style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span class="status-badge ${payStatus === 'Paid' ? 'status-completed' : 'status-processing'}" style="font-size:10.5px;">
-              ${payStatus === 'Paid' ? '🟢' : '🟡'} Payment: ${payStatus}
-            </span>
-            <span class="status-badge ${ordStatus === 'Completed' ? 'status-completed' : 'status-processing'}" style="font-size:10.5px;">
-              ${ordStatus === 'Completed' ? '🟢' : '🟡'} Order: ${ordStatus}
-            </span>
+          <div class="order-card-footer">
+            <div class="order-id-pill">
+              <span class="order-id-code">${displayId}</span>
+              <button class="order-copy-btn" onclick="copyOrderId('${displayId}', this)">Copy</button>
+            </div>
+            <div class="order-status-tag ${isCompleted ? 'status-tag-completed' : 'status-tag-active'}">
+              <span class="status-pulse-dot"></span>
+              ${isCompleted ? 'Completed' : 'Processing'}
+            </div>
+          </div>
+
+          <div class="order-card-subfoot">
+            <span>📅 Placed on ${o.date || ""}</span>
+            ${estTime ? `<span>⏱️ Est: ${escapeHtml(estTime)}</span>` : ''}
           </div>
         </li>
       `;
@@ -1662,23 +1846,21 @@
       ` : `
         <label class="field-label">Your Email (Required for Guest Orders)</label>
         <input class="field-input" id="emailInput" type="email" placeholder="you@gmail.com" value="${escapeHtml(pendingEmail)}" autocomplete="email" required>
-        <p class="field-hint">We use this to save your order so you can look it up anytime.</p>
+        <p class="field-hint">We use this to save your order so you can track it anytime.</p>
         <p class="field-error" id="emailError"></p>
       `}
 
-      <!-- Optional Phone / WhatsApp -->
-      <label class="field-label">WhatsApp / Phone Number</label>
-      <input class="field-input" id="phoneInput" type="tel" placeholder="10-digit mobile number" value="${escapeHtml(pendingPhone)}" autocomplete="tel" maxlength="10">
-      <p class="field-hint">Used for payment routing (UPI / GPay / PhonePe) & updates.</p>
-      <p class="field-error" id="phoneError"></p>
-
-      <!-- Terms & Conditions Checkbox (Clean & Reassuring) -->
+      <!-- Terms & Conditions + Refund Policy Checkbox -->
       <div class="terms-group">
         <label class="terms-label">
           <input type="checkbox" id="termsCheckbox" checked>
-          <span>I agree to the <a href="javascript:void(0)" onclick="openTermsModal()" class="terms-link">Terms & Conditions</a></span>
+          <span>I agree to the <a href="javascript:void(0)" onclick="openTermsModal()" class="terms-link">Terms & Conditions</a> and <a href="javascript:void(0)" onclick="openRefundPolicyModal()" class="terms-link">Refund Policy</a></span>
         </label>
-        <p class="terms-hint">Safe delivery guaranteed. <a href="javascript:void(0)" onclick="openTermsModal()" class="terms-link">Terms & Conditions</a></p>
+        <div class="policy-quick-row">
+          <a href="javascript:void(0)" onclick="openTermsModal()">📄 Terms & Conditions</a>
+          <span>•</span>
+          <a href="javascript:void(0)" onclick="openRefundPolicyModal()">🛡️ Refund Policy</a>
+        </div>
         <p class="field-error" id="termsError"></p>
       </div>
 
@@ -1695,12 +1877,11 @@
     document.getElementById("detailsBackBtn").addEventListener("click", closeModal);
 
     document.getElementById("nextBtn").addEventListener("click", () => {
+      initAudio(); // pre-unlock audio
       targetError.textContent = "";
       termsError.textContent = "";
       const emailError = document.getElementById("emailError");
       if (emailError) emailError.textContent = "";
-      const phoneError = document.getElementById("phoneError");
-      if (phoneError) phoneError.textContent = "";
 
       const targetVal = targetInput.value.trim();
       let ok = true;
@@ -1723,24 +1904,15 @@
         }
       }
 
-      // 3. Validate Phone (optional, but if provided must be 10 digits)
-      const phoneInput = document.getElementById("phoneInput");
-      const phoneVal = phoneInput ? phoneInput.value.trim() : "";
-      if(phoneVal && !/^[6-9]\d{9}$/.test(phoneVal)){
-        if(phoneError) phoneError.textContent = "Please enter a valid 10-digit mobile number.";
-        ok = false;
-      }
-
-      // 4. Validate Terms Checkbox
+      // 3. Validate Terms Checkbox
       if(!termsCheckbox.checked){
-        termsError.textContent = "Please agree to the Terms & Conditions before continuing.";
+        termsError.textContent = "Please agree to the Terms & Conditions and Refund Policy before continuing.";
         ok = false;
       }
 
       if(!ok) return;
       pendingTarget = targetVal;
       pendingEmail = emailVal;
-      pendingPhone = phoneVal;
       openSummaryStep(parsed);
     });
 
@@ -1765,7 +1937,6 @@
       ${parsed && parsed.targetUsername ? `<div class="modal-row"><span class="label">Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(parsed.targetUsername)}</span></div>` : ''}
       <div class="modal-row"><span class="label">Delivery URL</span><span class="value" style="font-size:12px; color:var(--info);">${escapeHtml(parsed ? parsed.targetUrl : pendingTarget)}</span></div>
       <div class="modal-row"><span class="label">Email</span><span class="value">${escapeHtml(pendingEmail)}</span></div>
-      ${pendingPhone ? `<div class="modal-row"><span class="label">Phone</span><span class="value">${escapeHtml(pendingPhone)}</span></div>` : ''}
       <div class="modal-total"><span>Total</span><span>${formatRupees(selection.price)}</span></div>
       
       <button class="primary-btn glass-btn" id="payBtn">Pay with Cashfree</button>
@@ -1777,7 +1948,10 @@
     `;
 
     document.getElementById("backBtn").addEventListener("click", openDetailsStep);
-    document.getElementById("payBtn").addEventListener("click", () => startPayment(parsed));
+    document.getElementById("payBtn").addEventListener("click", () => {
+      initAudio();
+      startPayment(parsed);
+    });
     modalBackdrop.classList.add("open");
   }
 
@@ -1801,11 +1975,9 @@
       userId: isUser ? currentUser.uid : null,
       customerDetails: {
         email: pendingEmail.toLowerCase(),
-        phone: pendingPhone || "",
         name: currentUser ? (currentUser.displayName || "") : ""
       },
       email: pendingEmail.toLowerCase(),
-      phone: pendingPhone || "",
       service: `Instagram ${DATA[selection.cat].label}`,
       platform: "Instagram",
       quantity: selection.qty,
@@ -1820,7 +1992,7 @@
     };
 
     try {
-      // 1. Create order on Cashfree server
+      // 1. Create order on Cashfree server (phone is defaulted server-side to 9999999999 for Cashfree PG compliance)
       const res = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1828,7 +2000,7 @@
           orderId: orderId,
           orderAmount: selection.price,
           customerEmail: pendingEmail.toLowerCase(),
-          customerPhone: pendingPhone || "9999999999",
+          customerPhone: "9999999999",
           customerName: (currentUser && currentUser.displayName) || "Customer"
         })
       });
@@ -1908,6 +2080,9 @@
   }
 
   function showSuccess(order){
+    // Trigger rich harmonic chime immediately
+    playSuccessChime();
+
     modal.innerHTML = `
       <div class="success-wrap">
         <svg class="success-ring-wrap" viewBox="0 0 84 84">
@@ -1918,7 +2093,12 @@
         <p class="success-amount">${formatRupees(order.price)}</p>
         <p class="success-sub">${order.service} · ${order.quantity}</p>
         
-        <div class="success-card">
+        <button class="sound-test-btn" onclick="playSuccessChime()">
+          <svg viewBox="0 0 24 24" fill="none" width="13" height="13"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 010 14.14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Replay confirmation sound
+        </button>
+        
+        <div class="success-card" style="margin-top:14px;">
           <div class="order-id-bar">
             <span class="order-id-display">${order.orderId}</span>
             <button class="copy-btn" onclick="copyOrderId('${order.orderId}', this)">
@@ -1928,8 +2108,7 @@
           </div>
           ${order.targetUsername ? `<div class="modal-row"><span class="label">Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(order.targetUsername)}</span></div>` : ''}
           <div class="modal-row"><span class="label">Delivery URL</span><span class="value" style="font-size:12px; color:var(--info);">${escapeHtml(order.targetUrl)}</span></div>
-          <div class="modal-row"><span class="label">Payment</span><span class="value status-badge status-completed">🟢 Paid</span></div>
-          <div class="modal-row" style="border-bottom:none;"><span class="label">Order Status</span><span class="value status-badge status-processing">🟡 Processing</span></div>
+          <div class="modal-row"><span class="label">Status</span><span class="value status-badge status-completed">🟢 Payment Received · Processing</span></div>
         </div>
 
         <button class="primary-btn glass-btn" id="doneBtn" style="margin-top:18px;">View my orders</button>
