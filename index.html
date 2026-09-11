@@ -349,13 +349,33 @@
     border:none; background:transparent;
     color:var(--text-muted);
     font-family:'Sora',sans-serif;
-    font-weight:600; font-size:13.5px;
-    padding:10px 4px; border-radius:10px; cursor:pointer;
+    font-weight:600; font-size:13px;
+    padding:10px 3px; border-radius:10px; cursor:pointer;
     transition:color 200ms ease;
-    display:flex; align-items:center; justify-content:center; gap:5px;
+    display:flex; align-items:center; justify-content:center; gap:4px;
+    white-space:nowrap;
   }
   .seg-btn svg{ width:14px; height:14px; flex-shrink:0; }
   .seg-btn.active{ color:#06140f; }
+  .seg-pause-badge{
+    display:inline-block;
+    font-size:9px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+    padding:2px 5px;
+    border-radius:4px;
+    background:rgba(255, 171, 0, 0.16);
+    color:#ffab00;
+    border:1px solid rgba(255, 171, 0, 0.35);
+    line-height:1;
+    transition:all 200ms ease;
+  }
+  .seg-btn.active .seg-pause-badge{
+    background:rgba(6, 20, 15, 0.22);
+    color:#06140f;
+    border-color:rgba(6, 20, 15, 0.38);
+  }
 
   /* ---------- Tier List & Inline Expansion ---------- */
   .list-wrap{ padding:18px 22px 4px; }
@@ -448,6 +468,210 @@
 
   .list-anim-enter{ animation:listIn 240ms ease both; }
   @keyframes listIn{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:translateY(0);} }
+
+  /* ---------- Followers Maintenance & Push-to-Likes/Views Banner ---------- */
+  .maintenance-container {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .maintenance-header-card {
+    background: linear-gradient(135deg, rgba(255, 171, 0, 0.09) 0%, rgba(20, 36, 52, 0.7) 100%);
+    border: 1px solid rgba(255, 171, 0, 0.28);
+    border-radius: 16px;
+    padding: 16px 16px 18px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  }
+  .maintenance-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .maint-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #ffb822;
+    background: rgba(255, 184, 34, 0.15);
+    border: 1px solid rgba(255, 184, 34, 0.35);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .maint-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ffb822;
+    box-shadow: 0 0 8px #ffb822;
+  }
+  .maint-dot.pulse {
+    animation: maintPulse 1.8s infinite ease-in-out;
+  }
+  @keyframes maintPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.55; }
+  }
+  .maint-sub-pill {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .maint-heading {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    line-height: 1.35;
+  }
+  .maint-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* Fast Push to Likes & Views Banner */
+  .fast-push-banner {
+    background: linear-gradient(135deg, rgba(30, 169, 130, 0.15) 0%, rgba(16, 44, 58, 0.8) 100%);
+    border: 1px solid rgba(30, 169, 130, 0.38);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  }
+  .fast-push-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.12);
+    border: 1px solid rgba(74, 222, 128, 0.28);
+    padding: 3px 9px;
+    border-radius: 100px;
+    margin-bottom: 8px;
+  }
+  .fast-push-title {
+    font-family: 'Fraunces', serif;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    line-height: 1.35;
+  }
+  .fast-push-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.45;
+    margin: 0 0 14px 0;
+  }
+  .fast-push-desc strong {
+    color: #ffffff;
+  }
+  .fast-push-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .push-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 11px 10px;
+    border-radius: 12px;
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: all 180ms cubic-bezier(.32,.72,0,1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+  }
+  .push-action-btn:hover {
+    transform: translateY(-2px);
+  }
+  .push-action-btn:active {
+    transform: translateY(0) scale(0.97);
+  }
+  .push-action-btn.likes-btn {
+    background: linear-gradient(135deg, rgba(235, 75, 110, 0.9) 0%, rgba(200, 45, 80, 0.95) 100%);
+    color: #ffffff;
+    border-color: rgba(255, 140, 165, 0.4);
+    box-shadow: 0 4px 14px rgba(235, 75, 110, 0.35);
+  }
+  .push-action-btn.views-btn {
+    background: linear-gradient(135deg, rgba(30, 169, 130, 0.9) 0%, rgba(18, 125, 95, 0.95) 100%);
+    color: #ffffff;
+    border-color: rgba(74, 222, 128, 0.4);
+    box-shadow: 0 4px 14px rgba(30, 169, 130, 0.35);
+  }
+
+  .tier-item.paused {
+    opacity: 0.55;
+    background: rgba(255, 255, 255, 0.015);
+  }
+  .tier-item.paused .tier-row {
+    cursor: not-allowed;
+  }
+  .tier-paused-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffab00;
+    background: rgba(255, 171, 0, 0.12);
+    border: 1px solid rgba(255, 171, 0, 0.25);
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-top: 3px;
+  }
+
+  /* Toast Notification */
+  #toast {
+    position: fixed;
+    bottom: calc(var(--tab-height, 60px) + 20px);
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(18, 35, 53, 0.96);
+    border: 1px solid rgba(255, 171, 0, 0.45);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.6);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 100px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 240ms cubic-bezier(.32,.72,0,1);
+    z-index: 200;
+    max-width: 90%;
+    text-align: center;
+    line-height: 1.4;
+  }
+  #toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 
   .custom-panel{
     padding:14px 4px 18px;
@@ -714,7 +938,7 @@
     display:flex; align-items:flex-end; justify-content:center;
     opacity:0; pointer-events:none;
     transition:opacity 220ms ease;
-    z-index:20;
+    z-index:100;
   }
   .modal-backdrop.open{ opacity:1; pointer-events:auto; }
   .modal{
@@ -1389,7 +1613,8 @@
         </button>
         <button class="seg-btn" data-cat="followers">
           <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-          Followers
+          <span>Followers</span>
+          <span class="seg-pause-badge">Hold</span>
         </button>
         <div class="seg-highlight" id="segHighlight"></div>
       </nav>
@@ -1498,6 +1723,9 @@
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal" id="modal"></div>
 </div>
+
+<!-- Global Toast Notification -->
+<div id="toast"></div>
 
 <!-- Firebase Compat v10.13.2 -->
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
@@ -2069,6 +2297,22 @@
     }
   }
 
+  let toastTimer = null;
+  function showToast(msg){
+    let t = document.getElementById("toast");
+    if(!t){
+      t = document.createElement("div");
+      t.id = "toast";
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      t.classList.remove("show");
+    }, 2800);
+  }
+
   // ------------------------------------------------------------------
   // SHOP LIST & ACCORDION INLINE EXPANSION
   // (No pop-up modal when selecting a package; smooth inline expansion)
@@ -2076,6 +2320,101 @@
   function renderList(){
     const cat = DATA[activeCat];
     tierListEl.innerHTML = "";
+
+    const listCaption = document.getElementById("listCaption");
+    if(listCaption){
+      if(activeCat === "followers"){
+        listCaption.textContent = "Followers packages are on hold · Server upgrade in progress";
+      } else {
+        listCaption.textContent = "Tap a size to view delivery details";
+      }
+    }
+
+    if(activeCat === "followers"){
+      selection = null;
+      updateCheckoutBar();
+
+      const maintLi = document.createElement("li");
+      maintLi.className = "maintenance-container";
+      maintLi.innerHTML = `
+        <div class="maintenance-header-card">
+          <div class="maintenance-badge-row">
+            <span class="maint-status-pill">
+              <span class="maint-dot pulse"></span>
+              Under Maintenance
+            </span>
+            <span class="maint-sub-pill">Coming Soon</span>
+          </div>
+          <h3 class="maint-heading">Followers Packages are Temporarily On Hold</h3>
+          <p class="maint-desc">
+            We are upgrading our followers delivery server to ensure 100% genuine accounts and permanent retention. New follower orders are temporarily paused.
+          </p>
+        </div>
+
+        <div class="fast-push-banner">
+          <div class="fast-push-badge">⚡ HASSLE-FREE INSTANT BOOST</div>
+          <h4 class="fast-push-title">Boost Reach Hassle-Free with Likes & Views!</h4>
+          <p class="fast-push-desc">
+            Don't let your growth wait! Get <strong>Likes</strong> and <strong>Reel Views</strong> delivered in <strong>10–20 minutes</strong> without password or delay.
+          </p>
+          <div class="fast-push-actions">
+            <button class="push-action-btn likes-btn" id="pushToLikesBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" width="15" height="15"><path d="M12 20s-7-4.5-9.5-9C1 7.5 3 4 6.5 4 9 4 11 5.5 12 7c1-1.5 3-3 5.5-3C21 4 23 7.5 21.5 11 19 15.5 12 20 12 20z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              <span>Boost with Likes →</span>
+            </button>
+            <button class="push-action-btn views-btn" id="pushToViewsBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" width="15" height="15"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              <span>Boost with Views →</span>
+            </button>
+          </div>
+        </div>
+      `;
+      tierListEl.appendChild(maintLi);
+
+      const pushLikes = maintLi.querySelector("#pushToLikesBtn");
+      if(pushLikes){
+        pushLikes.addEventListener("click", () => {
+          setActiveCat("likes");
+          updateCheckoutBar();
+        });
+      }
+      const pushViews = maintLi.querySelector("#pushToViewsBtn");
+      if(pushViews){
+        pushViews.addEventListener("click", () => {
+          setActiveCat("views");
+          updateCheckoutBar();
+        });
+      }
+
+      cat.tiers.forEach((tier) => {
+        const li = document.createElement("li");
+        li.className = "tier-item paused";
+        li.innerHTML = `
+          <div class="tier-row" style="cursor:not-allowed;">
+            <div class="tier-left">
+              <div class="tier-icon" style="opacity:0.5;">${ICONS[activeCat]}</div>
+              <div>
+                <div class="tier-qty" style="opacity:0.7;">${tier.qty}</div>
+                <span class="tier-paused-badge">Paused · Under Maintenance</span>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div class="tier-price" style="text-decoration:line-through; font-size:12.5px; opacity:0.5;">${formatRupees(tier.price)}</div>
+              <span style="font-size:11px; color:#ffab00; font-weight:700;">Coming Soon</span>
+            </div>
+          </div>
+        `;
+        li.addEventListener("click", () => {
+          showToast("Followers packages are currently on hold for maintenance. Please select Likes or Views for instant boost!");
+        });
+        tierListEl.appendChild(li);
+      });
+
+      tierListEl.classList.remove("list-anim-enter");
+      void tierListEl.offsetWidth;
+      tierListEl.classList.add("list-anim-enter");
+      return;
+    }
 
     cat.tiers.forEach((tier, index) => {
       const isSelected = selection && selection.cat === activeCat && selection.qty === tier.qty && !selection.isCustom;
@@ -2382,7 +2721,7 @@
         url = "https://" + url;
       }
       // Reel-specific link validation
-      const isReel = /instagram\.com\/(reel|reels)\/[a-zA-Z0-9_-]+/i.test(url) || /instagram\.com\/[^\s/]+\/(reel|reels)\/[a-zA-Z0-9_-]+/i.test(url);
+      const isReel = /instagram\.com\/(?:share\/)?(reel|reels)\/[a-zA-Z0-9_-]+/i.test(url) || /instagram\.com\/[^\s/]+\/(reel|reels)\/[a-zA-Z0-9_-]+/i.test(url);
       const isValid = isReel && url.length > 18;
       return {
         targetUsername: "",
@@ -2395,7 +2734,7 @@
       if(!url.startsWith("http://") && !url.startsWith("https://")){
         url = "https://" + url;
       }
-      const isPostOrReel = /instagram\.com\/(p|reel|reels|tv)\/[a-zA-Z0-9_-]+/i.test(url) || /instagram\.com\/[^\s/]+\/(p|reel|reels)\/[a-zA-Z0-9_-]+/i.test(url);
+      const isPostOrReel = /instagram\.com\/(?:share\/)?(p|reel|reels|tv)\/[a-zA-Z0-9_-]+/i.test(url) || /instagram\.com\/[^\s/]+\/(p|reel|reels)\/[a-zA-Z0-9_-]+/i.test(url);
       const isValid = isPostOrReel && url.length > 18;
       return {
         targetUsername: "",
@@ -2409,7 +2748,7 @@
         url = "https://" + url;
       }
       // Post or reel link validation
-      const isPostOrReel = /instagram\.com\/(p|reel|reels|tv)\/[a-zA-Z0-9_-]+/i.test(url) || /instagram\.com\/[^\s/]+\/(p|reel|reels)\/[a-zA-Z0-9_-]+/i.test(url);
+      const isPostOrReel = /instagram\.com\/(?:share\/)?(p|reel|reels|tv)\/[a-zA-Z0-9_-]+/i.test(url) || /instagram\.com\/[^\s/]+\/(p|reel|reels)\/[a-zA-Z0-9_-]+/i.test(url);
       const isValid = isPostOrReel && url.length > 18;
       return {
         targetUsername: "",
@@ -2498,6 +2837,7 @@
     const cat = DATA[selection.cat];
     const isFollowers = selection.cat === "followers";
     const isViews = selection.cat === "views";
+    const isCombo = selection.cat === "combo";
 
     let fieldTitle = cat.fieldLabel;
     let fieldPlaceholder = cat.placeholder;
@@ -2511,11 +2851,11 @@
     modal.innerHTML = `
       <button class="modal-back" id="detailsBackBtn">
         <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Back to packages
+        ${isCombo ? 'Back to festival offers' : 'Back to packages'}
       </button>
 
       <h2>Delivery Details</h2>
-      <p class="modal-sub">${cat.label} · ${selection.qty} · ${formatRupees(selection.price)}</p>
+      <p class="modal-sub">${isCombo ? '🪔 ' : ''}${cat.label} · ${selection.qty} · ${formatRupees(selection.price)}</p>
       
       <!-- Target Input (Followers / Views / Likes) -->
       <label class="field-label">${fieldTitle}</label>
@@ -2619,7 +2959,7 @@
       <h2>Confirm your order</h2>
       <p class="modal-sub">Review delivery target and payment details.</p>
       
-      <div class="modal-row"><span class="label">Service</span><span class="value">Instagram ${cat.label}</span></div>
+      <div class="modal-row"><span class="label">Service</span><span class="value">${selection.cat === 'combo' ? '🪔 ' : ''}Instagram ${cat.label}</span></div>
       <div class="modal-row"><span class="label">Quantity</span><span class="value">${selection.qty}</span></div>
       <div class="modal-row"><span class="label">Est. Delivery</span><span class="value tier-est-pill" style="display:inline-block; font-size:11px;">⏱️ ${cat.estTime}</span></div>
       ${parsed && parsed.targetUsername ? `<div class="modal-row"><span class="label">Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(parsed.targetUsername)}</span></div>` : ''}
