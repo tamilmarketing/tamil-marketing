@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0b1520">
+<meta name="theme-color" content="#f8fafc">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Tamil Marketing — Grow Your Visibility</title>
@@ -14,26 +14,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0b1520;
-    --page-bg-1:#0f2233;
-    --page-bg-2:#060d13;
-    --surface:#122335;
-    --surface-2:#182f45;
-    --surface-3:#1f3b56;
-    --accent:#1ea982;
-    --accent-strong:#178c6c;
-    --accent-soft:#122e29;
-    --warn:#d99a3d;
-    --warn-soft:#2e2517;
-    --text:#eef4f6;
-    --text-muted:#8ea3b3;
-    --border:#213b52;
-    --border-light:rgba(255,255,255,0.08);
+    --bg:#ffffff;
+    --page-bg-1:#f0f4f8;
+    --page-bg-2:#e8edf2;
+    --surface:#f4f6f9;
+    --surface-2:#eaeff4;
+    --surface-3:#dfe5ec;
+    --accent:#0f8a6b;
+    --accent-strong:#0b7159;
+    --accent-soft:#e6f5f0;
+    --warn:#c97d1a;
+    --warn-soft:#fef3e2;
+    --text:#1a2332;
+    --text-muted:#5e7082;
+    --border:#d8dee6;
+    --border-light:rgba(0,0,0,0.06);
     --radius-lg:28px;
     --radius-md:16px;
-    --danger:#e0755e;
-    --danger-soft:#301b17;
-    --info:#5aa9e6;
+    --danger:#d44a31;
+    --danger-soft:#fdeae6;
+    --info:#2b7ec1;
     --tab-height:56px;
   }
 
@@ -52,6 +52,7 @@
       var(--page-bg-2);
     font-family:'Sora',sans-serif;
     color:var(--text);
+    -webkit-font-smoothing:antialiased;
   }
 
   .phone{
@@ -60,7 +61,7 @@
     background:var(--bg);
     border-radius:var(--radius-lg);
     border:1px solid var(--border);
-    box-shadow:0 40px 80px -30px rgba(0,0,0,0.75);
+    box-shadow:0 20px 60px -20px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
     overflow:hidden;
     position:relative;
     display:flex;
@@ -80,6 +81,7 @@
       align-items: stretch;
       justify-content: stretch;
       background: var(--bg);
+      -webkit-font-smoothing:antialiased;
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
@@ -148,11 +150,11 @@
       padding: 0 16px env(safe-area-inset-bottom, 0px) !important;
       border-radius: 0 !important;
       border: none !important;
-      border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
-      background: rgba(14, 27, 42, 0.98) !important;
+      border-top: 1px solid var(--border) !important;
+      background: rgba(255, 255, 255, 0.96) !important;
       backdrop-filter: blur(24px) !important;
       -webkit-backdrop-filter: blur(24px) !important;
-      box-shadow: 0 -4px 28px rgba(0, 0, 0, 0.5) !important;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08) !important;
       z-index: 15 !important;
     }
     .modal {
@@ -178,11 +180,11 @@
     width:34px;height:34px;
     border-radius:10px;
     flex-shrink:0;
-    box-shadow:0 2px 10px rgba(30,169,130,0.35);
+    box-shadow:0 2px 8px rgba(15,138,107,0.18);
   }
   .brand-mark{
     background:var(--accent);
-    color:#06140f;
+    color:#ffffff;
     font-family:'Fraunces',serif;
     font-weight:700;
     font-size:15px;
@@ -191,7 +193,7 @@
   .brand-mark-img{
     object-fit:cover;
     display:block;
-    border:1px solid rgba(30,169,130,0.35);
+    border:1px solid var(--border);
   }
   .brand-title-wrap{
     display:flex;
@@ -212,6 +214,21 @@
     font-weight:600;
     line-height:1;
     margin-top:2px;
+  }
+  /* Meta Logo */
+  .meta-logo{
+    width:24px;
+    height:24px;
+    flex-shrink:0;
+    margin-left:6px;
+    display:flex;
+    align-items:center;
+  }
+  .meta-logo img{
+    width:24px;
+    height:24px;
+    object-fit:contain;
+    mix-blend-mode:multiply;
   }
   .header-actions{
     display:flex;
@@ -253,7 +270,7 @@
   }
   .trust-pill{
     color:var(--text-muted);
-    background:rgba(18, 35, 53, 0.6);
+    background:var(--surface);
     pointer-events:none;
   }
   .trust-pill svg{ width:12px; height:12px; flex-shrink:0; color:var(--accent); }
@@ -274,6 +291,7 @@
     -webkit-overflow-scrolling:touch;
     background:var(--bg);
     opacity:0;
+    will-change:opacity, transform;
     transform:translateY(6px);
     pointer-events:none;
     transition:opacity 200ms ease, transform 200ms ease;
@@ -287,9 +305,9 @@
     gap:5px;
     padding:3px 9px 3px 7px;
     border-radius:100px;
-    background:rgba(225, 48, 108, 0.12);
-    border:1px solid rgba(225, 48, 108, 0.32);
-    color:#ff5e83;
+    background:rgba(225, 48, 108, 0.08);
+    border:1px solid rgba(225, 48, 108, 0.22);
+    color:#d63064;
     font-size:11px;
     font-weight:700;
     letter-spacing:0.3px;
@@ -342,7 +360,7 @@
     border-radius:10px;
     transition:transform 320ms cubic-bezier(.32,.72,0,1);
     z-index:0;
-    box-shadow:0 2px 8px rgba(30,169,130,0.35);
+    box-shadow:0 2px 8px rgba(15,138,107,0.25);
   }
   .seg-btn{
     position:relative; z-index:1; flex:1;
@@ -356,7 +374,7 @@
     white-space:nowrap;
   }
   .seg-btn svg{ width:14px; height:14px; flex-shrink:0; }
-  .seg-btn.active{ color:#06140f; }
+  .seg-btn.active{ color:#ffffff; }
   .seg-pause-badge{
     display:inline-block;
     font-size:9px;
@@ -365,16 +383,16 @@
     letter-spacing:0.3px;
     padding:2px 5px;
     border-radius:4px;
-    background:rgba(255, 171, 0, 0.16);
-    color:#ffab00;
-    border:1px solid rgba(255, 171, 0, 0.35);
+    background:rgba(201, 125, 26, 0.1);
+    color:#b06e10;
+    border:1px solid rgba(201, 125, 26, 0.3);
     line-height:1;
     transition:all 200ms ease;
   }
   .seg-btn.active .seg-pause-badge{
-    background:rgba(6, 20, 15, 0.22);
-    color:#06140f;
-    border-color:rgba(6, 20, 15, 0.38);
+    background:rgba(255, 255, 255, 0.22);
+    color:#ffffff;
+    border-color:rgba(255, 255, 255, 0.38);
   }
 
   /* ---------- Tier List & Inline Expansion ---------- */
@@ -397,7 +415,7 @@
     font-family:'Sora',sans-serif;
     transition:background 160ms ease;
   }
-  .tier-row:active{ background:rgba(255,255,255,0.02); }
+  .tier-row:active{ background:rgba(0,0,0,0.02); }
   
   .tier-left{ display:flex; align-items:center; gap:12px; }
   .tier-icon{
@@ -411,7 +429,7 @@
   .tier-icon svg{ width:17px; height:17px; }
   
   .tier-item.selected .tier-icon{
-    background:var(--accent); border-color:var(--accent); color:#06140f;
+    background:var(--accent); border-color:var(--accent); color:#ffffff;
   }
   .tier-item.selected .tier-row{
     padding-bottom:10px;
@@ -426,14 +444,14 @@
   /* Accordion Inline Expansion Box */
   .tier-expand-box{
     animation:expandDown 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    background:rgba(18, 35, 53, 0.82);
+    background:rgba(244, 246, 249, 0.95);
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
-    border:1px solid rgba(30, 169, 130, 0.35);
+    border:1px solid rgba(15, 138, 107, 0.25);
     border-radius:14px;
     padding:14px 15px 15px;
     margin:0 0 14px;
-    box-shadow:0 8px 24px -6px rgba(0,0,0,0.45);
+    box-shadow:0 4px 16px -4px rgba(0,0,0,0.1);
   }
   @keyframes expandDown{
     from{ opacity:0; transform:translateY(-6px); }
@@ -443,7 +461,7 @@
   .tier-est-pill{
     display:inline-flex; align-items:center; gap:6px;
     font-size:11.5px; font-weight:600; color:var(--accent);
-    background:var(--accent-soft); border:1px solid rgba(30,169,130,0.25);
+    background:var(--accent-soft); border:1px solid rgba(15,138,107,0.2);
     padding:4px 10px; border-radius:100px;
   }
   .tier-perks-row{
@@ -453,7 +471,7 @@
   .tier-continue-btn{
     width:100%;
     background:var(--accent);
-    color:#06140f;
+    color:#ffffff;
     border:none;
     font-family:'Sora',sans-serif;
     font-weight:700;
@@ -461,7 +479,7 @@
     padding:12px 14px;
     border-radius:11px;
     cursor:pointer;
-    box-shadow:0 4px 14px rgba(30, 169, 130, 0.35);
+    box-shadow:0 4px 14px rgba(15, 138, 107, 0.25);
     transition:transform 120ms ease;
   }
   .tier-continue-btn:active{ transform:scale(0.98); }
@@ -478,12 +496,12 @@
     margin-bottom: 16px;
   }
   .maintenance-header-card {
-    background: linear-gradient(135deg, rgba(255, 171, 0, 0.09) 0%, rgba(20, 36, 52, 0.7) 100%);
-    border: 1px solid rgba(255, 171, 0, 0.28);
+    background: linear-gradient(135deg, rgba(201, 125, 26, 0.06) 0%, rgba(244, 246, 249, 0.9) 100%);
+    border: 1px solid rgba(201, 125, 26, 0.22);
     border-radius: 16px;
     padding: 16px 16px 18px;
     position: relative;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   }
   .maintenance-badge-row {
     display: flex;
@@ -500,9 +518,9 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #ffb822;
-    background: rgba(255, 184, 34, 0.15);
-    border: 1px solid rgba(255, 184, 34, 0.35);
+    color: #b06e10;
+    background: rgba(201, 125, 26, 0.1);
+    border: 1px solid rgba(201, 125, 26, 0.25);
     padding: 4px 10px;
     border-radius: 100px;
   }
@@ -510,8 +528,8 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #ffb822;
-    box-shadow: 0 0 8px #ffb822;
+    background: #c97d1a;
+    box-shadow: 0 0 6px rgba(201, 125, 26, 0.4);
   }
   .maint-dot.pulse {
     animation: maintPulse 1.8s infinite ease-in-out;
@@ -533,7 +551,7 @@
     font-family: 'Fraunces', serif;
     font-size: 16px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text);
     margin: 0 0 6px 0;
     line-height: 1.35;
   }
@@ -546,11 +564,11 @@
 
   /* Fast Push to Likes & Views Banner */
   .fast-push-banner {
-    background: linear-gradient(135deg, rgba(30, 169, 130, 0.15) 0%, rgba(16, 44, 58, 0.8) 100%);
-    border: 1px solid rgba(30, 169, 130, 0.38);
+    background: linear-gradient(135deg, rgba(15, 138, 107, 0.06) 0%, rgba(244, 246, 249, 0.9) 100%);
+    border: 1px solid rgba(15, 138, 107, 0.25);
     border-radius: 16px;
     padding: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   }
   .fast-push-badge {
     display: inline-flex;
@@ -560,9 +578,9 @@
     font-weight: 700;
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    color: #4ade80;
-    background: rgba(74, 222, 128, 0.12);
-    border: 1px solid rgba(74, 222, 128, 0.28);
+    color: #0f8a6b;
+    background: rgba(15, 138, 107, 0.08);
+    border: 1px solid rgba(15, 138, 107, 0.2);
     padding: 3px 9px;
     border-radius: 100px;
     margin-bottom: 8px;
@@ -571,18 +589,18 @@
     font-family: 'Fraunces', serif;
     font-size: 15.5px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text);
     margin: 0 0 6px 0;
     line-height: 1.35;
   }
   .fast-push-desc {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.82);
+    color: var(--text-muted);
     line-height: 1.45;
     margin: 0 0 14px 0;
   }
   .fast-push-desc strong {
-    color: #ffffff;
+    color: var(--text);
   }
   .fast-push-actions {
     display: grid;
@@ -600,7 +618,7 @@
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     transition: all 180ms cubic-bezier(.32,.72,0,1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     text-decoration: none;
@@ -626,7 +644,7 @@
 
   .tier-item.paused {
     opacity: 0.55;
-    background: rgba(255, 255, 255, 0.015);
+    background: rgba(0, 0, 0, 0.02);
   }
   .tier-item.paused .tier-row {
     cursor: not-allowed;
@@ -635,9 +653,9 @@
     display: inline-block;
     font-size: 10px;
     font-weight: 600;
-    color: #ffab00;
-    background: rgba(255, 171, 0, 0.12);
-    border: 1px solid rgba(255, 171, 0, 0.25);
+    color: #b06e10;
+    background: rgba(201, 125, 26, 0.08);
+    border: 1px solid rgba(201, 125, 26, 0.2);
     padding: 2px 7px;
     border-radius: 6px;
     margin-top: 3px;
@@ -649,9 +667,9 @@
     bottom: calc(var(--tab-height, 60px) + 20px);
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: rgba(18, 35, 53, 0.96);
-    border: 1px solid rgba(255, 171, 0, 0.45);
-    box-shadow: 0 10px 32px rgba(0,0,0,0.6);
+    background: rgba(26, 35, 50, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     color: #ffffff;
@@ -733,14 +751,14 @@
   .order-list{ list-style:none; margin:0; padding:0 22px 24px; display:flex; flex-direction:column; gap:12px; }
   .order-card{
     border:1px solid var(--border);
-    background:linear-gradient(180deg, var(--surface), rgba(18, 35, 53, 0.7));
+    background:linear-gradient(180deg, var(--surface), rgba(234, 239, 244, 0.9));
     border-radius:16px;
     padding:14px 16px;
-    box-shadow:0 4px 16px rgba(0,0,0,0.25);
+    box-shadow:0 2px 10px rgba(0,0,0,0.06);
     display:flex; flex-direction:column; gap:10px;
     transition:border-color 160ms ease;
   }
-  .order-card:hover{ border-color:rgba(30, 169, 130, 0.4); }
+  .order-card:hover{ border-color:rgba(15, 138, 107, 0.35); }
 
   .order-card-header{
     display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
@@ -756,7 +774,7 @@
 
   .order-card-target{
     background:var(--surface-2);
-    border:1px solid rgba(255,255,255,0.05);
+    border:1px solid rgba(0,0,0,0.06);
     border-radius:10px;
     padding:9px 12px;
     display:flex; flex-direction:column; gap:4px;
@@ -799,8 +817,8 @@
     display:inline-flex; align-items:center; gap:5px;
     font-size:11px; font-weight:700; padding:4px 10px; border-radius:100px;
   }
-  .status-tag-active{ color:var(--warn); background:var(--warn-soft); border:1px solid rgba(217,154,61,0.25); }
-  .status-tag-completed{ color:var(--accent); background:var(--accent-soft); border:1px solid rgba(30,169,130,0.25); }
+  .status-tag-active{ color:var(--warn); background:var(--warn-soft); border:1px solid rgba(201,125,26,0.2); }
+  .status-tag-completed{ color:var(--accent); background:var(--accent-soft); border:1px solid rgba(15,138,107,0.2); }
   .status-pulse-dot{
     width:6px; height:6px; border-radius:50%; background:currentColor;
   }
@@ -822,7 +840,7 @@
   .policy-modal-head{ display:flex; align-items:center; gap:12px; }
   .policy-icon-badge{
     width:40px; height:40px; border-radius:12px;
-    background:var(--accent-soft); color:var(--accent); border:1px solid rgba(30,169,130,0.3);
+    background:var(--accent-soft); color:var(--accent); border:1px solid rgba(15,138,107,0.2);
     display:flex; align-items:center; justify-content:center; flex-shrink:0;
   }
   .policy-content-card{
@@ -850,16 +868,16 @@
     height:64px;
     display:flex; align-items:center; justify-content:space-between; gap:12px;
     padding:0 18px;
-    background:rgba(14, 27, 42, 0.98);
+    background:rgba(255, 255, 255, 0.96);
     backdrop-filter:blur(24px);
     -webkit-backdrop-filter:blur(24px);
-    border-top:1px solid rgba(255,255,255,0.14);
+    border-top:1px solid var(--border);
     transform:translateY(100%);
     opacity:0;
     pointer-events:none;
     transition:transform 240ms cubic-bezier(.32,.72,0,1), opacity 200ms ease;
     z-index:15;
-    box-shadow:0 -6px 28px rgba(0,0,0,0.5);
+    box-shadow:0 -4px 16px rgba(0,0,0,0.08);
     box-sizing:border-box;
   }
   .checkout-bar.visible{
@@ -874,8 +892,8 @@
     min-width:0;
   }
   .checkout-close-btn{
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.12);
+    background:rgba(0,0,0,0.05);
+    border:1px solid rgba(0,0,0,0.1);
     color:var(--text-muted);
     width:26px; height:26px;
     border-radius:50%;
@@ -885,7 +903,7 @@
     padding:0;
   }
   .checkout-close-btn:hover{
-    background:rgba(255,255,255,0.18);
+    background:rgba(0,0,0,0.1);
     color:var(--text);
     border-color:var(--text);
   }
@@ -893,11 +911,11 @@
   .checkout-label{ font-size:11px; color:var(--text-muted); font-weight:500; }
   .checkout-price{ font-family:'Fraunces',serif; font-weight:700; font-size:18px; line-height:1.1; color:var(--text); }
   .checkout-btn{
-    background:var(--accent); color:#06140f; border:none;
+    background:var(--accent); color:#ffffff; border:none;
     font-family:'Sora',sans-serif; font-weight:700; font-size:13.5px;
     padding:11px 22px; border-radius:12px; cursor:pointer; flex-shrink:0;
     transition:transform 120ms ease, box-shadow 120ms ease;
-    box-shadow:0 4px 14px rgba(30,169,130,0.35);
+    box-shadow:0 4px 14px rgba(15,138,107,0.25);
   }
   .checkout-btn:active{ transform:scale(0.96); }
 
@@ -932,7 +950,7 @@
   /* ---------- modals & glass styling ---------- */
   .modal-backdrop{
     position:fixed; inset:0;
-    background:rgba(4,8,12,0.76);
+    background:rgba(0,0,0,0.35);
     backdrop-filter:blur(6px);
     -webkit-backdrop-filter:blur(6px);
     display:flex; align-items:flex-end; justify-content:center;
@@ -943,10 +961,10 @@
   .modal-backdrop.open{ opacity:1; pointer-events:auto; }
   .modal{
     width:100%; max-width:420px;
-    background:rgba(11, 21, 32, 0.96);
+    background:rgba(255, 255, 255, 0.98);
     backdrop-filter:blur(24px);
     -webkit-backdrop-filter:blur(24px);
-    border:1px solid rgba(255,255,255,0.1);
+    border:1px solid var(--border);
     border-radius:24px 24px 0 0;
     padding:24px 24px 28px;
     transform:translateY(30px);
@@ -954,7 +972,7 @@
     max-height:88vh;
     overflow-y:auto;
     -webkit-overflow-scrolling:touch;
-    box-shadow:0 -12px 40px rgba(0,0,0,0.6);
+    box-shadow:0 -8px 30px rgba(0,0,0,0.1);
   }
   .modal-backdrop.open .modal{ transform:translateY(0); }
 
@@ -993,21 +1011,21 @@
 
   .primary-btn{
     width:100%; margin-top:16px;
-    background:var(--accent); color:#06140f; border:none;
+    background:var(--accent); color:#ffffff; border:none;
     font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px;
     padding:15px; border-radius:12px; cursor:pointer;
     display:flex; align-items:center; justify-content:center; gap:8px;
-    box-shadow:0 4px 16px rgba(30,169,130,0.3);
+    box-shadow:0 4px 16px rgba(15,138,107,0.2);
     transition:transform 120ms ease, opacity 120ms ease;
   }
   .primary-btn:active{ transform:scale(0.98); }
   .primary-btn:disabled{ opacity:0.7; cursor:default; }
   
   .glass-btn{
-    background:linear-gradient(135deg, rgba(30,169,130,0.95), rgba(23,140,108,0.95)) !important;
+    background:linear-gradient(135deg, rgba(15,138,107,0.95), rgba(11,113,89,0.95)) !important;
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
-    border:1px solid rgba(255,255,255,0.12) !important;
+    border:1px solid rgba(255,255,255,0.15) !important;
   }
 
   .secondary-btn{
@@ -1023,7 +1041,7 @@
 
   .spinner{
     width:16px;height:16px; border-radius:50%;
-    border:2px solid rgba(6,20,15,0.35); border-top-color:#06140f;
+    border:2px solid rgba(255,255,255,0.35); border-top-color:#ffffff;
     animation:spin 700ms linear infinite;
   }
   @keyframes spin{ to{ transform:rotate(360deg); } }
@@ -1031,7 +1049,7 @@
   /* Logged in badge */
   .user-badge-banner{
     display:flex; align-items:center; gap:10px;
-    background:var(--accent-soft); border:1px solid rgba(30,169,130,0.3);
+    background:var(--accent-soft); border:1px solid rgba(15,138,107,0.2);
     border-radius:12px; padding:10px 14px; margin-bottom:16px;
   }
   .user-badge-banner svg{ color:var(--accent); width:18px; height:18px; flex-shrink:0; }
@@ -1099,66 +1117,193 @@
   }
 
   /* Success animation */
-  .success-wrap{ display:flex; flex-direction:column; align-items:center; text-align:center; padding:8px 4px 4px; }
-  .success-ring-wrap{ width:84px; height:84px; margin-bottom:16px; }
-  .success-ring-wrap circle{
-    fill:none; stroke:var(--accent); stroke-width:5; stroke-linecap:round;
-    stroke-dasharray:220; stroke-dashoffset:220;
-    transform:rotate(-90deg); transform-origin:50% 50%;
-    animation:ringDraw 520ms cubic-bezier(.5,0,.3,1) forwards;
+  /* ---------- Celebratory Order Placed Animation ---------- */
+  .order-placed-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:8px 4px 6px;
+    position:relative;
   }
-  .success-ring-wrap path{
-    fill:none; stroke:var(--accent); stroke-width:5; stroke-linecap:round; stroke-linejoin:round;
-    stroke-dasharray:40; stroke-dashoffset:40;
-    animation:checkDraw 320ms ease forwards 520ms;
+  .celebration-canvas{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:10;
+  }
+  .order-success-icon-box{
+    position:relative;
+    width:88px;
+    height:88px;
+    margin:0 auto 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .order-pulse-ring{
+    position:absolute;
+    inset:-8px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(15, 138, 107, 0.28) 0%, rgba(15, 138, 107, 0) 70%);
+    animation:orderPulseRing 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  }
+  .order-pulse-ring-2{
+    position:absolute;
+    inset:-20px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(15, 138, 107, 0.16) 0%, rgba(15, 138, 107, 0) 70%);
+    animation:orderPulseRing 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite 400ms;
+  }
+  @keyframes orderPulseRing{
+    0% { transform:scale(0.65); opacity:0; }
+    50% { opacity:1; }
+    100% { transform:scale(1.35); opacity:0; }
+  }
+  .order-ring-svg{
+    width:84px;
+    height:84px;
+    z-index:2;
+    filter:drop-shadow(0 4px 14px rgba(15, 138, 107, 0.35));
+  }
+  .order-ring-svg circle{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:5;
+    stroke-linecap:round;
+    stroke-dasharray:220;
+    stroke-dashoffset:220;
+    transform:rotate(-90deg);
+    transform-origin:50% 50%;
+    animation:ringDraw 540ms cubic-bezier(.4, 0, .2, 1) forwards;
+  }
+  .order-ring-svg path{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:44;
+    stroke-dashoffset:44;
+    animation:checkDraw 380ms cubic-bezier(.4, 0, .2, 1) forwards 520ms;
   }
   @keyframes ringDraw{ to{ stroke-dashoffset:0; } }
   @keyframes checkDraw{ to{ stroke-dashoffset:0; } }
 
-  .success-title{
-    font-family:'Fraunces',serif; font-weight:600; font-size:20px; margin:0 0 4px;
-    opacity:0; animation:fadeUp 380ms ease forwards 780ms;
+  .order-badge-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:#e6f5f0;
+    color:#0b7159;
+    border:1px solid rgba(15, 138, 107, 0.28);
+    padding:4px 12px;
+    border-radius:100px;
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:0.2px;
+    margin-bottom:8px;
+    opacity:0;
+    animation:fadeUp 360ms ease forwards 700ms;
   }
-  .success-amount{
-    font-family:'Fraunces',serif; font-weight:700; font-size:30px; margin:2px 0 4px;
-    opacity:0; animation:fadeUp 380ms ease forwards 860ms;
+  .order-placed-title{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:22px;
+    color:var(--text);
+    margin:0 0 4px;
+    opacity:0;
+    animation:fadeUp 360ms ease forwards 780ms;
   }
-  .success-sub{
-    font-size:13px; color:var(--text-muted); margin:0 0 16px;
-    opacity:0; animation:fadeUp 380ms ease forwards 940ms;
+  .order-placed-sub{
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin:0 0 14px;
+    opacity:0;
+    animation:fadeUp 360ms ease forwards 840ms;
+    max-width:320px;
+    line-height:1.4;
+  }
+  .order-admin-dispatch-banner{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:linear-gradient(135deg, rgba(15, 138, 107, 0.08), rgba(43, 126, 193, 0.08));
+    border:1px solid rgba(15, 138, 107, 0.25);
+    border-radius:12px;
+    padding:9px 13px;
+    margin-bottom:14px;
+    width:100%;
+    text-align:left;
+    opacity:0;
+    animation:fadeUp 360ms ease forwards 900ms;
+  }
+  .dispatch-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 8px var(--accent);
+    flex-shrink:0;
+    animation:blinkGlow 1.4s ease-in-out infinite alternate;
+  }
+  @keyframes blinkGlow{
+    from{ opacity:0.6; transform:scale(0.85); }
+    to{ opacity:1; transform:scale(1.25); }
+  }
+  .dispatch-text-title{
+    font-size:12px;
+    font-weight:700;
+    color:var(--text);
+    line-height:1.2;
+  }
+  .dispatch-text-sub{
+    font-size:11px;
+    color:var(--text-muted);
+    line-height:1.2;
+    margin-top:1px;
   }
   .success-card{
-    width:100%; background:var(--surface); border:1px solid var(--border);
-    border-radius:14px; padding:14px 16px; text-align:left;
-    opacity:0; animation:fadeUp 380ms ease forwards 1040ms;
+    width:100%;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:13px 15px;
+    text-align:left;
+    opacity:0;
+    animation:fadeUp 360ms ease forwards 960ms;
   }
   @keyframes fadeUp{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
 
   @media (prefers-reduced-motion: reduce){
     *{ transition:none !important; animation:none !important; }
-    .success-ring-wrap circle, .success-ring-wrap path{ stroke-dashoffset:0; }
-    .success-title, .success-amount, .success-sub, .success-card{ opacity:1; }
+    .order-ring-svg circle, .order-ring-svg path{ stroke-dashoffset:0; }
+    .order-badge-pill, .order-placed-title, .order-placed-sub, .order-admin-dispatch-banner, .success-card{ opacity:1; }
+    .celebration-canvas{ display:none; }
   }
 
-  /* ---------- Ganesh Festival Compact Banner (Hero to Categories) ---------- */
+  /* ---------- Dussehra Festival Compact Banner (Hero to Categories) ---------- */
   .festive-banner{
     margin: 0 22px 14px;
     padding: 8px 12px;
-    background: linear-gradient(135deg, rgba(234, 138, 0, 0.14) 0%, rgba(30, 169, 130, 0.09) 100%);
-    border: 1px solid rgba(234, 138, 0, 0.35);
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.06) 0%, rgba(234, 138, 0, 0.06) 100%);
+    border: 1px solid rgba(220, 38, 38, 0.22);
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.08);
     cursor: pointer;
     transition: border-color 160ms ease, background 160ms ease, transform 120ms ease;
     flex-shrink: 0;
   }
   .festive-banner:hover{
-    border-color: rgba(234, 138, 0, 0.58);
-    background: linear-gradient(135deg, rgba(234, 138, 0, 0.2) 0%, rgba(30, 169, 130, 0.14) 100%);
+    border-color: rgba(220, 38, 38, 0.4);
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(234, 138, 0, 0.08) 100%);
   }
   .festive-banner:active{
     transform: scale(0.985);
@@ -1170,10 +1315,45 @@
     min-width: 0;
   }
   .festive-banner-icon-box{
-    font-size: 19px;
-    line-height: 1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
     flex-shrink: 0;
-    filter: drop-shadow(0 2px 6px rgba(234, 138, 0, 0.45));
+    border: 2px solid #f59e0b;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.45);
+    background: #0d1117;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .festive-banner-icon-box img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
+  }
+  .festive-pill-durga{
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #f59e0b;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+    flex-shrink: 0;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .festive-pill-durga img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
   }
   .festive-banner-info{
     display: flex;
@@ -1184,7 +1364,7 @@
   .festive-banner-heading{
     font-size: 12.5px;
     font-weight: 700;
-    color: #fef08a;
+    color: #b91c1c;
     letter-spacing: -0.1px;
     white-space: nowrap;
     overflow: hidden;
@@ -1195,21 +1375,21 @@
     align-items: center;
     gap: 5px;
     font-size: 10.5px;
-    color: rgba(254, 240, 138, 0.85);
+    color: var(--text-muted);
     white-space: nowrap;
   }
   .festive-banner-badge{
-    color: #ffd166;
+    color: #b91c1c;
     font-weight: 700;
     font-size: 9.5px;
-    background: rgba(245, 158, 11, 0.2);
+    background: rgba(220, 38, 38, 0.08);
     padding: 1px 5px;
     border-radius: 4px;
     text-transform: uppercase;
     letter-spacing: 0.3px;
   }
   .festive-banner-sep{
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(0, 0, 0, 0.2);
     font-size: 8px;
   }
   .festive-banner-time{
@@ -1218,7 +1398,7 @@
   }
   .festive-get-btn{
     background: var(--accent);
-    color: #06140f;
+    color: #ffffff;
     font-family: 'Sora', sans-serif;
     font-size: 11.5px;
     font-weight: 700;
@@ -1230,7 +1410,7 @@
     align-items: center;
     gap: 4px;
     flex-shrink: 0;
-    box-shadow: 0 2px 10px rgba(30, 169, 130, 0.35);
+    box-shadow: 0 2px 8px rgba(15, 138, 107, 0.2);
     transition: transform 120ms ease, background 160ms ease;
   }
   .festive-get-btn svg{
@@ -1270,7 +1450,7 @@
     justify-content: space-between;
     padding: 16px 18px;
     border-bottom: 1px solid var(--border);
-    background: rgba(18, 35, 53, 0.85);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     flex-shrink: 0;
@@ -1303,7 +1483,7 @@
     font-family: 'Fraunces', serif;
     font-weight: 600;
     font-size: 16px;
-    color: #fef08a;
+    color: #b91c1c;
     letter-spacing: -0.2px;
   }
   .festive-sub-header-spacer{
@@ -1326,9 +1506,9 @@
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.6px;
-    color: #f59e0b;
-    background: rgba(245, 158, 11, 0.15);
-    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #b91c1c;
+    background: rgba(220, 38, 38, 0.08);
+    border: 1px solid rgba(220, 38, 38, 0.2);
     padding: 3px 8px;
     border-radius: 100px;
     margin-bottom: 6px;
@@ -1349,8 +1529,8 @@
 
   /* Countdown Digit Box */
   .festive-countdown-box{
-    background: rgba(245, 158, 11, 0.08);
-    border: 1px solid rgba(245, 158, 11, 0.25);
+    background: rgba(220, 38, 38, 0.05);
+    border: 1px solid rgba(220, 38, 38, 0.18);
     border-radius: 14px;
     padding: 10px 14px;
     margin-bottom: 14px;
@@ -1362,7 +1542,7 @@
   .countdown-title{
     font-size: 11.5px;
     font-weight: 600;
-    color: #ffd166;
+    color: #b91c1c;
   }
   .countdown-digits{
     display: flex;
@@ -1373,8 +1553,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(18, 35, 53, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(26, 35, 50, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
     min-width: 32px;
     padding: 2px 4px;
@@ -1393,7 +1573,7 @@
   }
   .digit-sep{
     font-weight: 700;
-    color: #f59e0b;
+    color: #b91c1c;
     font-size: 12px;
     margin-bottom: 6px;
   }
@@ -1406,25 +1586,25 @@
     margin-bottom: 8px;
   }
   .festive-card{
-    background: linear-gradient(180deg, var(--surface), rgba(18, 35, 53, 0.8));
-    border: 1px solid rgba(245, 158, 11, 0.28);
+    background: linear-gradient(180deg, var(--surface), rgba(234, 239, 244, 0.9));
+    border: 1px solid rgba(220, 38, 38, 0.18);
     border-radius: 16px;
     padding: 14px 16px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     position: relative;
-    box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.08);
     transition: border-color 160ms ease, transform 140ms ease;
   }
   .festive-card:hover{
-    border-color: rgba(245, 158, 11, 0.5);
+    border-color: rgba(220, 38, 38, 0.35);
     transform: translateY(-1px);
   }
   .festive-card.featured{
-    border: 1.5px solid rgba(30, 169, 130, 0.55);
-    background: linear-gradient(180deg, rgba(30, 169, 130, 0.12), rgba(18, 35, 53, 0.88));
-    box-shadow: 0 8px 24px -6px rgba(30, 169, 130, 0.25);
+    border: 1.5px solid rgba(15, 138, 107, 0.35);
+    background: linear-gradient(180deg, rgba(15, 138, 107, 0.06), rgba(244, 246, 249, 0.95));
+    box-shadow: 0 4px 16px -4px rgba(15, 138, 107, 0.12);
   }
   .festive-card-top{
     display: flex;
@@ -1435,8 +1615,8 @@
   .festive-card-tag{
     font-size: 10px;
     font-weight: 700;
-    color: #ffd166;
-    background: rgba(245, 158, 11, 0.18);
+    color: #b91c1c;
+    background: rgba(220, 38, 38, 0.08);
     padding: 2px 7px;
     border-radius: 6px;
     display: inline-block;
@@ -1444,8 +1624,8 @@
     letter-spacing: 0.3px;
   }
   .festive-card.featured .festive-card-tag{
-    color: #1ea982;
-    background: rgba(30, 169, 130, 0.18);
+    color: #0f8a6b;
+    background: rgba(15, 138, 107, 0.08);
   }
   .festive-card-title{
     font-size: 15px;
@@ -1480,7 +1660,7 @@
     flex-direction: column;
     gap: 5px;
     padding: 6px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
   }
   .festive-perk-item{
     display: flex;
@@ -1498,7 +1678,7 @@
   .festive-buy-btn{
     width: 100%;
     background: var(--accent);
-    color: #06140f;
+    color: #ffffff;
     border: none;
     font-family: 'Sora', sans-serif;
     font-size: 13px;
@@ -1510,7 +1690,7 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    box-shadow: 0 3px 12px rgba(30, 169, 130, 0.35);
+    box-shadow: 0 3px 10px rgba(15, 138, 107, 0.2);
     transition: transform 120ms ease, background 160ms ease;
   }
   .festive-buy-btn:hover{
@@ -1518,6 +1698,88 @@
   }
   .festive-buy-btn:active{
     transform: scale(0.98);
+  }
+
+  /* ---------- 3-Step Progress Indicator ---------- */
+  .step-progress{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 0 0 18px;
+    padding: 14px 0 4px;
+  }
+  .step-item{
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .step-circle{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .step-circle.completed{
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(15, 138, 107, 0.25);
+  }
+  .step-circle.active{
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(15, 138, 107, 0.3);
+    transform: scale(1.1);
+  }
+  .step-circle.upcoming{
+    background: var(--surface);
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+  }
+  .step-label{
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.1px;
+  }
+  .step-label.active-label{
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .step-col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 52px;
+  }
+  .step-line{
+    width: 38px;
+    height: 2px;
+    border-radius: 2px;
+    margin: 0 4px;
+    margin-bottom: 16px;
+    transition: background 200ms ease;
+  }
+  .step-line.done{
+    background: var(--accent);
+  }
+  .step-line.pending{
+    background: var(--border);
+  }
+  .step-circle.completed svg,
+  .step-circle.active svg{
+    width: 13px;
+    height: 13px;
   }
 
   @media (max-width: 640px) {
@@ -1542,6 +1804,9 @@
       <div class="brand-title-wrap">
         <div class="brand-name">Tamil Marketing</div>
         <div class="brand-tagline">Grow your social presence</div>
+      </div>
+      <div class="meta-logo" title="Meta">
+        <img src="/meta-logo.png" alt="Meta">
       </div>
     </div>
     <div class="header-actions">
@@ -1582,12 +1847,12 @@
         <p>Likes, views and followers delivered directly to your Instagram profile, posts and reels. Pick a package to get started.</p>
       </div>
 
-      <!-- Ganesh Festival Offer Banner (Below Hero, Above Categories) -->
-      <div class="festive-banner" id="festiveBanner" role="button" tabindex="0" aria-label="View Ganesh Festival Special Offers">
+      <!-- Dussehra Special Offer Banner (Below Hero, Above Categories) -->
+      <div class="festive-banner" id="festiveBanner" role="button" tabindex="0" aria-label="View Dussehra Special Offers">
         <div class="festive-banner-left">
-          <div class="festive-banner-icon-box">🪔</div>
+          <div class="festive-banner-icon-box"><img src="/durga-face.jpg" alt="Durga Devi" width="36" height="36"></div>
           <div class="festive-banner-info">
-            <div class="festive-banner-heading">Ganesh Festival Offer</div>
+            <div class="festive-banner-heading">Dussehra Special Offer</div>
             <div class="festive-banner-meta">
               <span class="festive-banner-badge">Limited Time</span>
               <span class="festive-banner-sep">•</span>
@@ -1595,7 +1860,7 @@
             </div>
           </div>
         </div>
-        <button class="festive-get-btn" id="festiveGetBtn" type="button" aria-label="Get Ganesh Festival Offer">
+        <button class="festive-get-btn" id="festiveGetBtn" type="button" aria-label="Get Dussehra Special Offer">
           <span>Get</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
@@ -1614,7 +1879,6 @@
         <button class="seg-btn" data-cat="followers">
           <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
           <span>Followers</span>
-          <span class="seg-pause-badge">Hold</span>
         </button>
         <div class="seg-highlight" id="segHighlight"></div>
       </nav>
@@ -1657,22 +1921,22 @@
     </section>
   </div>
 
-  <!-- Ganesh Festival Dedicated Slide-In Page (Right-to-Left Slide) -->
+  <!-- Dussehra Special Offers Dedicated Slide-In Page (Right-to-Left Slide) -->
   <div class="festive-subpage" id="festiveSubpage" aria-hidden="true">
     <div class="festive-sub-header">
       <button class="festive-sub-back" id="festiveBackBtn" type="button" aria-label="Back to Shop">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         <span>Back</span>
       </button>
-      <span class="festive-sub-header-title">Festival Offers</span>
+      <span class="festive-sub-header-title">Dussehra Offers</span>
       <div class="festive-sub-header-spacer"></div>
     </div>
 
     <div class="festive-sub-scroll">
       <div class="festive-sub-hero">
-        <div class="festive-tag-pill">🪔 GANESH FESTIVAL EXCLUSIVE</div>
-        <h2>Festival Super Combos</h2>
-        <p>Exclusive bundle packages. High-retention views and engagement likes delivered together to your Instagram post or reel. Save up to 60%!</p>
+        <div class="festive-tag-pill"><span class="festive-pill-durga"><img src="/durga-face.jpg" alt="Durga Devi"></span> DUSSEHRA SPECIAL EXCLUSIVE</div>
+        <h2>Dussehra Super Combos</h2>
+        <p>Exclusive Dussehra bundle packages. High-retention views and engagement likes delivered together to your Instagram post or reel. Save up to 60%!</p>
       </div>
 
       <div class="festive-countdown-box">
@@ -1875,22 +2139,26 @@
       hint: "Enter your Instagram handle or full profile link. We will deliver followers here.",
       estTime: "Starts in ~1 hour",
       desc: "Premium profile followers to build social proof and authority.",
-      hasCustom: false,
+      hasCustom: true,
+      customMin: 500,
+      customMax: 10000,
       tiers: [
-        { qtyNum: 1000, qty: "1K followers", price: 880 },
-        { qtyNum: 1000, qty: "1K Indian followers", price: 1250 },
-        { qtyNum: 5000, qty: "5K followers", price: 3000 },
-        { qtyNum: 10000, qty: "10K followers", price: 5600 },
+        { qtyNum: 500, qty: "500 followers", price: 500 },
+        { qtyNum: 1000, qty: "1K followers", price: 850 },
+        { qtyNum: 2000, qty: "2K followers", price: 1500 },
+        { qtyNum: 3000, qty: "3K followers", price: 2150 },
+        { qtyNum: 5000, qty: "5K followers", price: 3200 },
+        { qtyNum: 10000, qty: "10K followers", price: 6000 },
       ]
     },
     combo: {
-      label: "Festive Combo",
+      label: "Dussehra Combo",
       noun: "combos",
       fieldLabel: "Instagram Reel or Post URL",
       placeholder: "https://www.instagram.com/reel/... or /p/...",
       hint: "Views and Likes will be delivered together to this post or reel.",
       estTime: "10 – 30 mins",
-      desc: "Special Ganesh Chaturthi festival bundle with high-retention views and engagement likes.",
+      desc: "Special Dussehra festival bundle with high-retention views and engagement likes.",
       hasCustom: false,
       tiers: []
     }
@@ -1903,7 +2171,16 @@
   }
 
   function calcCustomPrice(cat, qtyNum){
-    const tiers = DATA[cat].tiers.slice().sort((a,b) => a.qtyNum - b.qtyNum);
+    // Deduplicate by qtyNum for smooth interpolation (keeps lowest price per qty level)
+    const sorted = DATA[cat].tiers.slice().sort((a,b) => a.qtyNum - b.qtyNum);
+    const tiers = [];
+    const seen = new Set();
+    for(const t of sorted){
+      if(!seen.has(t.qtyNum)){
+        seen.add(t.qtyNum);
+        tiers.push(t);
+      }
+    }
     if(qtyNum <= tiers[0].qtyNum) return tiers[0].price;
     if(qtyNum >= tiers[tiers.length-1].qtyNum) return tiers[tiers.length-1].price;
     for(let i=0; i<tiers.length-1; i++){
@@ -1918,7 +2195,8 @@
 
   const customState = {
     views: { open: false, draft: "" },
-    likes: { open: false, draft: "" }
+    likes: { open: false, draft: "" },
+    followers: { open: false, draft: "" }
   };
 
   // Default active category is Likes
@@ -2323,97 +2601,7 @@
 
     const listCaption = document.getElementById("listCaption");
     if(listCaption){
-      if(activeCat === "followers"){
-        listCaption.textContent = "Followers packages are on hold · Server upgrade in progress";
-      } else {
-        listCaption.textContent = "Tap a size to view delivery details";
-      }
-    }
-
-    if(activeCat === "followers"){
-      selection = null;
-      updateCheckoutBar();
-
-      const maintLi = document.createElement("li");
-      maintLi.className = "maintenance-container";
-      maintLi.innerHTML = `
-        <div class="maintenance-header-card">
-          <div class="maintenance-badge-row">
-            <span class="maint-status-pill">
-              <span class="maint-dot pulse"></span>
-              Under Maintenance
-            </span>
-            <span class="maint-sub-pill">Coming Soon</span>
-          </div>
-          <h3 class="maint-heading">Followers Packages are Temporarily On Hold</h3>
-          <p class="maint-desc">
-            We are upgrading our followers delivery server to ensure 100% genuine accounts and permanent retention. New follower orders are temporarily paused.
-          </p>
-        </div>
-
-        <div class="fast-push-banner">
-          <div class="fast-push-badge">⚡ HASSLE-FREE INSTANT BOOST</div>
-          <h4 class="fast-push-title">Boost Reach Hassle-Free with Likes & Views!</h4>
-          <p class="fast-push-desc">
-            Don't let your growth wait! Get <strong>Likes</strong> and <strong>Reel Views</strong> delivered in <strong>10–20 minutes</strong> without password or delay.
-          </p>
-          <div class="fast-push-actions">
-            <button class="push-action-btn likes-btn" id="pushToLikesBtn" type="button">
-              <svg viewBox="0 0 24 24" fill="none" width="15" height="15"><path d="M12 20s-7-4.5-9.5-9C1 7.5 3 4 6.5 4 9 4 11 5.5 12 7c1-1.5 3-3 5.5-3C21 4 23 7.5 21.5 11 19 15.5 12 20 12 20z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-              <span>Boost with Likes →</span>
-            </button>
-            <button class="push-action-btn views-btn" id="pushToViewsBtn" type="button">
-              <svg viewBox="0 0 24 24" fill="none" width="15" height="15"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
-              <span>Boost with Views →</span>
-            </button>
-          </div>
-        </div>
-      `;
-      tierListEl.appendChild(maintLi);
-
-      const pushLikes = maintLi.querySelector("#pushToLikesBtn");
-      if(pushLikes){
-        pushLikes.addEventListener("click", () => {
-          setActiveCat("likes");
-          updateCheckoutBar();
-        });
-      }
-      const pushViews = maintLi.querySelector("#pushToViewsBtn");
-      if(pushViews){
-        pushViews.addEventListener("click", () => {
-          setActiveCat("views");
-          updateCheckoutBar();
-        });
-      }
-
-      cat.tiers.forEach((tier) => {
-        const li = document.createElement("li");
-        li.className = "tier-item paused";
-        li.innerHTML = `
-          <div class="tier-row" style="cursor:not-allowed;">
-            <div class="tier-left">
-              <div class="tier-icon" style="opacity:0.5;">${ICONS[activeCat]}</div>
-              <div>
-                <div class="tier-qty" style="opacity:0.7;">${tier.qty}</div>
-                <span class="tier-paused-badge">Paused · Under Maintenance</span>
-              </div>
-            </div>
-            <div style="text-align:right;">
-              <div class="tier-price" style="text-decoration:line-through; font-size:12.5px; opacity:0.5;">${formatRupees(tier.price)}</div>
-              <span style="font-size:11px; color:#ffab00; font-weight:700;">Coming Soon</span>
-            </div>
-          </div>
-        `;
-        li.addEventListener("click", () => {
-          showToast("Followers packages are currently on hold for maintenance. Please select Likes or Views for instant boost!");
-        });
-        tierListEl.appendChild(li);
-      });
-
-      tierListEl.classList.remove("list-anim-enter");
-      void tierListEl.offsetWidth;
-      tierListEl.classList.add("list-anim-enter");
-      return;
+      listCaption.textContent = "Tap a size to view delivery details";
     }
 
     cat.tiers.forEach((tier, index) => {
@@ -2434,6 +2622,22 @@
 
         ${isSelected ? `
         <div class="tier-expand-box">
+          <div class="step-progress">
+            <div class="step-col">
+              <div class="step-circle active">1</div>
+              <div class="step-label active-label">Package</div>
+            </div>
+            <div class="step-line done"></div>
+            <div class="step-col">
+              <div class="step-circle upcoming">2</div>
+              <div class="step-label">Details</div>
+            </div>
+            <div class="step-line pending"></div>
+            <div class="step-col">
+              <div class="step-circle upcoming">3</div>
+              <div class="step-label">Payment</div>
+            </div>
+          </div>
           <div class="tier-est-pill">
             <svg viewBox="0 0 24 24" fill="none" width="13" height="13" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             Estimated delivery: <strong>${cat.estTime}</strong>
@@ -2443,7 +2647,7 @@
             <span>🔒 100% safe & private</span>
           </div>
           <button class="tier-continue-btn glass-btn" id="inlineContinueBtn">
-            Continue with ${tier.qty} (${formatRupees(tier.price)}) →
+            Continue to Step 2 →
           </button>
         </div>
         ` : ''}
@@ -2851,11 +3055,28 @@
     modal.innerHTML = `
       <button class="modal-back" id="detailsBackBtn">
         <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        ${isCombo ? 'Back to festival offers' : 'Back to packages'}
+        ${isCombo ? 'Back to Dussehra offers' : 'Back to packages'}
       </button>
 
+      <div class="step-progress">
+        <div class="step-col">
+          <div class="step-circle completed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="step-label">Package</div>
+        </div>
+        <div class="step-line done"></div>
+        <div class="step-col">
+          <div class="step-circle active">2</div>
+          <div class="step-label active-label">Details</div>
+        </div>
+        <div class="step-line pending"></div>
+        <div class="step-col">
+          <div class="step-circle upcoming">3</div>
+          <div class="step-label">Payment</div>
+        </div>
+      </div>
+
       <h2>Delivery Details</h2>
-      <p class="modal-sub">${isCombo ? '🪔 ' : ''}${cat.label} · ${selection.qty} · ${formatRupees(selection.price)}</p>
+      <p class="modal-sub">${isCombo ? '🔱 ' : ''}${cat.label} · ${selection.qty} · ${formatRupees(selection.price)}</p>
       
       <!-- Target Input (Followers / Views / Likes) -->
       <label class="field-label">${fieldTitle}</label>
@@ -2956,10 +3177,28 @@
         <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Back
       </button>
+
+      <div class="step-progress">
+        <div class="step-col">
+          <div class="step-circle completed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="step-label">Package</div>
+        </div>
+        <div class="step-line done"></div>
+        <div class="step-col">
+          <div class="step-circle completed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="step-label">Details</div>
+        </div>
+        <div class="step-line done"></div>
+        <div class="step-col">
+          <div class="step-circle active">3</div>
+          <div class="step-label active-label">Payment</div>
+        </div>
+      </div>
+
       <h2>Confirm your order</h2>
       <p class="modal-sub">Review delivery target and payment details.</p>
       
-      <div class="modal-row"><span class="label">Service</span><span class="value">${selection.cat === 'combo' ? '🪔 ' : ''}Instagram ${cat.label}</span></div>
+      <div class="modal-row"><span class="label">Service</span><span class="value">${selection.cat === 'combo' ? '🔱 ' : ''}Instagram ${cat.label}</span></div>
       <div class="modal-row"><span class="label">Quantity</span><span class="value">${selection.qty}</span></div>
       <div class="modal-row"><span class="label">Est. Delivery</span><span class="value tier-est-pill" style="display:inline-block; font-size:11px;">⏱️ ${cat.estTime}</span></div>
       ${parsed && parsed.targetUsername ? `<div class="modal-row"><span class="label">Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(parsed.targetUsername)}</span></div>` : ''}
@@ -3115,10 +3354,12 @@
           try {
             await db.collection("orders").doc(orderId).set({
               ...orderData,
+              status: "processing",
               createdAt: firebase.firestore.FieldValue.serverTimestamp(),
               updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             });
             updateLocalOrder(orderId, { synced: true });
+            console.log("Order transmitted to Firestore for Admin Panel:", orderId);
           } catch (err) {
             console.error("Firestore order creation:", err);
           }
@@ -3135,21 +3376,104 @@
     }
   }
 
+  function launchOrderCelebration() {
+    const canvas = document.getElementById("orderCelebrationCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+
+    const colors = ["#10b981", "#f59e0b", "#3b82f6", "#ec4899", "#8b5cf6", "#14b8a6", "#fbbf24"];
+    const particles = [];
+    const count = 55;
+
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4;
+      const speed = 2.5 + Math.random() * 5.5;
+      particles.push({
+        x: canvas.width / 2,
+        y: canvas.height * 0.18,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 2.5,
+        size: 5 + Math.random() * 5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 12,
+        gravity: 0.18,
+        opacity: 1,
+        decay: 0.008 + Math.random() * 0.008
+      });
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let active = false;
+
+      particles.forEach(p => {
+        if (p.opacity <= 0) return;
+        active = true;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.vx *= 0.98;
+        p.rotation += p.rotationSpeed;
+        p.opacity -= p.decay;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.globalAlpha = Math.max(0, p.opacity);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+        ctx.restore();
+      });
+
+      if (active) {
+        requestAnimationFrame(render);
+      }
+    }
+    render();
+  }
+
   function showSuccess(order){
-    // Trigger rich harmonic chime immediately once
+    // 1. Trigger rich harmonic chime immediately once
     playSuccessChime();
 
+    // 2. Render Celebratory "Order Placed" modal with multi-step animation
     modal.innerHTML = `
-      <div class="success-wrap">
-        <svg class="success-ring-wrap" viewBox="0 0 84 84">
-          <circle cx="42" cy="42" r="35"/>
-          <path d="M27 43l10 10 20-22"/>
-        </svg>
-        <p class="success-title">Payment successful</p>
-        <p class="success-amount">${formatRupees(order.price)}</p>
-        <p class="success-sub">${order.service} · ${order.quantity}</p>
-        
-        <div class="success-card" style="margin-top:14px;">
+      <div class="order-placed-wrap">
+        <canvas class="celebration-canvas" id="orderCelebrationCanvas"></canvas>
+
+        <div class="order-success-icon-box">
+          <div class="order-pulse-ring"></div>
+          <div class="order-pulse-ring-2"></div>
+          <svg class="order-ring-svg" viewBox="0 0 84 84">
+            <circle cx="42" cy="42" r="35"/>
+            <path d="M26 43l11 11 21-23"/>
+          </svg>
+        </div>
+
+        <div class="order-badge-pill">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Payment Verified & Confirmed
+        </div>
+
+        <h2 class="order-placed-title">Order Placed Successfully! 🎉</h2>
+        <p class="order-placed-sub">Your payment has been received and your order is actively queued for fulfillment.</p>
+
+        <!-- Live Real-Time Admin Panel Dispatch Indicator -->
+        <div class="order-admin-dispatch-banner">
+          <div class="dispatch-dot"></div>
+          <div>
+            <div class="dispatch-text-title">Transmitted to Admin Portal</div>
+            <div class="dispatch-text-sub">Order is synced in real-time with our fulfillment dashboard.</div>
+          </div>
+        </div>
+
+        <div class="success-card">
           <div class="order-id-bar">
             <span class="order-id-display">${order.orderId}</span>
             <button class="copy-btn" onclick="copyOrderId('${order.orderId}', this)">
@@ -3157,15 +3481,24 @@
               Copy ID
             </button>
           </div>
-          ${order.targetUsername ? `<div class="modal-row"><span class="label">Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(order.targetUsername)}</span></div>` : ''}
-          <div class="modal-row"><span class="label">Delivery URL</span><span class="value" style="font-size:12px; color:var(--info);">${escapeHtml(order.targetUrl)}</span></div>
-          <div class="modal-row"><span class="label">Status</span><span class="value status-badge status-completed">🟢 Payment Received · Processing</span></div>
+          <div class="modal-row"><span class="label">Package</span><span class="value" style="font-weight:600; color:var(--text);">${escapeHtml(order.service)} · ${order.quantity}</span></div>
+          <div class="modal-row"><span class="label">Amount Paid</span><span class="value" style="font-weight:700; color:var(--accent);">${formatRupees(order.price)}</span></div>
+          ${order.targetUsername ? `<div class="modal-row"><span class="label">Instagram Target</span><span class="value" style="color:var(--accent); font-weight:600;">${escapeHtml(order.targetUsername)}</span></div>` : ''}
+          <div class="modal-row"><span class="label">Delivery URL</span><span class="value" style="font-size:11.5px; color:var(--info); word-break:break-all;">${escapeHtml(order.targetUrl)}</span></div>
+          <div class="modal-row"><span class="label">Live Status</span><span class="value status-badge status-completed">🟢 Processing in Admin Queue</span></div>
+          <div class="modal-row"><span class="label">Est. Delivery</span><span class="value" style="color:var(--text-muted); font-size:12px;">${order.estDelivery || "10 - 30 mins"}</span></div>
         </div>
 
-        <button class="primary-btn glass-btn" id="doneBtn" style="margin-top:18px;">View my orders</button>
-        <button class="secondary-btn" id="doneBtn2">Done</button>
+        <button class="primary-btn glass-btn" id="doneBtn" style="margin-top:16px;">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Track in My Orders
+        </button>
+        <button class="secondary-btn" id="doneBtn2">Done / Return to Shop</button>
       </div>
     `;
+
+    // 3. Launch celebratory confetti burst
+    setTimeout(launchOrderCelebration, 150);
 
     const finish = () => {
       closeModal();
@@ -3183,9 +3516,9 @@
   }
 
   // ------------------------------------------------------------------
-  // GANESH FESTIVAL OFFERS & SLIDE-IN SUBPAGE
+  // DUSSEHRA SPECIAL OFFERS & SLIDE-IN SUBPAGE
   // ------------------------------------------------------------------
-  const FESTIVE_END_TIME = new Date("2026-09-15T01:00:00+05:30").getTime();
+  const FESTIVE_END_TIME = new Date("2026-10-20T23:59:59+05:30").getTime();
 
   const FESTIVE_COMBOS = [
     {
@@ -3441,11 +3774,13 @@
         await db.collection("orders").doc(redirectOrderId).set({
           ...orderData,
           paymentStatus: "Paid",
+          status: "processing",
           cfOrderId: (verifyData && verifyData.cf_order_id) || "",
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         updateLocalOrder(redirectOrderId, { synced: true });
+        console.log("Redirect order transmitted to Firestore for Admin Panel:", redirectOrderId);
       } catch (err) {
         console.error("Firestore sync:", err);
       }

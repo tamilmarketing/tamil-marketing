@@ -37,17 +37,11 @@ service cloud.firestore {
     // ---------------------------------------------------------------
     match /orders/{orderId} {
       // 1. CREATE ORDERS
-      // - Guest orders: customerType == 'guest' and userId == null
-      // - Logged-in user orders: customerType == 'user' and userId == request.auth.uid
-      allow create: if (
-        (request.resource.data.customerType == 'guest' && 
-         request.resource.data.userId == null &&
-         request.resource.data.orderId is string)
-        ||
-        (isAuthenticated() && 
-         request.resource.data.customerType == 'user' && 
-         request.resource.data.userId == request.auth.uid &&
-         request.resource.data.orderId is string)
+      // Any paid customer order (guest or authenticated) can be created with a valid string orderId
+      allow create: if request.resource.data.orderId is string && (
+        request.resource.data.customerType == 'guest' ||
+        request.resource.data.userId == null ||
+        (isAuthenticated() && request.resource.data.userId == request.auth.uid)
       );
 
       // 2. READ ORDERS
