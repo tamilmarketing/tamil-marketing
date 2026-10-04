@@ -226,12 +226,91 @@
   }
   #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
+  /* ---------- Navigation Tabs (Analytics vs Orders) ---------- */
+  .nav-tabs{
+    display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:12px;
+  }
+  .nav-tab-btn{
+    background:var(--surface); border:1px solid var(--border); color:var(--text-muted);
+    font-family:'Sora',sans-serif; font-size:13.5px; font-weight:600;
+    padding:10px 18px; border-radius:12px; cursor:pointer; display:flex; align-items:center; gap:8px;
+    transition:all 140ms ease;
+  }
+  .nav-tab-btn:hover{ color:var(--text); border-color:var(--border-light); }
+  .nav-tab-btn.active{
+    background:var(--surface-2); color:var(--text); border-color:var(--accent); box-shadow:0 2px 10px rgba(30,169,130,0.15);
+  }
+  .nav-badge{
+    background:rgba(255,255,255,0.08); font-size:11px; padding:2px 7px; border-radius:100px;
+    font-weight:700; color:var(--text);
+  }
+  .nav-tab-btn.active .nav-badge{
+    background:var(--accent); color:#06140f;
+  }
+
+  /* ---------- Visitor Analytics Specific Styles ---------- */
+  .meta-stat-highlight{
+    background:linear-gradient(135deg, rgba(162, 59, 219, 0.15), rgba(225, 48, 108, 0.1));
+    border:1px solid rgba(225, 48, 108, 0.35) !important;
+  }
+  .meta-stat-highlight .stat-value{
+    background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+
+  .analytics-card-panel{
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    padding:20px; margin-bottom:20px; box-shadow:0 6px 20px -8px rgba(0,0,0,0.4);
+  }
+  .panel-header{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;
+  }
+  .panel-title{
+    font-family:'Fraunces',serif; font-size:15.5px; font-weight:600; display:flex; align-items:center; gap:8px;
+  }
+  .ratio-bar-wrap{
+    width:100%; height:12px; background:var(--surface-2); border-radius:100px; overflow:hidden;
+    display:flex; margin:10px 0 14px; border:1px solid var(--border);
+  }
+  .ratio-bar-meta{ background:linear-gradient(90deg, #bc1888, #dc2743, #f09433); height:100%; transition:width 300ms ease; }
+  .ratio-bar-organic{ background:var(--accent); height:100%; transition:width 300ms ease; }
+
+  .source-badge{
+    font-size:11px; font-weight:700; padding:3px 9px; border-radius:6px; display:inline-flex; align-items:center; gap:5px;
+  }
+  .badge-ig{
+    background:linear-gradient(135deg, rgba(188, 24, 136, 0.2), rgba(220, 39, 67, 0.2));
+    border:1px solid rgba(220, 39, 67, 0.4); color:#ff92a6;
+  }
+  .badge-fb{
+    background:rgba(24, 119, 242, 0.15); border:1px solid rgba(24, 119, 242, 0.4); color:#6ba7ff;
+  }
+  .badge-meta{
+    background:linear-gradient(135deg, rgba(162, 59, 219, 0.18), rgba(225, 48, 108, 0.18));
+    border:1px solid rgba(225, 48, 108, 0.35); color:#ff8fa3;
+  }
+  .badge-organic{
+    background:var(--accent-soft); border:1px solid rgba(30,169,130,0.35); color:var(--accent);
+  }
+  .dedup-badge{
+    display:inline-flex; align-items:center; gap:5px; font-size:11.5px; background:rgba(30,169,130,0.12);
+    color:var(--accent); border:1px solid rgba(30,169,130,0.3); padding:4px 10px; border-radius:100px; font-weight:600;
+  }
+  .dedup-pill{
+    font-size:11px; color:var(--text-muted); background:var(--surface-2); padding:3px 8px; border-radius:6px; border:1px solid var(--border);
+  }
+  .campaign-chip{
+    display:inline-flex; align-items:center; gap:6px; background:var(--surface-2);
+    border:1px solid var(--border); border-radius:8px; padding:5px 10px; font-size:11.5px; color:var(--text);
+  }
+
   @media (max-width:768px){
     .stats-row{ grid-template-columns:repeat(2,1fr); }
     .details-grid{ grid-template-columns:repeat(2,1fr); row-gap:12px; }
     .status-row{ flex-direction:column; align-items:stretch; }
     .status-group{ justify-content:space-between; }
     .status-dropdown{ width:55%; text-align:right; }
+    .nav-tabs{ flex-direction:column; }
   }
 </style>
 </head>
@@ -285,37 +364,133 @@
     <div class="brand-row">
       <img src="/logo-icon.png" alt="Tamil Marketing" class="brand-mark-img">
       <div>
-        <div class="brand-name">Admin Orders</div>
+        <div class="brand-name">Tamil Marketing Admin</div>
         <div style="font-size:11.5px; color:var(--text-muted);" id="adminEmailBadge">Signed in</div>
       </div>
     </div>
-    <button class="signout-btn" id="signOutBtn">Sign out</button>
-  </div>
-
-  <!-- Key business stats -->
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value" id="statTotal">0</div></div>
-    <div class="stat-card"><div class="stat-label">Processing</div><div class="stat-value" id="statProcessing">0</div></div>
-    <div class="stat-card"><div class="stat-label">Completed</div><div class="stat-value" id="statCompleted">0</div></div>
-    <div class="stat-card"><div class="stat-label">Paid Revenue</div><div class="stat-value" id="statRevenue">₹0</div></div>
-  </div>
-
-  <!-- Search & Category Filters -->
-  <div class="filter-controls">
-    <div class="search-row">
-      <input class="field-input" id="searchInput" type="text" placeholder="Search by Order ID (TM-…), email, username, or target URL…">
-    </div>
-    <div class="chips-row" id="chipsRow">
-      <button class="chip-btn active" data-filter="all">All Orders</button>
-      <button class="chip-btn" data-filter="processing">🟡 Processing</button>
-      <button class="chip-btn" data-filter="completed">🟢 Completed</button>
-      <button class="chip-btn" data-filter="paid">🟢 Paid Only</button>
-      <button class="chip-btn" data-filter="pending_pay">🟡 Pending Payment</button>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span class="dedup-badge" title="Device deduplication active: Repeat visits from the same device are counted as 1 unique person">
+        🔒 Deduplication Active
+      </span>
+      <button class="signout-btn" id="signOutBtn">Sign out</button>
     </div>
   </div>
 
-  <!-- Realtime Order Cards List -->
-  <div id="orderList"></div>
+  <!-- Navigation View Tabs -->
+  <div class="nav-tabs">
+    <button class="nav-tab-btn active" id="tabAnalyticsBtn" onclick="switchDashboardTab('analytics')">
+      👁️ Viewers Count & Meta Ads
+      <span class="nav-badge" id="badgeUniqueDevices">0 Viewers</span>
+    </button>
+    <button class="nav-tab-btn" id="tabOrdersBtn" onclick="switchDashboardTab('orders')">
+      📦 Orders Management
+      <span class="nav-badge" id="badgeOrders">0</span>
+    </button>
+  </div>
+
+  <!-- VIEW 1: VISITOR & META ADS ANALYTICS -->
+  <div id="visitorAnalyticsView">
+    <!-- Top 4 Analytics KPIs -->
+    <div class="stats-row">
+      <div class="stat-card" style="border-left:3px solid var(--accent);">
+        <div class="stat-label">👥 Total Viewers Count</div>
+        <div class="stat-value" id="statUniqueVisitors">0</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Real unique people on site</div>
+      </div>
+      <div class="stat-card meta-stat-highlight" style="border-left:3px solid #e1306c !important;">
+        <div class="stat-label" style="color:#ff8fa3;">🎯 Meta Ads Viewers (IG/FB)</div>
+        <div class="stat-value" id="statMetaVisitors">0</div>
+        <div style="font-size:11px; color:#ff8fa3; margin-top:4px;" id="statMetaShare">0% of total visitors</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--info);">
+        <div class="stat-label">🌐 Organic & Direct Viewers</div>
+        <div class="stat-value" id="statOrganicVisitors">0</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;" id="statOrganicShare">0% of total visitors</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--warn);">
+        <div class="stat-label">🔄 Total Website Views</div>
+        <div class="stat-value" id="statTotalVisits">0</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;" id="statRepeatCount">0 repeat visits recorded</div>
+      </div>
+    </div>
+
+    <!-- Traffic Attribution & Campaign Breakdown -->
+    <div class="analytics-card-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Traffic Source Distribution & Meta Campaigns
+        </div>
+        <span style="font-size:12px; color:var(--text-muted);" id="trafficSummaryText">Calculating…</span>
+      </div>
+
+      <!-- Ratio Progress Bar -->
+      <div class="ratio-bar-wrap">
+        <div class="ratio-bar-meta" id="ratioBarMeta" style="width:0%;" title="Meta Ads Traffic"></div>
+        <div class="ratio-bar-organic" id="ratioBarOrganic" style="width:0%;" title="Organic/Direct Traffic"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:16px;">
+        <span style="color:#ff8fa3; font-weight:600;" id="ratioMetaText">🟣 Meta Ads: 0 (0%)</span>
+        <span style="color:var(--accent); font-weight:600;" id="ratioOrganicText">🟢 Direct/Organic: 0 (0%)</span>
+      </div>
+
+      <!-- Campaign breakdown pills -->
+      <div style="font-size:12px; font-weight:600; color:var(--text-muted); margin-bottom:8px;">Identified Campaigns & Sources:</div>
+      <div id="campaignPillsRow" style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span style="font-size:12px; color:var(--text-muted);">No visitor data yet</span>
+      </div>
+    </div>
+
+    <!-- Devices Filter & Search Controls -->
+    <div class="filter-controls">
+      <div class="search-row">
+        <input class="field-input" id="deviceSearchInput" type="text" placeholder="Search devices by Device ID (dev_…), campaign, referrer, browser, or OS…">
+      </div>
+      <div class="chips-row" id="deviceChipsRow">
+        <button class="chip-btn active" data-devfilter="all">All Devices (<span id="countDevAll">0</span>)</button>
+        <button class="chip-btn" data-devfilter="meta">🎯 Meta Ads (<span id="countDevMeta">0</span>)</button>
+        <button class="chip-btn" data-devfilter="organic">🌐 Organic / Direct (<span id="countDevOrganic">0</span>)</button>
+        <button class="chip-btn" data-devfilter="mobile">📱 Mobile Only</button>
+        <button class="chip-btn" data-devfilter="repeat">🔄 Repeat Visitors Only</button>
+      </div>
+    </div>
+
+    <!-- Live Devices List (Real-Time Deduplicated Feed) -->
+    <div id="devicesList"></div>
+  </div>
+
+  <!-- VIEW 2: ORDERS MANAGEMENT -->
+  <div id="ordersView" hidden>
+    <!-- Key business stats + Viewers Count -->
+    <div class="stats-row" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+      <div class="stat-card" style="border-left:3px solid var(--accent); cursor:pointer;" onclick="switchDashboardTab('analytics')" title="Click to view detailed visitors & Meta Ads analytics">
+        <div class="stat-label">👁️ Total Viewers Count</div>
+        <div class="stat-value" id="statOrdersViewers">0</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;"><span id="statOrdersMetaViewers">0</span> from Meta Ads ↗</div>
+      </div>
+      <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value" id="statTotal">0</div></div>
+      <div class="stat-card"><div class="stat-label">Processing</div><div class="stat-value" id="statProcessing">0</div></div>
+      <div class="stat-card"><div class="stat-label">Completed</div><div class="stat-value" id="statCompleted">0</div></div>
+      <div class="stat-card"><div class="stat-label">Paid Revenue</div><div class="stat-value" id="statRevenue">₹0</div></div>
+    </div>
+
+    <!-- Search & Category Filters -->
+    <div class="filter-controls">
+      <div class="search-row">
+        <input class="field-input" id="searchInput" type="text" placeholder="Search by Order ID (TM-…), email, username, or target URL…">
+      </div>
+      <div class="chips-row" id="chipsRow">
+        <button class="chip-btn active" data-filter="all">All Orders</button>
+        <button class="chip-btn" data-filter="processing">🟡 Processing</button>
+        <button class="chip-btn" data-filter="completed">🟢 Completed</button>
+        <button class="chip-btn" data-filter="paid">🟢 Paid Only</button>
+        <button class="chip-btn" data-filter="pending_pay">🟡 Pending Payment</button>
+      </div>
+    </div>
+
+    <!-- Realtime Order Cards List -->
+    <div id="orderList"></div>
+  </div>
 </div>
 
 <!-- Firebase Compat v10.13.2 -->
@@ -369,6 +544,36 @@
   let currentFilter = "all";
   let unsubscribeOrders = null;
 
+  // Visitor & Meta Ads Analytics State
+  let allDevices = [];
+  let currentDevFilter = "all";
+  let unsubscribeDevices = null;
+  let activeDashboardTab = "analytics";
+
+  window.switchDashboardTab = function(tab) {
+    activeDashboardTab = tab;
+    const tabAnalyticsBtn = document.getElementById("tabAnalyticsBtn");
+    const tabOrdersBtn = document.getElementById("tabOrdersBtn");
+    const visitorAnalyticsView = document.getElementById("visitorAnalyticsView");
+    const ordersView = document.getElementById("ordersView");
+
+    if (tab === "analytics") {
+      tabAnalyticsBtn.classList.add("active");
+      tabOrdersBtn.classList.remove("active");
+      visitorAnalyticsView.style.display = "block";
+      visitorAnalyticsView.hidden = false;
+      ordersView.style.display = "none";
+      ordersView.hidden = true;
+    } else {
+      tabOrdersBtn.classList.add("active");
+      tabAnalyticsBtn.classList.remove("active");
+      ordersView.style.display = "block";
+      ordersView.hidden = false;
+      visitorAnalyticsView.style.display = "none";
+      visitorAnalyticsView.hidden = true;
+    }
+  };
+
   function showToast(msg) {
     const t = document.getElementById("toast");
     t.textContent = msg;
@@ -386,6 +591,7 @@
     dashboard.hidden = false;
     adminEmailBadge.textContent = (user.displayName ? user.displayName + " · " : "") + user.email;
     subscribeOrders();
+    subscribeVisitorAnalytics();
   }
 
   function showLoginScreen() {
@@ -396,6 +602,10 @@
     if (unsubscribeOrders) {
       unsubscribeOrders();
       unsubscribeOrders = null;
+    }
+    if (unsubscribeDevices) {
+      unsubscribeDevices();
+      unsubscribeDevices = null;
     }
   }
 
@@ -650,6 +860,8 @@
     document.getElementById("statProcessing").textContent = processing;
     document.getElementById("statCompleted").textContent = completed;
     document.getElementById("statRevenue").textContent = "₹" + revenue.toLocaleString("en-IN");
+    const badgeOrders = document.getElementById("badgeOrders");
+    if (badgeOrders) badgeOrders.textContent = total;
   }
 
   function copyText(txt, btn) {
@@ -787,6 +999,288 @@
               <option value="Pending" ${ordStatus === 'Pending' ? 'selected' : ''}>⚪ PENDING</option>
               <option value="Cancelled" ${ordStatus === 'Cancelled' ? 'selected' : ''}>🔴 CANCELLED</option>
             </select>
+          </div>
+        </div>
+      </div>
+      `;
+    }).join("");
+  }
+
+  // ------------------------------------------------------------------
+  // REAL-TIME VISITOR & META ADS ANALYTICS
+  // ------------------------------------------------------------------
+  function subscribeVisitorAnalytics() {
+    if (!db) return;
+
+    // Listen to real-time updates from analytics_devices collection
+    unsubscribeDevices = db.collection("analytics_devices").onSnapshot(snap => {
+      allDevices = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      // Sort: Most recent visitors first
+      allDevices.sort((a, b) => {
+        const tA = a.lastSeen ? (a.lastSeen.toMillis ? a.lastSeen.toMillis() : new Date(a.lastSeenIso || 0).getTime()) : 0;
+        const tB = b.lastSeen ? (b.lastSeen.toMillis ? b.lastSeen.toMillis() : new Date(b.lastSeenIso || 0).getTime()) : 0;
+        return tB - tA;
+      });
+
+      updateAnalyticsDashboard(allDevices);
+      renderDevicesDashboard();
+    }, err => {
+      console.warn("Visitor analytics snapshot note:", err);
+    });
+  }
+
+  function updateAnalyticsDashboard(devices) {
+    const totalUnique = devices.length;
+    const metaDevices = devices.filter(d => Boolean(d.isMeta));
+    const metaCount = metaDevices.length;
+    const organicCount = totalUnique - metaCount;
+
+    const totalVisits = devices.reduce((sum, d) => sum + (Number(d.visitCount) || 1), 0);
+    const repeatVisits = Math.max(0, totalVisits - totalUnique);
+
+    const metaPercent = totalUnique > 0 ? ((metaCount / totalUnique) * 100).toFixed(1) : "0.0";
+    const organicPercent = totalUnique > 0 ? (100 - parseFloat(metaPercent)).toFixed(1) : "0.0";
+
+    // Update KPI cards
+    const elUnique = document.getElementById("statUniqueVisitors");
+    if (elUnique) elUnique.textContent = totalUnique;
+    const elMeta = document.getElementById("statMetaVisitors");
+    if (elMeta) elMeta.textContent = metaCount;
+    const elMetaShare = document.getElementById("statMetaShare");
+    if (elMetaShare) elMetaShare.textContent = `${metaPercent}% of unique people`;
+    const elOrganic = document.getElementById("statOrganicVisitors");
+    if (elOrganic) elOrganic.textContent = organicCount;
+    const elOrganicShare = document.getElementById("statOrganicShare");
+    if (elOrganicShare) elOrganicShare.textContent = `${organicPercent}% of unique people`;
+    const elTotalVisits = document.getElementById("statTotalVisits");
+    if (elTotalVisits) elTotalVisits.textContent = totalVisits;
+    const elRepeat = document.getElementById("statRepeatCount");
+    if (elRepeat) elRepeat.textContent = `${repeatVisits} repeat visits recorded (deduplicated)`;
+
+    // Tab badges & Orders Viewers stat card
+    const badgeDevices = document.getElementById("badgeUniqueDevices");
+    if (badgeDevices) badgeDevices.textContent = `${totalUnique} Viewers`;
+    const badgeOrders = document.getElementById("badgeOrders");
+    if (badgeOrders) badgeOrders.textContent = allOrders.length;
+    const elOrdersViewers = document.getElementById("statOrdersViewers");
+    if (elOrdersViewers) elOrdersViewers.textContent = totalUnique;
+    const elOrdersMeta = document.getElementById("statOrdersMetaViewers");
+    if (elOrdersMeta) elOrdersMeta.textContent = metaCount;
+
+    // Ratio progress bar
+    const ratioMeta = document.getElementById("ratioBarMeta");
+    const ratioOrganic = document.getElementById("ratioBarOrganic");
+    if (ratioMeta) ratioMeta.style.width = `${metaPercent}%`;
+    if (ratioOrganic) ratioOrganic.style.width = `${organicPercent}%`;
+
+    const ratioMetaText = document.getElementById("ratioMetaText");
+    const ratioOrganicText = document.getElementById("ratioOrganicText");
+    if (ratioMetaText) ratioMetaText.textContent = `🟣 Meta Ads: ${metaCount} (${metaPercent}%)`;
+    if (ratioOrganicText) ratioOrganicText.textContent = `🟢 Direct/Organic: ${organicCount} (${organicPercent}%)`;
+
+    const summaryText = document.getElementById("trafficSummaryText");
+    if (summaryText) {
+      summaryText.textContent = totalUnique > 0 
+        ? `${metaCount} of ${totalUnique} people originated from Facebook/Instagram ads`
+        : "Waiting for visitors…";
+    }
+
+    // Filter counts
+    const countAll = document.getElementById("countDevAll");
+    if (countAll) countAll.textContent = totalUnique;
+    const countMeta = document.getElementById("countDevMeta");
+    if (countMeta) countMeta.textContent = metaCount;
+    const countOrganic = document.getElementById("countDevOrganic");
+    if (countOrganic) countOrganic.textContent = organicCount;
+
+    // Campaign Pills Breakdown
+    const campaignMap = {};
+    devices.forEach(d => {
+      let key = "";
+      if (d.isMeta) {
+        key = d.campaign || d.metaSource || "Meta Ad Click (fbclid)";
+      } else {
+        key = d.initialReferrer && d.initialReferrer !== "direct" ? `Referral: ${d.initialReferrer}` : "Direct / Organic";
+      }
+      campaignMap[key] = (campaignMap[key] || 0) + 1;
+    });
+
+    const pillsRow = document.getElementById("campaignPillsRow");
+    if (pillsRow) {
+      const entries = Object.entries(campaignMap).sort((a, b) => b[1] - a[1]);
+      if (entries.length === 0) {
+        pillsRow.innerHTML = `<span style="font-size:12px; color:var(--text-muted);">No visitor traffic recorded yet.</span>`;
+      } else {
+        pillsRow.innerHTML = entries.map(([name, count]) => {
+          const isMetaPill = name.toLowerCase().includes("meta") || name.toLowerCase().includes("fb") || name.toLowerCase().includes("instagram") || name.toLowerCase().includes("ad");
+          const pillClass = isMetaPill ? "source-pill-meta" : "source-pill-organic";
+          return `
+            <span class="campaign-chip ${pillClass}">
+              <span>${isMetaPill ? '🎯' : '🌐'}</span>
+              <strong>${escapeHtml(name)}</strong>
+              <span style="opacity:0.8; font-size:11px;">(${count} ${count === 1 ? 'person' : 'people'})</span>
+            </span>
+          `;
+        }).join("");
+      }
+    }
+  }
+
+  // Search & Filter event listeners for Devices
+  const devSearchInput = document.getElementById("deviceSearchInput");
+  if (devSearchInput) {
+    devSearchInput.addEventListener("input", renderDevicesDashboard);
+  }
+
+  const devChipsRow = document.getElementById("deviceChipsRow");
+  if (devChipsRow) {
+    devChipsRow.addEventListener("click", (e) => {
+      const btn = e.target.closest(".chip-btn");
+      if (!btn) return;
+      devChipsRow.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentDevFilter = btn.dataset.devfilter || "all";
+      renderDevicesDashboard();
+    });
+  }
+
+  function renderDevicesDashboard() {
+    const listEl = document.getElementById("devicesList");
+    if (!listEl) return;
+
+    let filtered = allDevices;
+
+    // Apply Filter Chip
+    if (currentDevFilter === "meta") {
+      filtered = filtered.filter(d => Boolean(d.isMeta));
+    } else if (currentDevFilter === "organic") {
+      filtered = filtered.filter(d => !d.isMeta);
+    } else if (currentDevFilter === "mobile") {
+      filtered = filtered.filter(d => (d.deviceType || "").toLowerCase() === "mobile");
+    } else if (currentDevFilter === "repeat") {
+      filtered = filtered.filter(d => (Number(d.visitCount) || 1) > 1);
+    }
+
+    // Apply Search
+    const q = (devSearchInput ? devSearchInput.value : "").trim().toLowerCase();
+    if (q) {
+      filtered = filtered.filter(d => {
+        const id = (d.id || d.deviceId || "").toLowerCase();
+        const camp = (d.campaign || "").toLowerCase();
+        const src = (d.metaSource || "").toLowerCase();
+        const ref = (d.initialReferrer || d.referrer || "").toLowerCase();
+        const browser = (d.browser || "").toLowerCase();
+        const os = (d.os || "").toLowerCase();
+        return id.includes(q) || camp.includes(q) || src.includes(q) || ref.includes(q) || browser.includes(q) || os.includes(q);
+      });
+    }
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `<p class="empty-note">No visitor devices matching this filter.</p>`;
+      return;
+    }
+
+    listEl.innerHTML = filtered.map(d => {
+      const displayId = d.id || d.deviceId || "dev_unknown";
+      const isMeta = Boolean(d.isMeta);
+      const visits = Number(d.visitCount) || 1;
+      const deviceType = d.deviceType || "mobile";
+      const browser = d.browser || "Unknown";
+      const os = d.os || "Unknown";
+      const screen = d.screen || "—";
+      const campaign = d.campaign || (isMeta ? "Meta Ad Click" : "Direct Visit");
+      const ref = d.initialReferrer || d.referrer || "Direct";
+      const lastPath = d.lastPath || "/";
+
+      // Formatted Timestamps
+      let firstSeenDisplay = "—";
+      let lastSeenDisplay = "Just now";
+      try {
+        if (d.firstSeen && d.firstSeen.toDate) {
+          firstSeenDisplay = d.firstSeen.toDate().toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+        } else if (d.firstSeenIso) {
+          firstSeenDisplay = new Date(d.firstSeenIso).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+        }
+        if (d.lastSeen && d.lastSeen.toDate) {
+          lastSeenDisplay = d.lastSeen.toDate().toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+        } else if (d.lastSeenIso) {
+          lastSeenDisplay = new Date(d.lastSeenIso).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+        }
+      } catch(e) {}
+
+      // Source Badge
+      let badgeHtml = "";
+      const metaSrcLower = (d.metaSource || "").toLowerCase();
+      if (isMeta) {
+        if (metaSrcLower.includes("instagram")) {
+          badgeHtml = `<span class="source-badge badge-ig">🟣 Instagram Ad</span>`;
+        } else if (metaSrcLower.includes("facebook")) {
+          badgeHtml = `<span class="source-badge badge-fb">🔵 Facebook Ad</span>`;
+        } else {
+          badgeHtml = `<span class="source-badge badge-meta">🎯 Meta Ad (${escapeHtml(d.metaSource || 'Ad Click')})</span>`;
+        }
+      } else {
+        badgeHtml = `<span class="source-badge badge-organic">🌐 Direct / Organic</span>`;
+      }
+
+      // Deduplication tag
+      const dedupTagHtml = visits > 1
+        ? `<span class="dedup-pill" style="color:var(--accent); border-color:rgba(30,169,130,0.35);">🔄 Visited ${visits} times · Counted as 1 unique person</span>`
+        : `<span class="dedup-pill">👤 1 Visit recorded</span>`;
+
+      return `
+      <div class="admin-card">
+        <!-- Top row: ID, Badges, Date -->
+        <div class="card-top">
+          <div class="order-id-group">
+            <span class="order-id-text" style="color:var(--text); font-size:14px; font-family:'Sora',sans-serif; font-weight:600;" title="${escapeHtml(displayId)}">
+              ${escapeHtml(displayId.length > 20 ? displayId.slice(0, 18) + '…' : displayId)}
+            </span>
+            <button class="copy-btn-mini" onclick="copyText('${escapeHtml(displayId)}', this)">Copy ID</button>
+            ${badgeHtml}
+            ${dedupTagHtml}
+          </div>
+          <span class="order-date-text">Last seen: ${escapeHtml(lastSeenDisplay)}</span>
+        </div>
+
+        <!-- 4-column structured specs -->
+        <div class="details-grid">
+          <div class="detail-cell">
+            <span class="label">Traffic Source / Campaign</span>
+            <span class="val" style="color:${isMeta ? '#ff8fa3' : 'var(--text)'}; font-weight:700;">
+              ${escapeHtml(campaign)}
+            </span>
+          </div>
+          <div class="detail-cell">
+            <span class="label">Device & OS</span>
+            <span class="val">
+              ${deviceType === 'mobile' ? '📱 Mobile' : '💻 Desktop'} · ${escapeHtml(os)}
+            </span>
+          </div>
+          <div class="detail-cell">
+            <span class="label">Browser & Screen</span>
+            <span class="val">
+              ${escapeHtml(browser)} <small style="color:var(--text-muted); font-size:11px;">(${escapeHtml(screen)})</small>
+            </span>
+          </div>
+          <div class="detail-cell">
+            <span class="label">First Visit</span>
+            <span class="val" style="color:var(--text-muted); font-size:12.5px;">
+              ${escapeHtml(firstSeenDisplay)}
+            </span>
+          </div>
+        </div>
+
+        <!-- Referrer & Entry URL Panel -->
+        <div class="target-panel" style="background:rgba(6, 13, 19, 0.4); padding:10px 12px; gap:4px;">
+          <div class="target-entry" style="font-size:12px;">
+            <span class="entry-title" style="min-width:65px;">Referrer:</span>
+            <span style="color:var(--text-muted); word-break:break-all;">${escapeHtml(ref)}</span>
+          </div>
+          <div class="target-entry" style="font-size:12px;">
+            <span class="entry-title" style="min-width:65px;">Page Path:</span>
+            <span style="color:var(--accent); font-family:monospace; font-size:12px;">${escapeHtml(lastPath)}</span>
           </div>
         </div>
       </div>

@@ -62,5 +62,17 @@ service cloud.firestore {
     match /admins/{uid} {
       allow read, write: if isAdmin();
     }
+
+    // ---------------------------------------------------------------
+    // ANALYTICS & VISITOR DEVICES (Backend & Device Tracking)
+    // ---------------------------------------------------------------
+    match /analytics_devices/{deviceId} {
+      // Allow visitor device recording and updates for valid string deviceId
+      allow create, update: if request.resource.data.deviceId is string &&
+                               request.resource.data.deviceId == deviceId;
+      
+      // ONLY Admin can view, query, and manage visitor analytics
+      allow read, delete: if isAdmin();
+    }
   }
 }

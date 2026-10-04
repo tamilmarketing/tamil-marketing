@@ -2022,6 +2022,214 @@
     console.error("Firebase init error:", err);
   }
 
+  // ------------------------------------------------------------------
+  // SILENT BACKEND VISITOR & META ADS DEVICE TRACKING (ZERO FRONTEND UI)
+  // Deduplicates devices so repeat visits never inflate unique visitors.
+  // Accurately records Meta (Facebook & Instagram) ad visitors.
+  // ------------------------------------------------------------------
+  (function initSilentDeviceTracking() {
+    try {
+      const STORAGE_KEY = "_tm_did";
+      const META_ORIGIN_KEY = "_tm_meta_orig";
+      const META_CAMP_KEY = "_tm_meta_camp";
+      const FIRST_SEEN_KEY = "_tm_first_seen";
+
+      // 1. Read persistent cookie or localStorage
+      function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(^|;\\s*)' + name + '=([^;]+)'));
+        return match ? decodeURIComponent(match[2]) : null;
+      }
+      function setCookie(name, val, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = `${name}=${encodeURIComponent(val)};expires=${d.toUTCString()};path=/;SameSite=Lax`;
+      }
+
+      let deviceId = "";
+      try {
+        deviceId = localStorage.getItem(STORAGE_KEY) || getCookie(STORAGE_KEY) || "";
+      } catch(e) {}
+
+      let isNewDevice = false;
+      const nowIso = new Date().toISOString();
+
+      if (!deviceId || deviceId.length < 8) {
+        // Generate a cryptographically robust, unique device ID
+        const randPart = (typeof crypto !== "undefined" && crypto.randomUUID)
+          ? crypto.randomUUID().replace(/-/g, "").slice(0, 12)
+          : Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6);
+        deviceId = "dev_" + Date.now().toString(36) + "_" + randPart;
+        isNewDevice = true;
+      }
+
+      // Refresh persistence across both storage layers
+      try {
+        localStorage.setItem(STORAGE_KEY, deviceId);
+        if (isNewDevice) {
+          localStorage.setItem(FIRST_SEEN_KEY, nowIso);
+        }
+      } catch(e) {}
+      setCookie(STORAGE_KEY, deviceId, 365);
+
+      // 2. Detect Meta Ads Traffic (fbclid, UTM parameters, in-app browser, referrer)
+      const urlParams = new URLSearchParams(window.location.search);
+      const fbclid = urlParams.get("fbclid") || "";
+      const utmSource = (urlParams.get("utm_source") || "").toLowerCase();
+      const utmMedium = (urlParams.get("utm_medium") || "").toLowerCase();
+      const utmCampaign = urlParams.get("utm_campaign") || "";
+      const utmContent = urlParams.get("utm_content") || "";
+      const utmTerm = urlParams.get("utm_term") || "";
+
+      const ref = (document.referrer || "").toLowerCase();
+      const isMetaRef = ref.includes("facebook.com") ||
+                        ref.includes("instagram.com") ||
+                        ref.includes("l.facebook.com") ||
+                        ref.includes("lm.facebook.com") ||
+                        ref.includes("l.instagram.com") ||
+                        ref.includes("fb.me");
+
+      const isMetaUtm = ["facebook", "meta", "fb", "instagram", "ig"].includes(utmSource) ||
+                        ["cpc", "paid", "paid_social", "meta_ads", "facebook_ad", "instagram_ad"].includes(utmMedium);
+
+      const ua = navigator.userAgent || "";
+      const isMetaInApp = /\[FBAN\/|\[FB_IAB\/|Instagram/i.test(ua);
+
+      const isDirectMetaArrival = Boolean(fbclid || isMetaUtm || isMetaRef || isMetaInApp);
+
+      // Attribution window: If they ever arrived from Meta, remember attribution for returning visits
+      let hasPriorMetaOrigin = false;
+      try {
+        hasPriorMetaOrigin = localStorage.getItem(META_ORIGIN_KEY) === "1" || getCookie("_tm_meta_src") != null;
+      } catch(e) {}
+
+      const isMetaVisitor = isDirectMetaArrival || hasPriorMetaOrigin;
+
+      let metaSourceDetail = "organic_direct";
+      if (fbclid) {
+        metaSourceDetail = (ref.includes("instagram") || /Instagram/i.test(ua)) ? "Instagram Ad (fbclid)" : "Facebook Ad (fbclid)";
+      } else if (isMetaUtm) {
+        metaSourceDetail = utmSource ? `Meta Ad (${utmSource})` : "Meta Paid Ad";
+      } else if (isMetaRef) {
+        metaSourceDetail = ref.includes("instagram") ? "Instagram Referral" : "Facebook Referral";
+      } else if (isMetaInApp) {
+        metaSourceDetail = /Instagram/i.test(ua) ? "Instagram In-App" : "Facebook In-App";
+      } else if (hasPriorMetaOrigin) {
+        try {
+          metaSourceDetail = localStorage.getItem(META_CAMP_KEY) || "Meta Returning Visitor";
+        } catch(e) {
+          metaSourceDetail = "Meta Returning Visitor";
+        }
+      }
+
+      if (isDirectMetaArrival) {
+        try {
+          localStorage.setItem(META_ORIGIN_KEY, "1");
+          if (utmCampaign || metaSourceDetail) {
+            localStorage.setItem(META_CAMP_KEY, utmCampaign || metaSourceDetail);
+          }
+        } catch(e) {}
+        setCookie("_tm_meta_src", metaSourceDetail, 365);
+      }
+
+      // Device & Browser characteristics
+      const isMobile = /mobile|iphone|ipod|android|blackberry|opera mini|iemobile/i.test(ua) || window.innerWidth < 768;
+      const deviceType = isMobile ? "mobile" : "desktop";
+      let browserName = "Other";
+      if (/Instagram/i.test(ua)) browserName = "Instagram In-App";
+      else if (/\[FBAN\/|\[FB_IAB\//i.test(ua)) browserName = "Facebook In-App";
+      else if (/Chrome|CriOS/i.test(ua) && !/Edg/i.test(ua)) browserName = "Chrome";
+      else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browserName = "Safari";
+      else if (/Edg/i.test(ua)) browserName = "Edge";
+      else if (/Firefox/i.test(ua)) browserName = "Firefox";
+
+      let osName = "Unknown";
+      if (/iPhone|iPad|iPod/i.test(ua)) osName = "iOS";
+      else if (/Android/i.test(ua)) osName = "Android";
+      else if (/Windows/i.test(ua)) osName = "Windows";
+      else if (/Mac/i.test(ua)) osName = "Mac";
+      else if (/Linux/i.test(ua)) osName = "Linux";
+
+      const visitPayload = {
+        deviceId,
+        isNewDevice,
+        isMeta: isMetaVisitor,
+        metaSourceDetail,
+        campaign: utmCampaign || (fbclid ? "Meta Ad Click" : (isMetaVisitor ? metaSourceDetail : "")),
+        utmSource,
+        utmMedium,
+        utmCampaign,
+        utmContent,
+        utmTerm,
+        hasFbclid: Boolean(fbclid),
+        referrer: document.referrer || "direct",
+        landingPath: window.location.pathname + window.location.search,
+        deviceType,
+        browser: browserName,
+        os: osName,
+        screen: `${window.screen.width}x${window.screen.height}`,
+        language: navigator.language || "en",
+        url: window.location.href
+      };
+
+      // 3. Send to Backend API (/api/track-visit)
+      try {
+        fetch("/api/track-visit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          keepalive: true,
+          body: JSON.stringify(visitPayload)
+        }).catch(function() {});
+      } catch(e) {}
+
+      // 4. Record or update device in Firestore (Deduplicated by deviceId document ID)
+      if (db) {
+        const devRef = db.collection("analytics_devices").doc(deviceId);
+        const serverTs = firebase.firestore.FieldValue.serverTimestamp();
+        
+        // Base payload
+        const firestoreData = {
+          deviceId: deviceId,
+          lastSeen: serverTs,
+          lastSeenIso: nowIso,
+          visitCount: firebase.firestore.FieldValue.increment(1),
+          deviceType: deviceType,
+          browser: browserName,
+          os: osName,
+          screen: `${window.screen.width}x${window.screen.height}`,
+          lastPath: window.location.pathname
+        };
+
+        // If from Meta or first arrival, store attribution details
+        if (isMetaVisitor) {
+          firestoreData.isMeta = true;
+          firestoreData.metaSource = metaSourceDetail;
+          if (utmCampaign || fbclid) {
+            firestoreData.campaign = utmCampaign || (fbclid ? "Meta Ad Click" : "Meta Traffic");
+          }
+        } else {
+          // If first time and not Meta, record as organic
+          if (isNewDevice) {
+            firestoreData.isMeta = false;
+            firestoreData.metaSource = "organic_direct";
+          }
+        }
+
+        if (isNewDevice) {
+          firestoreData.firstSeen = serverTs;
+          firestoreData.firstSeenIso = nowIso;
+          firestoreData.initialReferrer = document.referrer || "direct";
+        }
+
+        // Merge ensures existing devices never get duplicated, only updated!
+        devRef.set(firestoreData, { merge: true }).catch(function(err) {
+          console.warn("Analytics sync note:", err && err.message);
+        });
+      }
+    } catch(err) {
+      console.warn("Background tracking note:", err);
+    }
+  })();
+
   // ---- Audio Synthesizer: Paytm / GPay-style Success Chime ----
   let audioCtx = null;
   function initAudio() {

@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 import createOrderHandler from './api/create-order.js';
 import verifyOrderHandler from './api/verify-order.js';
+import trackVisitHandler from './api/track-visit.js';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -16,6 +17,26 @@ export default defineConfig(({ mode }) => {
         configureServer(server) {
           server.middlewares.use(async (req, res, next) => {
             const url = new URL(req.url, `http://${req.headers.host}`);
+            if (url.pathname === '/api/track-visit') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', async () => {
+                try {
+                  req.body = body ? JSON.parse(body) : {};
+                  req.query = Object.fromEntries(url.searchParams);
+                  res.status = (code) => { res.statusCode = code; return res; };
+                  res.json = (data) => {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify(data));
+                  };
+                  await trackVisitHandler(req, res);
+                } catch (e) {
+                  res.statusCode = 500;
+                  res.end(JSON.stringify({ error: e.message }));
+                }
+              });
+              return;
+            }
             if (url.pathname === '/api/create-order') {
               let body = '';
               req.on('data', chunk => body += chunk);
